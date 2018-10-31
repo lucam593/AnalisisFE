@@ -9,20 +9,35 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using Microsoft.EntityFrameworkCore;
+using FactuCR.Models;
+
 namespace FactuCR
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+
+        private readonly IConfiguration _config;
+        public Startup(IConfiguration config)
         {
-            Configuration = configuration;
+            _config = config;
         }
 
-        public IConfiguration Configuration { get; }
+       
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            var connection = @"Server=localhost;Database=db_facturacion;User=root;Password=;";
+            services.AddDbContext<db_facturacionContext>(options => options.UseMySql(connection));
+
+            //services.AddDbContext<db_facturacionContext>(cfg =>
+
+            //{
+            //    cfg.UseMySql(_config.GetConnectionString("FactuCRConnectionString"));
+            //});
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
