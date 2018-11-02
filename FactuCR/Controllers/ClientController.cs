@@ -15,5 +15,10 @@ namespace FactuCR.Controllers
         {
             return View();
         }
+        public IActionResult ClientForm()
+        {
+            return View();
+        }
+
     }
 }
