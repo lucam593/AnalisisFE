@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
 
 namespace FactuCR.Models
 {
@@ -22,5 +25,6 @@ namespace FactuCR.Models
         public User User { get; set; }
         public ICollection<Address> Address { get; set; }
         public ICollection<TelephoneContact> TelephoneContact { get; set; }
+
     }
 }

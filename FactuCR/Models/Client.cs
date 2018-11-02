@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace FactuCR.Models
 {
+
     public partial class Client
     {
         public Client()
@@ -21,3 +22,4 @@ namespace FactuCR.Models
         public ICollection<Bill> Bill { get; set; }
     }
 }
+
