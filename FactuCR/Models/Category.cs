@@ -11,8 +11,10 @@ namespace FactuCR.Models
         }
 
         public int IdCategory { get; set; }
+        public uint IdUser { get; set; }
         public string Description { get; set; }
 
+        public Users IdUserNavigation { get; set; }
         public ICollection<CategoryHasProduct> CategoryHasProduct { get; set; }
     }
 }
