@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using FactuCR.Models;
 
-namespace FactuCR.Controllers
+namespace Prueba_NETCORE.Controllers
 {
     public class HomeController : Controller
     {
