@@ -1,0 +1,298 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <!-- GENERAL VENDOR CSS -->
+    <link href="~/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/fonts/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/vendor/nprogress/nprogress.css" rel="stylesheet" />
+    <link href="~/vendor/iCheck/skins/flat/green.css" rel="stylesheet" />
+    <link href="~/vendor/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.css" rel="stylesheet" />
+    <link href="~/vendor/jqvmap/dist/jqvmap.min.css" rel="stylesheet" />
+    <link href="~/vendor/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet" />
+    <!-- DATATABLES CSS -->
+    <link href="~/vendor/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/vendor/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/vendor/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/vendor/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/vendor/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet" />
+    <!-- DASHBOARD CUSTOM CSS -->
+    <link href="~/css/dashboard/custom.min.css" rel="stylesheet" />
+    <link href="~/css/dashboard/dashboard.css" rel="stylesheet" />
+
+    <script src="~/vendor/jquery/dist/jquery.min.js"></script>
+
+    @RenderSection("styles", required: false)
+    @RenderSection("scripts", required: false)
+</head>
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            <div class="col-md-3 left_col">
+                <div class="left_col scroll-view">
+                    <div class="navbar nav_title" style="border: 0;">
+                        <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella Alela!</span></a>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <!-- menu profile quick info -->
+                    <div class="profile clearfix">
+                        <div class="profile_pic">
+                            <img src="images/img.jpg" alt="..." class="img-circle profile_img">
+                        </div>
+                        <div class="profile_info">
+                            <span>Welcome,</span>
+                            <h2>John Doe</h2>
+                        </div>
+                    </div>
+                    <!-- /menu profile quick info -->
+
+                    <br />
+
+                    <!-- sidebar menu -->
+                    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+
+                        <!-- menu section for mantenimiento -->
+                        <div id="mantenimiento-menu-container" class="menu_section" style="display: none;">
+                            <h3>Mantenimiento</h3>
+                            <ul id="sales-menu" class="nav side-menu">
+                                <li>
+                                    <a><i class="fa fa-user"></i> Clientes <span class="fa fa-arrow-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a asp-area="" asp-controller="Clients" asp-action="Create">Ingresar Cliente</a></li>
+                                        <li><a asp-area="" asp-controller="Clients" asp-action="Index">Lista de Clientes</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a><i class="fa fa-product-hunt"></i> Productos <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a asp-area="" asp-controller="Products" asp-action="Create">Ingresar Producto</a></li>
+                                        <li><a asp-area="" asp-controller="Products" asp-action="Index">Lista de Productos</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a><i class="fa fa-shopping-cart"></i> Proveedores <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="#">Ingresar Proveedor</a></li>
+                                        <li><a href="#">Borrar Proveedor</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- /menu section for mantenimiento  -->
+                        <!-- menu section for billing -->
+                        <div id="facturacion-menu-container" class="menu_section" style="display: none;">
+                            <h3>Facturaci&oacuten</h3>
+                            <ul id="sales-menu" class="nav side-menu">
+                                <li>
+                                    <a><i class="fa fa-shopping-cart"></i> Facturaci&oacuten <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="#">Crear Factura</a></li>
+                                        <li><a href="#">Borrar Factura</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- /menu section for facturacion -->
+
+                    </div>
+                    <!-- /sidebar menu -->
+                    <!-- /menu footer buttons -->
+                    <div class="sidebar-footer hidden-small">
+                        <a data-toggle="tooltip" data-placement="top" title="Settings">
+                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                        </a>
+                        <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+                            <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+                        </a>
+                        <a data-toggle="tooltip" data-placement="top" title="Lock">
+                            <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+                        </a>
+                        <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
+                            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                    <!-- /menu footer buttons -->
+                </div>
+            </div>
+
+            <!-- top navigation -->
+            <div class="top_nav">
+                <div class="nav_menu">
+                    <nav>
+                        <div class="nav toggle">
+                            <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                        </div>
+
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="">
+                                <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    <img src="images/img.jpg" alt="">John Doe
+                                    <span class=" fa fa-angle-down"></span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                    <li><a href="javascript:;"> Profile</a></li>
+                                    <li>
+                                        <a href="javascript:;">
+                                            <span class="badge bg-red pull-right">50%</span>
+                                            <span>Settings</span>
+                                        </a>
+                                    </li>
+                                    <li><a href="javascript:;">Help</a></li>
+                                    <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                                </ul>
+                            </li>
+
+                            <li role="presentation" class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-envelope-o"></i>
+                                    <span class="badge bg-green">6</span>
+                                </a>
+                                <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                                    <li>
+                                        <a>
+                                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                                            <span>
+                                                <span>John Smith</span>
+                                                <span class="time">3 mins ago</span>
+                                            </span>
+                                            <span class="message">
+                                                Film festivals used to be do-or-die moments for movie makers. They were where...
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                                            <span>
+                                                <span>John Smith</span>
+                                                <span class="time">3 mins ago</span>
+                                            </span>
+                                            <span class="message">
+                                                Film festivals used to be do-or-die moments for movie makers. They were where...
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                                            <span>
+                                                <span>John Smith</span>
+                                                <span class="time">3 mins ago</span>
+                                            </span>
+                                            <span class="message">
+                                                Film festivals used to be do-or-die moments for movie makers. They were where...
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                                            <span>
+                                                <span>John Smith</span>
+                                                <span class="time">3 mins ago</span>
+                                            </span>
+                                            <span class="message">
+                                                Film festivals used to be do-or-die moments for movie makers. They were where...
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="text-center">
+                                            <a>
+                                                <strong>See All Alerts</strong>
+                                                <i class="fa fa-angle-right"></i>
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li id="btn-mantenimiento" class="">
+                                <a><i class="fa fa-clipboard"></i> Mantenimiento</a>
+                            </li>
+
+                            <li id="btn-facturacion" class="">
+                                <a><i class="fa fa-credit-card"></i> Facturaci&oacuten</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <!-- /top navigation -->
+            <!-- page content -->
+            <div class="right_col" style="height: 100%; display: block;" role="main">
+                <!-- here goes the pages content -->
+                <div style="height: 100%; display: block;">
+                    @RenderBody()
+                </div>
+            </div>
+            <!-- /page content -->
+            <!-- footer content -->
+            <footer class="">
+                <div class="pull-right">
+                    Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+                </div>
+                <div class="clearfix"></div>
+            </footer>
+            <!-- /footer content -->
+        </div>
+    </div>
+
+    <!-- general -->
+    <script src="~/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/vendor/fastclick/lib/fastclick.js"></script>
+    <script src="~/vendor/nprogress/nprogress.js"></script>
+    <script src="~/vendor/Chart.js/dist/Chart.min.js"></script>
+    <script src="~/vendor/gauge.js/dist/gauge.min.js"></script>
+    <script src="~/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <script src="~/vendor/iCheck/icheck.min.js"></script>
+    <script src="~/vendor/skycons/skycons.js"></script>
+    <script src="~/vendor/Flot/jquery.flot.js"></script>
+    <script src="~/vendor/Flot/jquery.flot.pie.js"></script>
+    <script src="~/vendor/Flot/jquery.flot.time.js"></script>
+    <script src="~/vendor/Flot/jquery.flot.stack.js"></script>
+    <script src="~/vendor/Flot/jquery.flot.resize.js"></script>
+    <script src="~/vendor/flot.orderbars/js/jquery.flot.orderBars.js"></script>
+    <script src="~/vendor/flot-spline/js/jquery.flot.spline.min.js"></script>
+    <script src="~/vendor/flot.curvedlines/curvedLines.js"></script>
+    <script src="~/vendor/DateJS/build/date.js"></script>
+    <script src="~/vendor/jqvmap/dist/jquery.vmap.js"></script>
+    <script src="~/vendor/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+    <script src="~/vendor/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="~/vendor/moment/min/moment.min.js"></script>
+    <script src="~/vendor/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <!-- bootstrap-wysiwyg -->
+    <script src="~/vendor/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
+    <script src="~/vendor/jquery.hotkeys/jquery.hotkeys.js"></script>
+    <script src="~/vendor/google-code-prettify/src/prettify.js"></script>
+    <!-- others -->
+    <script src="~/vendor/jquery.tagsinput/src/jquery.tagsinput.js"></script>
+    <script src="~/vendor/switchery/dist/switchery.min.js"></script>
+    <script src="~/vendor/select2/dist/js/select2.full.min.js"></script>
+    <script src="~/vendor/parsleyjs/dist/parsley.min.js"></script>
+    <script src="~/vendor/autosize/dist/autosize.min.js"></script>
+    <script src="~/vendor/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
+    <script src="~/vendor/starrr/dist/starrr.js"></script>
+    <!-- datatables -->
+    <script src="~/vendor/datatables.net/js/jquery.dataTablesES.min.js"></script>
+    <script src="~/vendor/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="~/vendor/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/vendor/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+    <script src="~/vendor/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="~/vendor/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/vendor/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="~/vendor/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+    <script src="~/vendor/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+    <script src="~/vendor/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/vendor/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+    <script src="~/vendor/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+    <!-- dashboard-custom -->
+    <script src="~/js/dashboard/custom.min.js"></script>
+    <script src="~/js/dashboard/dynamic-menu.js"></script>
+</body>
+</html>
