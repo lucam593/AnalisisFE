@@ -5,10 +5,17 @@ namespace FactuCR.Models
 {
     public partial class TaxExemption
     {
-        public int Code { get; set; }
+        public TaxExemption()
+        {
+            Product = new HashSet<Product>();
+        }
+
+        public int IdTax { get; set; }
+        public string Code { get; set; }
         public string Type { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
         public int Percentage { get; set; }
+
+        public ICollection<Product> Product { get; set; }
     }
 }

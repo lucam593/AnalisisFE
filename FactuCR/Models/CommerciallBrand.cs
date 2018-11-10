@@ -11,10 +11,10 @@ namespace FactuCR.Models
         }
 
         public int IdBrand { get; set; }
+        public string IdProvider { get; set; }
         public string Name { get; set; }
-        public string ProviderEntityIdEntity { get; set; }
 
-        public Provider ProviderEntityIdEntityNavigation { get; set; }
+        public Provider IdProviderNavigation { get; set; }
         public ICollection<Product> Product { get; set; }
     }
 }

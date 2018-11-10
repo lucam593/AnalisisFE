@@ -5,15 +5,12 @@ namespace FactuCR.Models
 {
     public partial class Address
     {
+        public string IdAddres { get; set; }
+        public uint IdUser { get; set; }
         public int IdAddress { get; set; }
-        public string Province { get; set; }
-        public string Canton { get; set; }
-        public string District { get; set; }
-        public string PostalCode { get; set; }
-        public string Neighborhood { get; set; }
         public string OtherSigns { get; set; }
-        public string EntityIdEntity { get; set; }
 
-        public Entity EntityIdEntityNavigation { get; set; }
+        public MasterAddress IdAddressNavigation { get; set; }
+        public Users IdUserNavigation { get; set; }
     }
 }

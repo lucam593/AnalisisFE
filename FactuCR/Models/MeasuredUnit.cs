@@ -7,13 +7,13 @@ namespace FactuCR.Models
     {
         public MeasuredUnit()
         {
-            Detail = new HashSet<Detail>();
+            Product = new HashSet<Product>();
         }
 
         public int IdUnit { get; set; }
-        public string Symboly { get; set; }
+        public string Simboly { get; set; }
         public string Name { get; set; }
 
-        public ICollection<Detail> Detail { get; set; }
+        public ICollection<Product> Product { get; set; }
     }
 }

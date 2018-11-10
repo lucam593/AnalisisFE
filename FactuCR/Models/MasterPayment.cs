@@ -3,16 +3,10 @@ using System.Collections.Generic;
 
 namespace FactuCR.Models
 {
-    public partial class Payment
+    public partial class MasterPayment
     {
-        public Payment()
-        {
-            Bill = new HashSet<Bill>();
-        }
-
         public int IdPayment { get; set; }
+        public string Code { get; set; }
         public string Name { get; set; }
-
-        public ICollection<Bill> Bill { get; set; }
     }
 }
