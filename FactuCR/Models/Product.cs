@@ -14,7 +14,6 @@ namespace FactuCR.Models
             SalePrice = new HashSet<SalePrice>();
         }
 
-        public int IdProduct { get; set; }
         public string CodeProduct { get; set; }
         public uint IdUser { get; set; }
         public int IdUnit { get; set; }
