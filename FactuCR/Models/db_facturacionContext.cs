@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -16,42 +17,58 @@ namespace FactuCR.Models
         }
 
         public virtual DbSet<Address> Address { get; set; }
-        public virtual DbSet<Bill> Bill { get; set; }
-        public virtual DbSet<BranchOffice> BranchOffice { get; set; }
         public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<CategoryHasProduct> CategoryHasProduct { get; set; }
         public virtual DbSet<Client> Client { get; set; }
+        public virtual DbSet<ClientType> ClientType { get; set; }
         public virtual DbSet<Coin> Coin { get; set; }
         public virtual DbSet<CommerciallBrand> CommerciallBrand { get; set; }
-        public virtual DbSet<CompanyInformation> CompanyInformation { get; set; }
-        public virtual DbSet<Detail> Detail { get; set; }
+        public virtual DbSet<Conversations> Conversations { get; set; }
         public virtual DbSet<Discount> Discount { get; set; }
-        public virtual DbSet<Document> Document { get; set; }
-        public virtual DbSet<Entity> Entity { get; set; }
+        public virtual DbSet<Files> Files { get; set; }
+        public virtual DbSet<IdentificationCard> IdentificationCard { get; set; }
         public virtual DbSet<Inventory> Inventory { get; set; }
-        public virtual DbSet<Invoice> Invoice { get; set; }
-        public virtual DbSet<InvoiceReference> InvoiceReference { get; set; }
+        public virtual DbSet<MarterLogs> MarterLogs { get; set; }
+        public virtual DbSet<MasterAddress> MasterAddress { get; set; }
+        public virtual DbSet<MasterBranchOffice> MasterBranchOffice { get; set; }
+        public virtual DbSet<MasterCertificate> MasterCertificate { get; set; }
+        public virtual DbSet<MasterConfigCompanny> MasterConfigCompanny { get; set; }
+        public virtual DbSet<MasterConsecutive> MasterConsecutive { get; set; }
+        public virtual DbSet<MasterDetail> MasterDetail { get; set; }
+        public virtual DbSet<MasterInvoice> MasterInvoice { get; set; }
+        public virtual DbSet<MasterInvoiceReference> MasterInvoiceReference { get; set; }
+        public virtual DbSet<MasterInvoiceVoucher> MasterInvoiceVoucher { get; set; }
+        public virtual DbSet<MasterKey> MasterKey { get; set; }
+        public virtual DbSet<MasterLogs> MasterLogs { get; set; }
+        public virtual DbSet<MasterMonetaryDetails> MasterMonetaryDetails { get; set; }
+        public virtual DbSet<MasterPayment> MasterPayment { get; set; }
+        public virtual DbSet<MasterReceiver> MasterReceiver { get; set; }
+        public virtual DbSet<MasterRol> MasterRol { get; set; }
+        public virtual DbSet<MasterSaleCondition> MasterSaleCondition { get; set; }
+        public virtual DbSet<MasterSessions> MasterSessions { get; set; }
+        public virtual DbSet<MasterSqlupgrade> MasterSqlupgrade { get; set; }
+        public virtual DbSet<MasterTerminal> MasterTerminal { get; set; }
+        public virtual DbSet<MasterTransmitter> MasterTransmitter { get; set; }
         public virtual DbSet<MeasuredUnit> MeasuredUnit { get; set; }
-        public virtual DbSet<Payment> Payment { get; set; }
+        public virtual DbSet<Msgs> Msgs { get; set; }
         public virtual DbSet<Product> Product { get; set; }
-        public virtual DbSet<ProductCode> ProductCode { get; set; }
         public virtual DbSet<ProductFamily> ProductFamily { get; set; }
-        public virtual DbSet<ProductHasDiscount> ProductHasDiscount { get; set; }
         public virtual DbSet<ProductHasProductFamily> ProductHasProductFamily { get; set; }
         public virtual DbSet<Provider> Provider { get; set; }
-        public virtual DbSet<RecordActivity> RecordActivity { get; set; }
-        public virtual DbSet<SaleCondition> SaleCondition { get; set; }
         public virtual DbSet<SalePrice> SalePrice { get; set; }
+        public virtual DbSet<SituationDocument> SituationDocument { get; set; }
         public virtual DbSet<TaxExemption> TaxExemption { get; set; }
         public virtual DbSet<TelephoneContact> TelephoneContact { get; set; }
-        public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<VoucherType> VoucherType { get; set; }
+
+        // Unable to generate entity type for table 'master_permission'. Please see the warning messages.
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseMySql("Server=localhost;Database=db_facturacion;User=root;Password=;");
+                optionsBuilder.UseMySql(ConfigurationManager.ConnectionStrings["db_Facturacion"].ConnectionString);
             }
         }
 
@@ -59,148 +76,41 @@ namespace FactuCR.Models
         {
             modelBuilder.Entity<Address>(entity =>
             {
-                entity.HasKey(e => e.IdAddress);
+                entity.HasKey(e => e.IdAddres);
 
                 entity.ToTable("address");
 
-                entity.HasIndex(e => e.EntityIdEntity)
-                    .HasName("fk_ADDRESS_ENTITY1_idx");
+                entity.HasIndex(e => e.IdAddress)
+                    .HasName("fk_Address_master_Address1_idx");
+
+                entity.HasIndex(e => e.IdUser)
+                    .HasName("fk_Address_users1_idx");
+
+                entity.Property(e => e.IdAddres)
+                    .HasColumnName("idAddres")
+                    .HasColumnType("varchar(11)");
 
                 entity.Property(e => e.IdAddress)
-                    .HasColumnName("Id_Address")
-                    .HasColumnType("int(11)")
-                    .HasDefaultValueSql("'9'");
+                    .HasColumnName("idAddress")
+                    .HasColumnType("int(11)");
 
-                entity.Property(e => e.Canton)
-                    .IsRequired()
-                    .HasColumnType("varchar(20)");
-
-                entity.Property(e => e.District)
-                    .IsRequired()
-                    .HasColumnType("varchar(45)");
-
-                entity.Property(e => e.EntityIdEntity)
-                    .IsRequired()
-                    .HasColumnName("ENTITY_Id_Entity")
-                    .HasColumnType("varchar(20)");
-
-                entity.Property(e => e.Neighborhood).HasColumnType("varchar(45)");
+                entity.Property(e => e.IdUser).HasColumnName("idUser");
 
                 entity.Property(e => e.OtherSigns)
-                    .IsRequired()
-                    .HasColumnName("Other_Signs")
-                    .HasColumnType("varchar(100)");
+                    .HasColumnName("Other_signs")
+                    .HasColumnType("varchar(200)");
 
-                entity.Property(e => e.PostalCode)
-                    .IsRequired()
-                    .HasColumnName("Postal_Code")
-                    .HasColumnType("varchar(6)");
-
-                entity.Property(e => e.Province)
-                    .IsRequired()
-                    .HasColumnType("varchar(20)");
-
-                entity.HasOne(d => d.EntityIdEntityNavigation)
+                entity.HasOne(d => d.IdAddressNavigation)
                     .WithMany(p => p.Address)
-                    .HasForeignKey(d => d.EntityIdEntity)
+                    .HasForeignKey(d => d.IdAddress)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_ADDRESS_ENTITY1");
-            });
+                    .HasConstraintName("fk_Address_master_Address1");
 
-            modelBuilder.Entity<Bill>(entity =>
-            {
-                entity.HasKey(e => new { e.InvoiceIdInvoice, e.ClientEntityIdEntity, e.CompanyInformationEntityIdEntity });
-
-                entity.ToTable("bill");
-
-                entity.HasIndex(e => e.ClientEntityIdEntity)
-                    .HasName("fk_Bill_CLIENT1_idx");
-
-                entity.HasIndex(e => e.CompanyInformationEntityIdEntity)
-                    .HasName("fk_Bill_COMPANY_INFORMATION1_idx");
-
-                entity.HasIndex(e => e.InvoiceIdInvoice)
-                    .HasName("fk_Bill_INVOICE_idx");
-
-                entity.HasIndex(e => e.PaymentIdPayment)
-                    .HasName("fk_Bill_PAYMENT1_idx");
-
-                entity.HasIndex(e => e.SaleConditionIdCondition)
-                    .HasName("fk_Bill_SALE_CONDITION1_idx");
-
-                entity.Property(e => e.InvoiceIdInvoice)
-                    .HasColumnName("INVOICE_Id_Invoice")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.ClientEntityIdEntity)
-                    .HasColumnName("CLIENT_ENTITY_Id_Entity")
-                    .HasColumnType("varchar(20)");
-
-                entity.Property(e => e.CompanyInformationEntityIdEntity)
-                    .HasColumnName("COMPANY_INFORMATION_ENTITY_Id_Entity")
-                    .HasColumnType("varchar(20)");
-
-                entity.Property(e => e.CreditTimeLimit)
-                    .HasColumnName("Credit_Time_Limit")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.PaymentIdPayment)
-                    .HasColumnName("PAYMENT_id_Payment")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.SaleConditionIdCondition)
-                    .HasColumnName("SALE_CONDITION_Id_Condition")
-                    .HasColumnType("int(11)");
-
-                entity.HasOne(d => d.ClientEntityIdEntityNavigation)
-                    .WithMany(p => p.Bill)
-                    .HasForeignKey(d => d.ClientEntityIdEntity)
+                entity.HasOne(d => d.IdUserNavigation)
+                    .WithMany(p => p.Address)
+                    .HasForeignKey(d => d.IdUser)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_Bill_CLIENT1");
-
-                entity.HasOne(d => d.CompanyInformationEntityIdEntityNavigation)
-                    .WithMany(p => p.Bill)
-                    .HasForeignKey(d => d.CompanyInformationEntityIdEntity)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_Bill_COMPANY_INFORMATION1");
-
-                entity.HasOne(d => d.InvoiceIdInvoiceNavigation)
-                    .WithMany(p => p.Bill)
-                    .HasForeignKey(d => d.InvoiceIdInvoice)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_Bill_INVOICE1");
-
-                entity.HasOne(d => d.PaymentIdPaymentNavigation)
-                    .WithMany(p => p.Bill)
-                    .HasForeignKey(d => d.PaymentIdPayment)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_Bill_PAYMENT1");
-
-                entity.HasOne(d => d.SaleConditionIdConditionNavigation)
-                    .WithMany(p => p.Bill)
-                    .HasForeignKey(d => d.SaleConditionIdCondition)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_Bill_SALE_CONDITION1");
-            });
-
-            modelBuilder.Entity<BranchOffice>(entity =>
-            {
-                entity.HasKey(e => e.IdOffice);
-
-                entity.ToTable("branch_office");
-
-                entity.Property(e => e.IdOffice)
-                    .HasColumnName("Id_Office")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnType("varchar(45)");
-
-                entity.Property(e => e.NumberOffice)
-                    .IsRequired()
-                    .HasColumnName("Number_Office")
-                    .HasColumnType("varchar(45)");
+                    .HasConstraintName("fk_Address_users1");
             });
 
             modelBuilder.Entity<Category>(entity =>
@@ -220,23 +130,25 @@ namespace FactuCR.Models
 
             modelBuilder.Entity<CategoryHasProduct>(entity =>
             {
-                entity.HasKey(e => new { e.CategoryIdCategory, e.ProductIdProduct });
+                entity.HasKey(e => new { e.CategoryIdCategory, e.ProductCodeProduct, e.ProductIdUser });
 
                 entity.ToTable("category_has_product");
 
                 entity.HasIndex(e => e.CategoryIdCategory)
                     .HasName("fk_CATEGORY_has_PRODUCT_CATEGORY1_idx");
 
-                entity.HasIndex(e => e.ProductIdProduct)
+                entity.HasIndex(e => new { e.ProductCodeProduct, e.ProductIdUser })
                     .HasName("fk_CATEGORY_has_PRODUCT_PRODUCT1_idx");
 
                 entity.Property(e => e.CategoryIdCategory)
                     .HasColumnName("CATEGORY_Id_Category")
                     .HasColumnType("int(11)");
 
-                entity.Property(e => e.ProductIdProduct)
-                    .HasColumnName("PRODUCT_Id_Product")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.ProductCodeProduct)
+                    .HasColumnName("PRODUCT_code_Product")
+                    .HasColumnType("varchar(45)");
+
+                entity.Property(e => e.ProductIdUser).HasColumnName("PRODUCT_idUser");
 
                 entity.HasOne(d => d.CategoryIdCategoryNavigation)
                     .WithMany(p => p.CategoryHasProduct)
@@ -244,49 +156,98 @@ namespace FactuCR.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_CATEGORY_has_PRODUCT_CATEGORY1");
 
-                entity.HasOne(d => d.ProductIdProductNavigation)
+                entity.HasOne(d => d.Product)
                     .WithMany(p => p.CategoryHasProduct)
-                    .HasForeignKey(d => d.ProductIdProduct)
+                    .HasForeignKey(d => new { d.ProductCodeProduct, d.ProductIdUser })
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_CATEGORY_has_PRODUCT_PRODUCT1");
             });
 
             modelBuilder.Entity<Client>(entity =>
             {
-                entity.HasKey(e => e.EntityIdEntity);
+                entity.HasKey(e => e.IdClient);
 
                 entity.ToTable("client");
 
-                entity.Property(e => e.EntityIdEntity)
-                    .HasColumnName("ENTITY_Id_Entity")
-                    .HasColumnType("varchar(20)");
+                entity.HasIndex(e => e.Email)
+                    .HasName("email")
+                    .IsUnique();
 
-                entity.Property(e => e.Birthdate).HasColumnType("datetime");
+                entity.HasIndex(e => e.IdClient)
+                    .HasName("idUser");
 
-                entity.Property(e => e.ClientType)
+                entity.HasIndex(e => e.IdClientType)
+                    .HasName("fk_CLIENT_CLIENT_TYPE1_idx");
+
+                entity.HasIndex(e => e.IdUser)
+                    .HasName("fk_CLIENT_users1_idx");
+
+                entity.HasIndex(e => e.Status)
+                    .HasName("status");
+
+                entity.Property(e => e.IdClient).HasColumnName("idClient");
+
+                entity.Property(e => e.Country)
                     .IsRequired()
-                    .HasColumnName("Client_Type")
-                    .HasColumnType("varchar(20)");
+                    .HasColumnName("country")
+                    .HasColumnType("varchar(3)");
 
-                entity.Property(e => e.FirstName)
+                entity.Property(e => e.Email)
                     .IsRequired()
-                    .HasColumnName("First_Name")
-                    .HasColumnType("varchar(20)");
+                    .HasColumnName("email")
+                    .HasColumnType("varchar(100)");
 
-                entity.Property(e => e.Gender)
+                entity.Property(e => e.IdClientType)
+                    .HasColumnName("idClient_Type")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.IdUser).HasColumnName("idUser");
+
+                entity.Property(e => e.LastName)
                     .IsRequired()
+                    .HasColumnName("Last_Name")
+                    .HasColumnType("varchar(45)");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnType("varchar(25)");
+
+                entity.Property(e => e.Status)
+                    .IsRequired()
+                    .HasColumnName("status")
                     .HasColumnType("varchar(1)");
 
-                entity.Property(e => e.SecondName)
-                    .IsRequired()
-                    .HasColumnName("Second_Name")
-                    .HasColumnType("varchar(20)");
+                entity.Property(e => e.Timestamp).HasColumnName("timestamp");
+            });
 
-                entity.HasOne(d => d.EntityIdEntityNavigation)
-                    .WithOne(p => p.Client)
-                    .HasForeignKey<Client>(d => d.EntityIdEntity)
+            modelBuilder.Entity<ClientType>(entity =>
+            {
+                entity.HasKey(e => e.IdClientType);
+
+                entity.ToTable("client_type");
+
+                entity.HasIndex(e => e.UsersIdUser)
+                    .HasName("fk_CLIENT_TYPE_users1_idx");
+
+                entity.Property(e => e.IdClientType)
+                    .HasColumnName("idClient_Type")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Code)
+                    .IsRequired()
+                    .HasColumnType("varchar(45)");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasColumnType("varchar(50)");
+
+                entity.Property(e => e.UsersIdUser).HasColumnName("users_idUser");
+
+                entity.HasOne(d => d.UsersIdUserNavigation)
+                    .WithMany(p => p.ClientType)
+                    .HasForeignKey(d => d.UsersIdUser)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_CLIENT_ENTITY1");
+                    .HasConstraintName("fk_CLIENT_TYPE_users1");
             });
 
             modelBuilder.Entity<Coin>(entity =>
@@ -298,6 +259,11 @@ namespace FactuCR.Models
                 entity.Property(e => e.IdCoin)
                     .HasColumnName("Id_Coin")
                     .HasColumnType("int(11)");
+
+                entity.Property(e => e.Code)
+                    .IsRequired()
+                    .HasColumnName("code")
+                    .HasColumnType("varchar(4)");
 
                 entity.Property(e => e.Country)
                     .IsRequired()
@@ -325,103 +291,431 @@ namespace FactuCR.Models
 
                 entity.ToTable("commerciall_brand");
 
-                entity.HasIndex(e => e.ProviderEntityIdEntity)
+                entity.HasIndex(e => e.IdProvider)
                     .HasName("fk_COMMERCIALl_BRAND_PROVIDER1_idx");
 
                 entity.Property(e => e.IdBrand)
                     .HasColumnName("Id_Brand")
                     .HasColumnType("int(11)");
 
+                entity.Property(e => e.IdProvider)
+                    .IsRequired()
+                    .HasColumnName("Id_Provider")
+                    .HasColumnType("varchar(11)");
+
                 entity.Property(e => e.Name)
                     .IsRequired()
-                    .HasColumnType("varchar(20)");
+                    .HasColumnType("varchar(100)");
 
-                entity.Property(e => e.ProviderEntityIdEntity)
-                    .IsRequired()
-                    .HasColumnName("PROVIDER_ENTITY_Id_Entity")
-                    .HasColumnType("varchar(20)");
-
-                entity.HasOne(d => d.ProviderEntityIdEntityNavigation)
+                entity.HasOne(d => d.IdProviderNavigation)
                     .WithMany(p => p.CommerciallBrand)
-                    .HasForeignKey(d => d.ProviderEntityIdEntity)
+                    .HasForeignKey(d => d.IdProvider)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_COMMERCIALl_BRAND_PROVIDER1");
             });
 
-            modelBuilder.Entity<CompanyInformation>(entity =>
+            modelBuilder.Entity<Conversations>(entity =>
             {
-                entity.HasKey(e => e.EntityIdEntity);
+                entity.HasKey(e => e.IdConversation);
 
-                entity.ToTable("company_information");
+                entity.ToTable("conversations");
 
-                entity.HasIndex(e => e.BranchOfficeIdOffice)
-                    .HasName("fk_COMPANY_INFORMATION_BRANCH_OFFICE1_idx");
+                entity.Property(e => e.IdConversation).HasColumnName("idConversation");
 
-                entity.Property(e => e.EntityIdEntity)
-                    .HasColumnName("ENTITY_Id_Entity")
-                    .HasColumnType("varchar(20)");
+                entity.Property(e => e.IdRecipient).HasColumnName("idRecipient");
 
-                entity.Property(e => e.BoxNumber)
-                    .HasColumnName("Box_Number")
+                entity.Property(e => e.IdUser).HasColumnName("idUser");
+
+                entity.Property(e => e.Subject)
+                    .IsRequired()
+                    .HasColumnName("subject")
+                    .HasColumnType("varchar(255)");
+
+                entity.Property(e => e.Timestamp).HasColumnName("timestamp");
+            });
+
+            modelBuilder.Entity<Discount>(entity =>
+            {
+                entity.HasKey(e => e.IdDiscount);
+
+                entity.ToTable("discount");
+
+                entity.HasIndex(e => new { e.ProductCodeProduct, e.ProductIdUser })
+                    .HasName("fk_DISCOUNT_PRODUCT1_idx");
+
+                entity.Property(e => e.IdDiscount)
+                    .HasColumnName("Id_Discount")
                     .HasColumnType("int(11)");
 
-                entity.Property(e => e.BranchOfficeIdOffice)
-                    .HasColumnName("BRANCH_OFFICE_Id_Office")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.CodeDiscount)
+                    .HasColumnName("code_discount")
+                    .HasColumnType("varchar(45)");
 
-                entity.Property(e => e.Tradename)
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasColumnType("varchar(100)");
+
+                entity.Property(e => e.Discountcol)
+                    .HasColumnName("DISCOUNTcol")
+                    .HasColumnType("varchar(45)");
+
+                entity.Property(e => e.Percentage).HasColumnType("int(11)");
+
+                entity.Property(e => e.ProductCodeProduct)
+                    .IsRequired()
+                    .HasColumnName("PRODUCT_code_Product")
+                    .HasColumnType("varchar(45)");
+
+                entity.Property(e => e.ProductIdUser).HasColumnName("PRODUCT_idUser");
+
+                entity.Property(e => e.Type)
                     .IsRequired()
                     .HasColumnType("varchar(20)");
 
-                entity.HasOne(d => d.BranchOfficeIdOfficeNavigation)
-                    .WithMany(p => p.CompanyInformation)
-                    .HasForeignKey(d => d.BranchOfficeIdOffice)
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.Discount)
+                    .HasForeignKey(d => new { d.ProductCodeProduct, d.ProductIdUser })
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_COMPANY_INFORMATION_BRANCH_OFFICE1");
-
-                entity.HasOne(d => d.EntityIdEntityNavigation)
-                    .WithOne(p => p.CompanyInformation)
-                    .HasForeignKey<CompanyInformation>(d => d.EntityIdEntity)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_COMPANY_INFORMATION_ENTITY1");
+                    .HasConstraintName("fk_DISCOUNT_PRODUCT1");
             });
 
-            modelBuilder.Entity<Detail>(entity =>
+            modelBuilder.Entity<Files>(entity =>
+            {
+                entity.HasKey(e => e.IdFile);
+
+                entity.ToTable("files");
+
+                entity.HasIndex(e => e.IdUser)
+                    .HasName("fk_files_master_users1_idx");
+
+                entity.Property(e => e.IdFile).HasColumnName("idFile");
+
+                entity.Property(e => e.DownloadCode)
+                    .IsRequired()
+                    .HasColumnName("downloadCode")
+                    .HasColumnType("varchar(50)");
+
+                entity.Property(e => e.FileType)
+                    .IsRequired()
+                    .HasColumnName("fileType")
+                    .HasColumnType("varchar(25)");
+
+                entity.Property(e => e.IdUser).HasColumnName("idUser");
+
+                entity.Property(e => e.Md5)
+                    .IsRequired()
+                    .HasColumnName("md5")
+                    .HasColumnType("varchar(32)");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnName("name")
+                    .HasColumnType("varchar(100)");
+
+                entity.Property(e => e.Size).HasColumnName("size");
+
+                entity.Property(e => e.Timestamp).HasColumnName("timestamp");
+
+                entity.Property(e => e.Type)
+                    .IsRequired()
+                    .HasColumnName("type")
+                    .HasColumnType("varchar(15)");
+
+                entity.HasOne(d => d.IdUserNavigation)
+                    .WithMany(p => p.Files)
+                    .HasForeignKey(d => d.IdUser)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_files_master_users1");
+            });
+
+            modelBuilder.Entity<IdentificationCard>(entity =>
+            {
+                entity.HasKey(e => e.IdCard);
+
+                entity.ToTable("identification_card");
+
+                entity.Property(e => e.IdCard)
+                    .HasColumnName("id_Card")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Code)
+                    .IsRequired()
+                    .HasColumnName("code")
+                    .HasColumnType("varchar(10)");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasColumnName("description")
+                    .HasColumnType("varchar(255)");
+            });
+
+            modelBuilder.Entity<Inventory>(entity =>
+            {
+                entity.HasKey(e => e.IdInventary);
+
+                entity.ToTable("inventory");
+
+                entity.HasIndex(e => new { e.CodeProduct, e.IdUser })
+                    .HasName("fk_INVENTORY_PRODUCT1_idx");
+
+                entity.Property(e => e.IdInventary)
+                    .HasColumnName("Id_Inventary")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.CodeProduct)
+                    .IsRequired()
+                    .HasColumnName("code_Product")
+                    .HasColumnType("varchar(45)");
+
+                entity.Property(e => e.Cuantity).HasColumnType("int(11)");
+
+                entity.Property(e => e.Date).HasColumnType("date");
+
+                entity.Property(e => e.IdUser).HasColumnName("idUser");
+
+                entity.Property(e => e.MovementType)
+                    .IsRequired()
+                    .HasColumnName("Movement_Type")
+                    .HasColumnType("varchar(20)");
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.Inventory)
+                    .HasForeignKey(d => new { d.CodeProduct, d.IdUser })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_INVENTORY_PRODUCT1");
+            });
+
+            modelBuilder.Entity<MarterLogs>(entity =>
+            {
+                entity.HasKey(e => e.IdLog);
+
+                entity.ToTable("marter_logs");
+
+                entity.Property(e => e.IdLog)
+                    .HasColumnName("idLog")
+                    .HasColumnType("int(11)");
+            });
+
+            modelBuilder.Entity<MasterAddress>(entity =>
+            {
+                entity.HasKey(e => e.IdCodificacion);
+
+                entity.ToTable("master_address");
+
+                entity.Property(e => e.IdCodificacion)
+                    .HasColumnName("idCodificacion")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.IdBarrio)
+                    .HasColumnName("idBarrio")
+                    .HasColumnType("varchar(10)");
+
+                entity.Property(e => e.IdCanton)
+                    .HasColumnName("idCanton")
+                    .HasColumnType("varchar(10)");
+
+                entity.Property(e => e.IdDistrito)
+                    .HasColumnName("idDistrito")
+                    .HasColumnType("varchar(10)");
+
+                entity.Property(e => e.IdProvincia)
+                    .HasColumnName("idProvincia")
+                    .HasColumnType("varchar(10)");
+
+                entity.Property(e => e.NombreBarrio)
+                    .HasColumnName("nombreBarrio")
+                    .HasColumnType("varchar(100)");
+
+                entity.Property(e => e.NombreCanton)
+                    .HasColumnName("nombreCanton")
+                    .HasColumnType("varchar(100)");
+
+                entity.Property(e => e.NombreDistrito)
+                    .HasColumnName("nombreDistrito")
+                    .HasColumnType("varchar(100)");
+
+                entity.Property(e => e.NombreProvincia)
+                    .HasColumnName("nombreProvincia")
+                    .HasColumnType("varchar(100)");
+            });
+
+            modelBuilder.Entity<MasterBranchOffice>(entity =>
+            {
+                entity.HasKey(e => e.IdBranchOffice);
+
+                entity.ToTable("master_branch_office");
+
+                entity.HasIndex(e => e.IdUser)
+                    .HasName("fk_MASTER_BRANCH_OFFICE_users1_idx");
+
+                entity.HasIndex(e => e.NumberBranchOffice)
+                    .HasName("sucursal")
+                    .IsUnique();
+
+                entity.Property(e => e.IdBranchOffice)
+                    .HasColumnName("id_branch_office")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.IdUser).HasColumnName("idUser");
+
+                entity.Property(e => e.NameBranchOffice)
+                    .IsRequired()
+                    .HasColumnName("name_branch_office")
+                    .HasColumnType("varchar(100)");
+
+                entity.Property(e => e.NumberBranchOffice)
+                    .IsRequired()
+                    .HasColumnName("Number_branch_office")
+                    .HasColumnType("varchar(3)");
+
+                entity.HasOne(d => d.IdUserNavigation)
+                    .WithMany(p => p.MasterBranchOffice)
+                    .HasForeignKey(d => d.IdUser)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_MASTER_BRANCH_OFFICE_users1");
+            });
+
+            modelBuilder.Entity<MasterCertificate>(entity =>
+            {
+                entity.HasKey(e => e.IdCertificate);
+
+                entity.ToTable("master_certificate");
+
+                entity.Property(e => e.IdCertificate)
+                    .HasColumnName("idCertificate")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.CompannyName)
+                    .IsRequired()
+                    .HasColumnName("compannyName")
+                    .HasColumnType("varchar(255)");
+
+                entity.Property(e => e.DownloadCode)
+                    .IsRequired()
+                    .HasColumnName("downloadCode")
+                    .HasColumnType("varchar(255)");
+
+                entity.Property(e => e.Env)
+                    .IsRequired()
+                    .HasColumnName("ENV")
+                    .HasColumnType("varchar(255)");
+
+                entity.Property(e => e.IdUser)
+                    .HasColumnName("idUser")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.PinCertificate)
+                    .HasColumnName("pinCertificate")
+                    .HasColumnType("int(11)");
+            });
+
+            modelBuilder.Entity<MasterConfigCompanny>(entity =>
+            {
+                entity.HasKey(e => e.IdConfig);
+
+                entity.ToTable("master_config_companny");
+
+                entity.HasIndex(e => e.IdUser)
+                    .HasName("fk_master_config_companny_users1_idx");
+
+                entity.Property(e => e.IdConfig)
+                    .HasColumnName("idConfig")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Coin)
+                    .IsRequired()
+                    .HasColumnType("varchar(50)");
+
+                entity.Property(e => e.CompannyName)
+                    .IsRequired()
+                    .HasColumnName("compannyName")
+                    .HasColumnType("varchar(255)");
+
+                entity.Property(e => e.IdUser).HasColumnName("idUser");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnName("name")
+                    .HasColumnType("varchar(255)");
+
+                entity.Property(e => e.PasswordTax)
+                    .IsRequired()
+                    .HasColumnName("password_tax")
+                    .HasColumnType("varchar(45)");
+
+                entity.Property(e => e.UserTax)
+                    .IsRequired()
+                    .HasColumnName("user_tax")
+                    .HasColumnType("varchar(45)");
+
+                entity.Property(e => e.Value)
+                    .IsRequired()
+                    .HasColumnName("value")
+                    .HasColumnType("varchar(255)");
+
+                entity.HasOne(d => d.IdUserNavigation)
+                    .WithMany(p => p.MasterConfigCompanny)
+                    .HasForeignKey(d => d.IdUser)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_master_config_companny_users1");
+            });
+
+            modelBuilder.Entity<MasterConsecutive>(entity =>
+            {
+                entity.HasKey(e => e.IdConsecutivo);
+
+                entity.ToTable("master_consecutive");
+
+                entity.Property(e => e.IdConsecutivo)
+                    .HasColumnName("idConsecutivo")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.BranchOffice)
+                    .HasColumnName("branch_office")
+                    .HasColumnType("int(3)");
+
+                entity.Property(e => e.NumberVoucher)
+                    .HasColumnName("Number_voucher")
+                    .HasColumnType("int(10)");
+
+                entity.Property(e => e.Terminal).HasColumnType("int(6)");
+
+                entity.Property(e => e.VoucherType)
+                    .HasColumnName("voucher_type")
+                    .HasColumnType("int(2)");
+            });
+
+            modelBuilder.Entity<MasterDetail>(entity =>
             {
                 entity.HasKey(e => e.IdDetail);
 
-                entity.ToTable("detail");
+                entity.ToTable("master_detail");
 
-                entity.HasIndex(e => e.BillInvoiceIdInvoice)
-                    .HasName("fk_DETAIL_Bill1_idx");
-
-                entity.HasIndex(e => e.MeasuredUnitIdUnit)
-                    .HasName("fk_DETAIL_MEASURED_UNIT1_idx");
-
-                entity.HasIndex(e => e.ProductIdProduct)
-                    .HasName("fk_DETAIL_PRODUCT1_idx");
+                entity.HasIndex(e => e.IdClave)
+                    .HasName("fk_MASTER_DETAIL_MASTER_INVOICE_VOUCHER1_idx");
 
                 entity.Property(e => e.IdDetail)
                     .HasColumnName("Id_Detail")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.BillInvoiceIdInvoice)
-                    .HasColumnName("Bill_INVOICE_Id_Invoice")
                     .HasColumnType("int(11)");
 
                 entity.Property(e => e.Code)
                     .IsRequired()
                     .HasColumnType("varchar(20)");
 
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasColumnType("varchar(45)");
+
+                entity.Property(e => e.IdClave)
+                    .HasColumnName("idClave")
+                    .HasColumnType("int(11)");
+
                 entity.Property(e => e.InitialAmount).HasColumnName("Initial_Amount");
 
-                entity.Property(e => e.MeasuredUnitIdUnit)
-                    .HasColumnName("MEASURED_UNIT_Id_Unit")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.ProductIdProduct)
-                    .HasColumnName("PRODUCT_Id_Product")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.MeasuredUnit)
+                    .IsRequired()
+                    .HasColumnName("Measured_Unit")
+                    .HasColumnType("varchar(25)");
 
                 entity.Property(e => e.Quantity).HasColumnType("int(11)");
 
@@ -436,155 +730,45 @@ namespace FactuCR.Models
                     .HasColumnName("Type_Discount")
                     .HasColumnType("varchar(20)");
 
-                entity.HasOne(d => d.MeasuredUnitIdUnitNavigation)
-                    .WithMany(p => p.Detail)
-                    .HasForeignKey(d => d.MeasuredUnitIdUnit)
+                entity.HasOne(d => d.IdClaveNavigation)
+                    .WithMany(p => p.MasterDetail)
+                    .HasForeignKey(d => d.IdClave)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_DETAIL_MEASURED_UNIT1");
-
-                entity.HasOne(d => d.ProductIdProductNavigation)
-                    .WithMany(p => p.Detail)
-                    .HasForeignKey(d => d.ProductIdProduct)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_DETAIL_PRODUCT1");
+                    .HasConstraintName("fk_MASTER_DETAIL_MASTER_INVOICE_VOUCHER1");
             });
 
-            modelBuilder.Entity<Discount>(entity =>
+            modelBuilder.Entity<MasterInvoice>(entity =>
             {
-                entity.HasKey(e => e.IdDiscount);
+                entity.HasKey(e => e.IdClave);
 
-                entity.ToTable("discount");
+                entity.ToTable("master_invoice");
 
-                entity.Property(e => e.IdDiscount)
-                    .HasColumnName("Id_Discount")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.Description)
-                    .IsRequired()
-                    .HasColumnType("varchar(50)");
-
-                entity.Property(e => e.Percentage).HasColumnType("int(11)");
-
-                entity.Property(e => e.Type)
-                    .IsRequired()
-                    .HasColumnType("varchar(20)");
-            });
-
-            modelBuilder.Entity<Document>(entity =>
-            {
-                entity.HasKey(e => e.IdDocument);
-
-                entity.ToTable("document");
-
-                entity.Property(e => e.IdDocument)
-                    .HasColumnName("Id_Document")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.Name).HasColumnType("varchar(20)");
-            });
-
-            modelBuilder.Entity<Entity>(entity =>
-            {
-                entity.HasKey(e => e.IdEntity);
-
-                entity.ToTable("entity");
-
-                entity.Property(e => e.IdEntity)
-                    .HasColumnName("Id_Entity")
-                    .HasColumnType("varchar(20)");
-
-                entity.Property(e => e.Email)
-                    .IsRequired()
-                    .HasColumnType("varchar(50)");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnType("varchar(25)");
-
-                entity.Property(e => e.TypeId)
-                    .IsRequired()
-                    .HasColumnName("Type_Id")
-                    .HasColumnType("varchar(20)");
-            });
-
-            modelBuilder.Entity<Inventory>(entity =>
-            {
-                entity.HasKey(e => e.IdInventary);
-
-                entity.ToTable("inventory");
-
-                entity.HasIndex(e => e.ProductIdProduct)
-                    .HasName("fk_INVENTORY_PRODUCT1_idx");
-
-                entity.Property(e => e.IdInventary)
-                    .HasColumnName("Id_Inventary")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.Cuantity).HasColumnType("int(11)");
-
-                entity.Property(e => e.Date).HasColumnType("date");
-
-                entity.Property(e => e.MovementType)
-                    .IsRequired()
-                    .HasColumnName("Movement_Type")
-                    .HasColumnType("varchar(20)");
-
-                entity.Property(e => e.ProductIdProduct)
-                    .HasColumnName("PRODUCT_Id_Product")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.ProviderPersonIdPerson)
-                    .IsRequired()
-                    .HasColumnName("PROVIDER_Person_Id_Person")
-                    .HasColumnType("varchar(20)");
-
-                entity.HasOne(d => d.ProductIdProductNavigation)
-                    .WithMany(p => p.Inventory)
-                    .HasForeignKey(d => d.ProductIdProduct)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_INVENTORY_PRODUCT1");
-            });
-
-            modelBuilder.Entity<Invoice>(entity =>
-            {
-                entity.HasKey(e => e.IdInvoice);
-
-                entity.ToTable("invoice");
-
-                entity.HasIndex(e => e.DocumentIdDocument)
-                    .HasName("fk_INVOICE_Document1_idx");
-
-                entity.Property(e => e.IdInvoice)
-                    .HasColumnName("Id_Invoice")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.DocumentIdDocument)
-                    .HasColumnName("Document_Id_Document")
+                entity.Property(e => e.IdClave)
+                    .HasColumnName("idClave")
                     .HasColumnType("int(11)");
 
                 entity.Property(e => e.EmissionDate)
                     .HasColumnName("Emission_Date")
                     .HasColumnType("date");
 
-                entity.HasOne(d => d.DocumentIdDocumentNavigation)
-                    .WithMany(p => p.Invoice)
-                    .HasForeignKey(d => d.DocumentIdDocument)
+                entity.HasOne(d => d.IdClaveNavigation)
+                    .WithOne(p => p.MasterInvoice)
+                    .HasForeignKey<MasterInvoice>(d => d.IdClave)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_INVOICE_Document1");
+                    .HasConstraintName("fk_MASTER_INVOICE_MASTER_KEY1");
             });
 
-            modelBuilder.Entity<InvoiceReference>(entity =>
+            modelBuilder.Entity<MasterInvoiceReference>(entity =>
             {
-                entity.HasKey(e => new { e.InvoiceIdInvoice, e.InvoiceDocumentIdDocument });
+                entity.HasKey(e => e.IdClave);
 
-                entity.ToTable("invoice_reference");
+                entity.ToTable("master_invoice_reference");
 
-                entity.Property(e => e.InvoiceIdInvoice)
-                    .HasColumnName("INVOICE_Id_Invoice")
-                    .HasColumnType("int(11)");
+                entity.HasIndex(e => e.IdClave)
+                    .HasName("fk_MASTER_INVOICE_REFERENCE_MASTER_INVOICE1_idx");
 
-                entity.Property(e => e.InvoiceDocumentIdDocument)
-                    .HasColumnName("INVOICE_Document_Id_Document")
+                entity.Property(e => e.IdClave)
+                    .HasColumnName("idClave")
                     .HasColumnType("int(11)");
 
                 entity.Property(e => e.Detail)
@@ -594,18 +778,471 @@ namespace FactuCR.Models
                 entity.Property(e => e.DocumentNumber)
                     .IsRequired()
                     .HasColumnName("Document_Number")
-                    .HasColumnType("varchar(25)");
+                    .HasColumnType("varchar(50)");
 
                 entity.Property(e => e.ReferenceCode)
                     .IsRequired()
                     .HasColumnName("Reference_Code")
-                    .HasColumnType("varchar(45)");
+                    .HasColumnType("varchar(100)");
 
-                entity.HasOne(d => d.InvoiceIdInvoiceNavigation)
-                    .WithMany(p => p.InvoiceReference)
-                    .HasForeignKey(d => d.InvoiceIdInvoice)
+                entity.Property(e => e.RespuestaMhbase64)
+                    .HasColumnName("respuestaMHBase64")
+                    .HasColumnType("mediumtext");
+
+                entity.Property(e => e.XmlenviadoBase64)
+                    .HasColumnName("xmlenviadoBase64")
+                    .HasColumnType("mediumtext");
+
+                entity.HasOne(d => d.IdClaveNavigation)
+                    .WithOne(p => p.MasterInvoiceReference)
+                    .HasForeignKey<MasterInvoiceReference>(d => d.IdClave)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_INVOICE_REFERENCE_INVOICE1");
+                    .HasConstraintName("fk_MASTER_INVOICE_REFERENCE_MASTER_INVOICE1");
+            });
+
+            modelBuilder.Entity<MasterInvoiceVoucher>(entity =>
+            {
+                entity.HasKey(e => e.IdClave);
+
+                entity.ToTable("master_invoice_voucher");
+
+                entity.HasIndex(e => e.IdCondition)
+                    .HasName("fk_MASTER_BILL_MASTER_SALE_CONDITION1_idx");
+
+                entity.HasIndex(e => e.IdPayment)
+                    .HasName("fk_master_vouchers_MASTER_PAYMENT1_idx");
+
+                entity.Property(e => e.IdClave)
+                    .HasColumnName("idClave")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Env)
+                    .IsRequired()
+                    .HasColumnName("env")
+                    .HasColumnType("varchar(255)");
+
+                entity.Property(e => e.IdCondition)
+                    .HasColumnName("Id_Condition")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.IdPayment)
+                    .HasColumnName("id_Payment")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.RespuestaMhbase64)
+                    .HasColumnName("respuestaMHBase64")
+                    .HasColumnType("mediumtext");
+
+                entity.Property(e => e.Status)
+                    .IsRequired()
+                    .HasColumnName("status")
+                    .HasColumnType("varchar(50)");
+
+                entity.Property(e => e.XmlEnviadoBase64)
+                    .IsRequired()
+                    .HasColumnName("xmlEnviadoBase64")
+                    .HasColumnType("mediumtext");
+            });
+
+            modelBuilder.Entity<MasterKey>(entity =>
+            {
+                entity.HasKey(e => e.IdClave);
+
+                entity.ToTable("master_key");
+
+                entity.HasIndex(e => e.IdConsecutivo)
+                    .HasName("fk_master_keys_MASTER_CONSECUTIVE1_idx");
+
+                entity.Property(e => e.IdClave)
+                    .HasColumnName("idClave")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.CodeKey)
+                    .IsRequired()
+                    .HasColumnName("code_key")
+                    .HasColumnType("varchar(8)");
+
+                entity.Property(e => e.Country)
+                    .HasColumnName("country")
+                    .HasColumnType("int(3)");
+
+                entity.Property(e => e.Day)
+                    .IsRequired()
+                    .HasColumnName("day")
+                    .HasColumnType("varchar(2)");
+
+                entity.Property(e => e.IdConsecutivo)
+                    .HasColumnName("idConsecutivo")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Idtransmitter)
+                    .IsRequired()
+                    .HasColumnName("idtransmitter")
+                    .HasColumnType("varchar(12)");
+
+                entity.Property(e => e.Month)
+                    .IsRequired()
+                    .HasColumnName("month")
+                    .HasColumnType("varchar(2)");
+
+                entity.Property(e => e.SituationDocument)
+                    .IsRequired()
+                    .HasColumnName("situation_document")
+                    .HasColumnType("varchar(1)");
+
+                entity.Property(e => e.Year)
+                    .IsRequired()
+                    .HasColumnType("varchar(2)");
+            });
+
+            modelBuilder.Entity<MasterLogs>(entity =>
+            {
+                entity.HasKey(e => e.IdLog);
+
+                entity.ToTable("master_logs");
+
+                entity.Property(e => e.IdLog)
+                    .HasColumnName("idLog")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.IdUser)
+                    .HasColumnName("idUser")
+                    .HasColumnType("int(15)");
+
+                entity.Property(e => e.Log)
+                    .IsRequired()
+                    .HasColumnName("log")
+                    .HasColumnType("text");
+
+                entity.Property(e => e.TimeStamp)
+                    .HasColumnName("timeStamp")
+                    .HasColumnType("timestamp")
+                    .HasDefaultValueSql("'CURRENT_TIMESTAMP'");
+            });
+
+            modelBuilder.Entity<MasterMonetaryDetails>(entity =>
+            {
+                entity.HasKey(e => e.IdClave);
+
+                entity.ToTable("master_monetary_details");
+
+                entity.HasIndex(e => e.IdClave)
+                    .HasName("fk_MASTER_MONETARY_DETAILS_MASTER_INVOICE_VOUCHER1_idx");
+
+                entity.Property(e => e.IdClave)
+                    .HasColumnName("idClave")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.CodeCoin)
+                    .IsRequired()
+                    .HasColumnName("code_Coin")
+                    .HasColumnType("varchar(5)");
+
+                entity.Property(e => e.TotalDiscount).HasColumnName("Total_Discount");
+
+                entity.Property(e => e.TotalExempt).HasColumnName("Total_exempt");
+
+                entity.Property(e => e.TotalExemptFreight).HasColumnName("Total_exempt_freight");
+
+                entity.Property(e => e.TotalExemptServices).HasColumnName("Total_Exempt_Services");
+
+                entity.Property(e => e.TotalNetSale).HasColumnName("Total_Net_Sale");
+
+                entity.Property(e => e.TotalSale).HasColumnName("Total_sale");
+
+                entity.Property(e => e.TotalTax).HasColumnName("Total_Tax");
+
+                entity.Property(e => e.TotalTaxed).HasColumnName("Total_Taxed");
+
+                entity.Property(e => e.TotalTaxedGoods).HasColumnName("Total_Taxed_Goods");
+
+                entity.Property(e => e.TotalTaxedServices).HasColumnName("Total_Taxed_Services");
+
+                entity.Property(e => e.ValueCoin).HasColumnName("Value_Coin");
+
+                entity.HasOne(d => d.IdClaveNavigation)
+                    .WithOne(p => p.MasterMonetaryDetails)
+                    .HasForeignKey<MasterMonetaryDetails>(d => d.IdClave)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_MASTER_MONETARY_DETAILS_MASTER_INVOICE_VOUCHER1");
+            });
+
+            modelBuilder.Entity<MasterPayment>(entity =>
+            {
+                entity.HasKey(e => e.IdPayment);
+
+                entity.ToTable("master_payment");
+
+                entity.Property(e => e.IdPayment)
+                    .HasColumnName("id_Payment")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Code)
+                    .IsRequired()
+                    .HasColumnName("code")
+                    .HasColumnType("varchar(3)");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnType("varchar(20)");
+            });
+
+            modelBuilder.Entity<MasterReceiver>(entity =>
+            {
+                entity.HasKey(e => e.IdClave);
+
+                entity.ToTable("master_receiver");
+
+                entity.Property(e => e.IdClave)
+                    .HasColumnName("idClave")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.ComercialName)
+                    .IsRequired()
+                    .HasColumnName("Comercial_name")
+                    .HasColumnType("varchar(255)");
+
+                entity.Property(e => e.CountryCode)
+                    .IsRequired()
+                    .HasColumnName("Country_code")
+                    .HasColumnType("varchar(10)");
+
+                entity.Property(e => e.IdCanton)
+                    .IsRequired()
+                    .HasColumnName("idCanton")
+                    .HasColumnType("varchar(10)");
+
+                entity.Property(e => e.IdDistrict)
+                    .IsRequired()
+                    .HasColumnName("idDistrict")
+                    .HasColumnType("varchar(10)");
+
+                entity.Property(e => e.IdProvince)
+                    .IsRequired()
+                    .HasColumnName("idProvince")
+                    .HasColumnType("varchar(10)");
+
+                entity.Property(e => e.IdUser)
+                    .HasColumnName("idUser")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Idneighborhood)
+                    .IsRequired()
+                    .HasColumnName("idneighborhood")
+                    .HasColumnType("varchar(10)");
+
+                entity.Property(e => e.KindId)
+                    .IsRequired()
+                    .HasColumnName("kind_id")
+                    .HasColumnType("varchar(255)");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnName("name")
+                    .HasColumnType("varchar(80)");
+
+                entity.Property(e => e.OthersSigns)
+                    .IsRequired()
+                    .HasColumnName("others_signs")
+                    .HasColumnType("varchar(160)");
+
+                entity.Property(e => e.PrincipalEmail)
+                    .IsRequired()
+                    .HasColumnName("Principal_email")
+                    .HasColumnType("varchar(255)");
+
+                entity.Property(e => e.Status)
+                    .HasColumnName("status")
+                    .HasColumnType("int(10)");
+
+                entity.Property(e => e.Telephone)
+                    .IsRequired()
+                    .HasColumnName("telephone")
+                    .HasColumnType("varchar(15)");
+
+                entity.Property(e => e.TelephoneFax)
+                    .IsRequired()
+                    .HasColumnName("telephone_Fax")
+                    .HasColumnType("varchar(255)");
+            });
+
+            modelBuilder.Entity<MasterRol>(entity =>
+            {
+                entity.HasKey(e => e.IdRol);
+
+                entity.ToTable("master_rol");
+
+                entity.HasIndex(e => e.IdUser)
+                    .HasName("fk_master_rol_users1_idx");
+
+                entity.Property(e => e.IdRol)
+                    .HasColumnName("idRol")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.IdUser).HasColumnName("idUser");
+
+                entity.Property(e => e.Kind)
+                    .IsRequired()
+                    .HasColumnType("varchar(45)");
+            });
+
+            modelBuilder.Entity<MasterSaleCondition>(entity =>
+            {
+                entity.HasKey(e => e.IdCondition);
+
+                entity.ToTable("master_sale_condition");
+
+                entity.Property(e => e.IdCondition)
+                    .HasColumnName("Id_Condition")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Code)
+                    .IsRequired()
+                    .HasColumnType("varchar(3)");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnType("varchar(20)");
+            });
+
+            modelBuilder.Entity<MasterSessions>(entity =>
+            {
+                entity.HasKey(e => e.IdSession);
+
+                entity.ToTable("master_sessions");
+
+                entity.HasIndex(e => e.IdUser)
+                    .HasName("fk_master_sessions_master_users1_idx");
+
+                entity.HasIndex(e => e.SessionKey)
+                    .HasName("sessionKey");
+
+                entity.Property(e => e.IdSession).HasColumnName("idSession");
+
+                entity.Property(e => e.IdUser).HasColumnName("idUser");
+
+                entity.Property(e => e.Ip)
+                    .IsRequired()
+                    .HasColumnName("ip")
+                    .HasColumnType("varchar(25)");
+
+                entity.Property(e => e.LastAccess).HasColumnName("lastAccess");
+
+                entity.Property(e => e.SessionKey)
+                    .IsRequired()
+                    .HasColumnName("sessionKey")
+                    .HasColumnType("varchar(255)");
+
+                entity.HasOne(d => d.IdUserNavigation)
+                    .WithMany(p => p.MasterSessions)
+                    .HasForeignKey(d => d.IdUser)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_master_sessions_master_users1");
+            });
+
+            modelBuilder.Entity<MasterSqlupgrade>(entity =>
+            {
+                entity.HasKey(e => e.IdSql);
+
+                entity.ToTable("master_sqlupgrade");
+
+                entity.Property(e => e.IdSql)
+                    .HasColumnName("idSQL")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Sql)
+                    .IsRequired()
+                    .HasColumnName("SQL")
+                    .HasColumnType("varchar(255)");
+
+                entity.Property(e => e.VersionApi).HasColumnName("versionAPI");
+            });
+
+            modelBuilder.Entity<MasterTerminal>(entity =>
+            {
+                entity.HasKey(e => e.IdTerminal);
+
+                entity.ToTable("master_terminal");
+
+                entity.HasIndex(e => e.IdBranchOffice)
+                    .HasName("fk_master_terminales_MASTER_BRANCH_OFFICE1_idx");
+
+                entity.HasIndex(e => e.NumberTerminal)
+                    .HasName("terminal")
+                    .IsUnique();
+
+                entity.Property(e => e.IdTerminal)
+                    .HasColumnName("idTerminal")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.IdBranchOffice)
+                    .HasColumnName("id_branch_office")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.NameTerminal)
+                    .IsRequired()
+                    .HasColumnName("name_Terminal")
+                    .HasColumnType("varchar(255)");
+
+                entity.Property(e => e.NumberTerminal)
+                    .IsRequired()
+                    .HasColumnName("number_terminal")
+                    .HasColumnType("varchar(255)");
+
+                entity.HasOne(d => d.IdBranchOfficeNavigation)
+                    .WithMany(p => p.MasterTerminal)
+                    .HasForeignKey(d => d.IdBranchOffice)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_master_terminales_MASTER_BRANCH_OFFICE1");
+            });
+
+            modelBuilder.Entity<MasterTransmitter>(entity =>
+            {
+                entity.HasKey(e => e.IdClave);
+
+                entity.ToTable("master_transmitter");
+
+                entity.Property(e => e.IdClave)
+                    .HasColumnName("idClave")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.BussinessName)
+                    .IsRequired()
+                    .HasColumnName("Bussiness_name")
+                    .HasColumnType("varchar(50)");
+
+                entity.Property(e => e.Canton).HasColumnType("int(11)");
+
+                entity.Property(e => e.District).HasColumnType("int(11)");
+
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasColumnType("varchar(50)");
+
+                entity.Property(e => e.Id).HasColumnType("int(15)");
+
+                entity.Property(e => e.KindId)
+                    .HasColumnName("Kind_Id")
+                    .HasColumnType("int(10)");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnType("varchar(100)");
+
+                entity.Property(e => e.Neighborhood).HasColumnType("varchar(20)");
+
+                entity.Property(e => e.OtherSigns)
+                    .IsRequired()
+                    .HasColumnName("Other_signs")
+                    .HasColumnType("varchar(250)");
+
+                entity.Property(e => e.Province).HasColumnType("int(11)");
+
+                entity.Property(e => e.Telephone).HasColumnType("int(15)");
+
+                entity.Property(e => e.TelephonoFax)
+                    .HasColumnName("Telephono_Fax")
+                    .HasColumnType("varchar(20)");
             });
 
             modelBuilder.Entity<MeasuredUnit>(entity =>
@@ -622,83 +1259,134 @@ namespace FactuCR.Models
                     .IsRequired()
                     .HasColumnType("varchar(20)");
 
-                entity.Property(e => e.Symboly)
+                entity.Property(e => e.Simboly)
                     .IsRequired()
                     .HasColumnType("varchar(10)");
             });
 
-            modelBuilder.Entity<Payment>(entity =>
+            modelBuilder.Entity<Msgs>(entity =>
             {
-                entity.HasKey(e => e.IdPayment);
+                entity.HasKey(e => e.IdMsg);
 
-                entity.ToTable("payment");
+                entity.ToTable("msgs");
 
-                entity.Property(e => e.IdPayment)
-                    .HasColumnName("id_Payment")
+                entity.HasIndex(e => e.IdConversation)
+                    .HasName("fk_msgs_conversations1_idx");
+
+                entity.Property(e => e.IdMsg).HasColumnName("idMsg");
+
+                entity.Property(e => e.Attachments).HasColumnName("attachments");
+
+                entity.Property(e => e.Channel)
+                    .HasColumnName("channel")
                     .HasColumnType("int(11)");
 
-                entity.Property(e => e.Name)
+                entity.Property(e => e.IdConversation).HasColumnName("idConversation");
+
+                entity.Property(e => e.IdRecipient).HasColumnName("idRecipient");
+
+                entity.Property(e => e.IdSender).HasColumnName("idSender");
+
+                entity.Property(e => e.Ip)
                     .IsRequired()
-                    .HasColumnType("varchar(20)");
+                    .HasColumnName("ip")
+                    .HasColumnType("varchar(50)");
+
+                entity.Property(e => e.Text)
+                    .IsRequired()
+                    .HasColumnName("text")
+                    .HasColumnType("text");
+
+                entity.Property(e => e.Timestamp).HasColumnName("timestamp");
+
+                entity.HasOne(d => d.IdConversationNavigation)
+                    .WithMany(p => p.Msgs)
+                    .HasForeignKey(d => d.IdConversation)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_msgs_conversations1");
             });
 
             modelBuilder.Entity<Product>(entity =>
             {
-                entity.HasKey(e => e.IdProduct);
+                entity.HasKey(e => new { e.CodeProduct, e.IdUser });
 
                 entity.ToTable("product");
 
-                entity.HasIndex(e => e.CommercialBrandIdBrand)
+                entity.HasIndex(e => e.IdBrand)
                     .HasName("fk_PRODUCT_Commercial_Brand1_idx");
 
-                entity.Property(e => e.IdProduct)
-                    .HasColumnName("Id_Product")
-                    .HasColumnType("int(11)");
+                entity.HasIndex(e => e.IdTax)
+                    .HasName("fk_PRODUCT_TAX/EXEMPTION1_idx");
 
-                entity.Property(e => e.CommercialBrandIdBrand)
-                    .HasColumnName("Commercial_Brand_Id_Brand")
-                    .HasColumnType("int(11)");
+                entity.HasIndex(e => e.IdUnit)
+                    .HasName("fk_PRODUCT_MEASURED_UNIT1_idx");
+
+                entity.HasIndex(e => e.IdUser)
+                    .HasName("fk_PRODUCT_users1_idx");
+
+                entity.Property(e => e.CodeProduct)
+                    .HasColumnName("code_Product")
+                    .HasColumnType("varchar(45)");
+
+                entity.Property(e => e.IdUser).HasColumnName("idUser");
+
+                entity.Property(e => e.Barcode)
+                    .HasColumnName("barcode")
+                    .HasColumnType("varchar(100)");
 
                 entity.Property(e => e.CostPrice).HasColumnName("Cost_Price");
 
                 entity.Property(e => e.Description).HasColumnType("varchar(100)");
 
-                entity.Property(e => e.IVA).HasColumnName("I.V.A");
-
-                entity.HasOne(d => d.CommercialBrandIdBrandNavigation)
-                    .WithMany(p => p.Product)
-                    .HasForeignKey(d => d.CommercialBrandIdBrand)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_PRODUCT_Commercial_Brand1");
-            });
-
-            modelBuilder.Entity<ProductCode>(entity =>
-            {
-                entity.HasKey(e => new { e.IdCode, e.ProductIdProduct });
-
-                entity.ToTable("product_code");
-
-                entity.HasIndex(e => e.ProductIdProduct)
-                    .HasName("fk_PRODUCT_CODE_PRODUCT1_idx");
-
-                entity.Property(e => e.IdCode)
-                    .HasColumnName("Id_Code")
-                    .HasColumnType("varchar(20)");
-
-                entity.Property(e => e.ProductIdProduct)
-                    .HasColumnName("PRODUCT_Id_Product")
+                entity.Property(e => e.IdBrand)
+                    .HasColumnName("Id_Brand")
                     .HasColumnType("int(11)");
 
-                entity.Property(e => e.NameCode)
+                entity.Property(e => e.IdTax)
+                    .HasColumnName("id_Tax")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.IdUnit)
+                    .HasColumnName("Id_Unit")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.KindCode)
                     .IsRequired()
-                    .HasColumnName("Name_Code")
+                    .HasColumnName("kind_code")
+                    .HasColumnType("varchar(50)");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnType("varchar(100)");
+
+                entity.Property(e => e.Status)
+                    .IsRequired()
+                    .HasColumnName("status")
                     .HasColumnType("varchar(20)");
 
-                entity.HasOne(d => d.ProductIdProductNavigation)
-                    .WithMany(p => p.ProductCode)
-                    .HasForeignKey(d => d.ProductIdProduct)
+                entity.HasOne(d => d.IdBrandNavigation)
+                    .WithMany(p => p.Product)
+                    .HasForeignKey(d => d.IdBrand)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_PRODUCT_CODE_PRODUCT1");
+                    .HasConstraintName("fk_PRODUCT_Commercial_Brand1");
+
+                entity.HasOne(d => d.IdTaxNavigation)
+                    .WithMany(p => p.Product)
+                    .HasForeignKey(d => d.IdTax)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_PRODUCT_TAX/EXEMPTION1");
+
+                entity.HasOne(d => d.IdUnitNavigation)
+                    .WithMany(p => p.Product)
+                    .HasForeignKey(d => d.IdUnit)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_PRODUCT_MEASURED_UNIT1");
+
+                entity.HasOne(d => d.IdUserNavigation)
+                    .WithMany(p => p.Product)
+                    .HasForeignKey(d => d.IdUser)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_PRODUCT_users1");
             });
 
             modelBuilder.Entity<ProductFamily>(entity =>
@@ -706,6 +1394,9 @@ namespace FactuCR.Models
                 entity.HasKey(e => e.IdFamily);
 
                 entity.ToTable("product_family");
+
+                entity.HasIndex(e => e.IdUser)
+                    .HasName("fk_PRODUCT_FAMILY_users1_idx");
 
                 entity.Property(e => e.IdFamily)
                     .HasColumnName("Id_Family")
@@ -719,60 +1410,37 @@ namespace FactuCR.Models
                     .IsRequired()
                     .HasColumnName("family_Type")
                     .HasColumnType("varchar(20)");
-            });
 
-            modelBuilder.Entity<ProductHasDiscount>(entity =>
-            {
-                entity.HasKey(e => new { e.ProductIdProduct, e.DiscountIdDiscount });
+                entity.Property(e => e.IdUser).HasColumnName("idUser");
 
-                entity.ToTable("product_has_discount");
-
-                entity.HasIndex(e => e.DiscountIdDiscount)
-                    .HasName("fk_PRODUCT_has_DISCOUNT_DISCOUNT1_idx");
-
-                entity.HasIndex(e => e.ProductIdProduct)
-                    .HasName("fk_PRODUCT_has_DISCOUNT_PRODUCT1_idx");
-
-                entity.Property(e => e.ProductIdProduct)
-                    .HasColumnName("PRODUCT_Id_Product")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.DiscountIdDiscount)
-                    .HasColumnName("DISCOUNT_Id_Discount")
-                    .HasColumnType("int(11)");
-
-                entity.HasOne(d => d.DiscountIdDiscountNavigation)
-                    .WithMany(p => p.ProductHasDiscount)
-                    .HasForeignKey(d => d.DiscountIdDiscount)
+                entity.HasOne(d => d.IdUserNavigation)
+                    .WithMany(p => p.ProductFamily)
+                    .HasForeignKey(d => d.IdUser)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_PRODUCT_has_DISCOUNT_DISCOUNT1");
-
-                entity.HasOne(d => d.ProductIdProductNavigation)
-                    .WithMany(p => p.ProductHasDiscount)
-                    .HasForeignKey(d => d.ProductIdProduct)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_PRODUCT_has_DISCOUNT_PRODUCT1");
+                    .HasConstraintName("fk_PRODUCT_FAMILY_users1");
             });
 
             modelBuilder.Entity<ProductHasProductFamily>(entity =>
             {
-                entity.HasKey(e => new { e.ProductIdProduct, e.ProductFamilyIdFamily });
+                entity.HasKey(e => new { e.ProductFamilyIdFamily, e.ProductCodeProduct, e.ProductIdUser });
 
                 entity.ToTable("product_has_product_family");
 
                 entity.HasIndex(e => e.ProductFamilyIdFamily)
                     .HasName("fk_PRODUCT_has_PRODUCT_FAMILY_PRODUCT_FAMILY1_idx");
 
-                entity.HasIndex(e => e.ProductIdProduct)
-                    .HasName("fk_PRODUCT_has_PRODUCT_FAMILY_PRODUCT1_idx");
-
-                entity.Property(e => e.ProductIdProduct)
-                    .HasColumnName("PRODUCT_Id_Product")
-                    .HasColumnType("int(11)");
+                entity.HasIndex(e => new { e.ProductCodeProduct, e.ProductIdUser })
+                    .HasName("fk_PRODUCT_has_PRODUCT_FAMILY_PRODUCT1_idx1");
 
                 entity.Property(e => e.ProductFamilyIdFamily)
                     .HasColumnName("PRODUCT_FAMILY_Id_Family")
                     .HasColumnType("int(11)");
+
+                entity.Property(e => e.ProductCodeProduct)
+                    .HasColumnName("PRODUCT_code_Product")
+                    .HasColumnType("varchar(45)");
+
+                entity.Property(e => e.ProductIdUser).HasColumnName("PRODUCT_idUser");
 
                 entity.HasOne(d => d.ProductFamilyIdFamilyNavigation)
                     .WithMany(p => p.ProductHasProductFamily)
@@ -780,81 +1448,55 @@ namespace FactuCR.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PRODUCT_has_PRODUCT_FAMILY_PRODUCT_FAMILY1");
 
-                entity.HasOne(d => d.ProductIdProductNavigation)
+                entity.HasOne(d => d.Product)
                     .WithMany(p => p.ProductHasProductFamily)
-                    .HasForeignKey(d => d.ProductIdProduct)
+                    .HasForeignKey(d => new { d.ProductCodeProduct, d.ProductIdUser })
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PRODUCT_has_PRODUCT_FAMILY_PRODUCT1");
             });
 
             modelBuilder.Entity<Provider>(entity =>
             {
-                entity.HasKey(e => e.EntityIdEntity);
+                entity.HasKey(e => e.IdProvider);
 
                 entity.ToTable("provider");
 
-                entity.HasIndex(e => e.EntityIdEntity)
-                    .HasName("fk_PROVIDER_ENTITY1_idx");
+                entity.HasIndex(e => e.Email)
+                    .HasName("Email_UNIQUE")
+                    .IsUnique();
 
-                entity.Property(e => e.EntityIdEntity)
-                    .HasColumnName("ENTITY_Id_Entity")
-                    .HasColumnType("varchar(20)");
+                entity.HasIndex(e => e.IdUser)
+                    .HasName("fk_PROVIDER_users1_idx");
+
+                entity.Property(e => e.IdProvider)
+                    .HasColumnName("Id_Provider")
+                    .HasColumnType("varchar(11)");
 
                 entity.Property(e => e.Description)
                     .IsRequired()
                     .HasColumnType("varchar(100)");
 
-                entity.HasOne(d => d.EntityIdEntityNavigation)
-                    .WithOne(p => p.Provider)
-                    .HasForeignKey<Provider>(d => d.EntityIdEntity)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_PROVIDER_ENTITY1");
-            });
-
-            modelBuilder.Entity<RecordActivity>(entity =>
-            {
-                entity.HasKey(e => e.IdRecord);
-
-                entity.ToTable("record_activity");
-
-                entity.HasIndex(e => e.UserEntityIdEntity)
-                    .HasName("fk_RECORD_ACTIVITY_USER1_idx");
-
-                entity.Property(e => e.IdRecord)
-                    .HasColumnName("Id_Record")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.EntryDate)
-                    .HasColumnName("Entry_Date")
-                    .HasColumnType("date");
-
-                entity.Property(e => e.ExitDate)
-                    .HasColumnName("Exit_Date")
-                    .HasColumnType("date");
-
-                entity.Property(e => e.UserEntityIdEntity)
+                entity.Property(e => e.Email)
                     .IsRequired()
-                    .HasColumnName("USER_ENTITY_Id_Entity")
-                    .HasColumnType("varchar(20)");
+                    .HasColumnType("varchar(100)");
 
-                entity.HasOne(d => d.UserEntityIdEntityNavigation)
-                    .WithMany(p => p.RecordActivity)
-                    .HasForeignKey(d => d.UserEntityIdEntity)
+                entity.Property(e => e.IdUser).HasColumnName("idUser");
+
+                entity.Property(e => e.KindId)
+                    .IsRequired()
+                    .HasColumnName("Kind_Id")
+                    .HasColumnType("varchar(45)");
+
+                entity.Property(e => e.NameProvider)
+                    .IsRequired()
+                    .HasColumnName("nameProvider")
+                    .HasColumnType("varchar(100)");
+
+                entity.HasOne(d => d.IdUserNavigation)
+                    .WithMany(p => p.Provider)
+                    .HasForeignKey(d => d.IdUser)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_RECORD_ACTIVITY_USER1");
-            });
-
-            modelBuilder.Entity<SaleCondition>(entity =>
-            {
-                entity.HasKey(e => e.IdCondition);
-
-                entity.ToTable("sale_condition");
-
-                entity.Property(e => e.IdCondition)
-                    .HasColumnName("Id_Condition")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.Name).HasColumnType("varchar(20)");
+                    .HasConstraintName("fk_PROVIDER_users1");
             });
 
             modelBuilder.Entity<SalePrice>(entity =>
@@ -863,54 +1505,79 @@ namespace FactuCR.Models
 
                 entity.ToTable("sale_price");
 
-                entity.HasIndex(e => e.CoinIdCoin)
+                entity.HasIndex(e => e.IdCoin)
                     .HasName("fk_SALE_PRICE_COIN1_idx");
 
-                entity.HasIndex(e => e.ProductIdProduct)
+                entity.HasIndex(e => new { e.CodeProduct, e.IdUser })
                     .HasName("fk_SALE_PRICE_PRODUCT1_idx");
 
                 entity.Property(e => e.IdPrice)
                     .HasColumnName("Id_Price")
                     .HasColumnType("int(11)");
 
-                entity.Property(e => e.CoinIdCoin)
-                    .HasColumnName("COIN_Id_Coin")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.CodeProduct)
+                    .IsRequired()
+                    .HasColumnName("code_Product")
+                    .HasColumnType("varchar(45)");
 
                 entity.Property(e => e.Description)
                     .IsRequired()
                     .HasColumnType("varchar(100)");
 
-                entity.Property(e => e.ProductIdProduct)
-                    .HasColumnName("PRODUCT_Id_Product")
+                entity.Property(e => e.IdCoin)
+                    .HasColumnName("Id_Coin")
                     .HasColumnType("int(11)");
 
-                entity.HasOne(d => d.CoinIdCoinNavigation)
+                entity.Property(e => e.IdUser).HasColumnName("idUser");
+
+                entity.HasOne(d => d.IdCoinNavigation)
                     .WithMany(p => p.SalePrice)
-                    .HasForeignKey(d => d.CoinIdCoin)
+                    .HasForeignKey(d => d.IdCoin)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_SALE_PRICE_COIN1");
 
-                entity.HasOne(d => d.ProductIdProductNavigation)
+                entity.HasOne(d => d.Product)
                     .WithMany(p => p.SalePrice)
-                    .HasForeignKey(d => d.ProductIdProduct)
+                    .HasForeignKey(d => new { d.CodeProduct, d.IdUser })
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_SALE_PRICE_PRODUCT1");
             });
 
-            modelBuilder.Entity<TaxExemption>(entity =>
+            modelBuilder.Entity<SituationDocument>(entity =>
             {
-                entity.HasKey(e => e.Code);
+                entity.HasKey(e => e.IdSituation);
 
-                entity.ToTable("tax/exemption");
+                entity.ToTable("situation_document");
 
-                entity.Property(e => e.Code).HasColumnType("int(11)");
+                entity.Property(e => e.IdSituation).HasColumnType("int(11)");
 
-                entity.Property(e => e.Description).HasColumnType("varchar(45)");
+                entity.Property(e => e.Code)
+                    .IsRequired()
+                    .HasColumnName("code")
+                    .HasColumnType("varchar(2)");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
-                    .HasColumnType("varchar(25)");
+                    .HasColumnName("name")
+                    .HasColumnType("varchar(20)");
+            });
+
+            modelBuilder.Entity<TaxExemption>(entity =>
+            {
+                entity.HasKey(e => e.IdTax);
+
+                entity.ToTable("tax/exemption");
+
+                entity.Property(e => e.IdTax).HasColumnType("int(11)");
+
+                entity.Property(e => e.Code)
+                    .IsRequired()
+                    .HasColumnName("code")
+                    .HasColumnType("varchar(3)");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnType("varchar(100)");
 
                 entity.Property(e => e.Percentage).HasColumnType("int(11)");
 
@@ -924,9 +1591,6 @@ namespace FactuCR.Models
                 entity.HasKey(e => e.IdContact);
 
                 entity.ToTable("telephone_contact");
-
-                entity.HasIndex(e => e.EntityIdEntity)
-                    .HasName("fk_TELEPHONE_CONTACT_ENTITY1_idx");
 
                 entity.Property(e => e.IdContact)
                     .HasColumnName("Id_Contact")
@@ -942,50 +1606,106 @@ namespace FactuCR.Models
 
                 entity.Property(e => e.Description).HasColumnType("varchar(100)");
 
-                entity.Property(e => e.EntityIdEntity)
-                    .IsRequired()
-                    .HasColumnName("ENTITY_Id_Entity")
-                    .HasColumnType("varchar(20)");
-
                 entity.Property(e => e.Extension).HasColumnType("int(11)");
+
+                entity.Property(e => e.IdOwner)
+                    .IsRequired()
+                    .HasColumnType("varchar(15)");
 
                 entity.Property(e => e.Type)
                     .IsRequired()
                     .HasColumnType("varchar(20)");
-
-                entity.HasOne(d => d.EntityIdEntityNavigation)
-                    .WithMany(p => p.TelephoneContact)
-                    .HasForeignKey(d => d.EntityIdEntity)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_TELEPHONE_CONTACT_ENTITY1");
             });
 
-            modelBuilder.Entity<User>(entity =>
+            modelBuilder.Entity<Users>(entity =>
             {
-                entity.HasKey(e => e.EntityIdEntity);
+                entity.HasKey(e => e.IdUser);
 
-                entity.ToTable("user");
+                entity.ToTable("users");
 
-                entity.HasIndex(e => e.EntityIdEntity)
-                    .HasName("fk_USER_ENTITY1_idx");
+                entity.HasIndex(e => e.Email)
+                    .HasName("email_UNIQUE")
+                    .IsUnique();
 
-                entity.Property(e => e.EntityIdEntity)
-                    .HasColumnName("ENTITY_Id_Entity")
-                    .HasColumnType("varchar(20)");
+                entity.HasIndex(e => e.IdUser)
+                    .HasName("idUser");
 
-                entity.Property(e => e.Password)
+                entity.HasIndex(e => e.Status)
+                    .HasName("status");
+
+                entity.HasIndex(e => e.UserName)
+                    .HasName("wire");
+
+                entity.Property(e => e.IdUser).HasColumnName("idUser");
+
+                entity.Property(e => e.About)
                     .IsRequired()
-                    .HasColumnType("varchar(20)");
+                    .HasColumnName("about")
+                    .HasColumnType("varchar(255)");
 
-                entity.Property(e => e.Rol)
+                entity.Property(e => e.Avatar)
                     .IsRequired()
-                    .HasColumnType("varchar(20)");
+                    .HasColumnName("avatar")
+                    .HasColumnType("varchar(200)");
 
-                entity.HasOne(d => d.EntityIdEntityNavigation)
-                    .WithOne(p => p.User)
-                    .HasForeignKey<User>(d => d.EntityIdEntity)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_USER_ENTITY1");
+                entity.Property(e => e.Country)
+                    .IsRequired()
+                    .HasColumnName("country")
+                    .HasColumnType("varchar(3)");
+
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasColumnName("email")
+                    .HasColumnType("varchar(100)");
+
+                entity.Property(e => e.FullName)
+                    .IsRequired()
+                    .HasColumnName("fullName")
+                    .HasColumnType("varchar(255)");
+
+                entity.Property(e => e.LastAccess).HasColumnName("lastAccess");
+
+                entity.Property(e => e.Pwd)
+                    .IsRequired()
+                    .HasColumnName("pwd")
+                    .HasColumnType("varchar(255)");
+
+                entity.Property(e => e.Settings)
+                    .IsRequired()
+                    .HasColumnName("settings")
+                    .HasColumnType("text");
+
+                entity.Property(e => e.Status)
+                    .IsRequired()
+                    .HasColumnName("status")
+                    .HasColumnType("varchar(1)");
+
+                entity.Property(e => e.Timestamp).HasColumnName("timestamp");
+
+                entity.Property(e => e.UserName)
+                    .IsRequired()
+                    .HasColumnName("userName")
+                    .HasColumnType("varchar(100)");
+            });
+
+            modelBuilder.Entity<VoucherType>(entity =>
+            {
+                entity.HasKey(e => e.IdVoucherType);
+
+                entity.ToTable("voucher_type");
+
+                entity.Property(e => e.IdVoucherType)
+                    .HasColumnName("idVoucher_type")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Code)
+                    .IsRequired()
+                    .HasColumnName("code")
+                    .HasColumnType("varchar(2)");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnType("varchar(50)");
             });
         }
     }

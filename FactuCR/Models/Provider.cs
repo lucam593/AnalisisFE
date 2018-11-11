@@ -10,10 +10,14 @@ namespace FactuCR.Models
             CommerciallBrand = new HashSet<CommerciallBrand>();
         }
 
+        public string IdProvider { get; set; }
+        public uint IdUser { get; set; }
         public string Description { get; set; }
-        public string EntityIdEntity { get; set; }
+        public string NameProvider { get; set; }
+        public string KindId { get; set; }
+        public string Email { get; set; }
 
-        public Entity EntityIdEntityNavigation { get; set; }
+        public Users IdUserNavigation { get; set; }
         public ICollection<CommerciallBrand> CommerciallBrand { get; set; }
     }
 }

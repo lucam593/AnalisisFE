@@ -8,26 +8,31 @@ namespace FactuCR.Models
         public Product()
         {
             CategoryHasProduct = new HashSet<CategoryHasProduct>();
-            Detail = new HashSet<Detail>();
+            Discount = new HashSet<Discount>();
             Inventory = new HashSet<Inventory>();
-            ProductCode = new HashSet<ProductCode>();
-            ProductHasDiscount = new HashSet<ProductHasDiscount>();
             ProductHasProductFamily = new HashSet<ProductHasProductFamily>();
             SalePrice = new HashSet<SalePrice>();
         }
 
-        public int IdProduct { get; set; }
-        public int CommercialBrandIdBrand { get; set; }
-        public string Description { get; set; }
+        public string CodeProduct { get; set; }
+        public uint IdUser { get; set; }
+        public int IdUnit { get; set; }
+        public int IdBrand { get; set; }
+        public int IdTax { get; set; }
+        public string Name { get; set; }
+        public string KindCode { get; set; }
+        public string Status { get; set; }
         public double CostPrice { get; set; }
-        public double IVA { get; set; }
+        public string Description { get; set; }
+        public string Barcode { get; set; }
 
-        public CommerciallBrand CommercialBrandIdBrandNavigation { get; set; }
+        public CommerciallBrand IdBrandNavigation { get; set; }
+        public TaxExemption IdTaxNavigation { get; set; }
+        public MeasuredUnit IdUnitNavigation { get; set; }
+        public Users IdUserNavigation { get; set; }
         public ICollection<CategoryHasProduct> CategoryHasProduct { get; set; }
-        public ICollection<Detail> Detail { get; set; }
+        public ICollection<Discount> Discount { get; set; }
         public ICollection<Inventory> Inventory { get; set; }
-        public ICollection<ProductCode> ProductCode { get; set; }
-        public ICollection<ProductHasDiscount> ProductHasDiscount { get; set; }
         public ICollection<ProductHasProductFamily> ProductHasProductFamily { get; set; }
         public ICollection<SalePrice> SalePrice { get; set; }
     }

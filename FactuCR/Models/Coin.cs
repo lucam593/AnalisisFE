@@ -11,6 +11,7 @@ namespace FactuCR.Models
         }
 
         public int IdCoin { get; set; }
+        public string Code { get; set; }
         public string TypeCoin { get; set; }
         public string Symbology { get; set; }
         public double CurrentChange { get; set; }
