@@ -5,10 +5,9 @@ namespace FactuCR.Models
 {
     public partial class MasterReceiver
     {
-        public int Idreceiver { get; set; }
+        public int IdClave { get; set; }
         public int IdUser { get; set; }
         public string Name { get; set; }
-        public string Id { get; set; }
         public string KindId { get; set; }
         public string Telephone { get; set; }
         public string IdProvince { get; set; }

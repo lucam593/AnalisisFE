@@ -5,11 +5,6 @@ namespace FactuCR.Models
 {
     public partial class MasterKey
     {
-        public MasterKey()
-        {
-            MasterInvoice = new HashSet<MasterInvoice>();
-        }
-
         public int IdClave { get; set; }
         public int Country { get; set; }
         public string Day { get; set; }
@@ -20,6 +15,6 @@ namespace FactuCR.Models
         public string SituationDocument { get; set; }
         public string CodeKey { get; set; }
 
-        public ICollection<MasterInvoice> MasterInvoice { get; set; }
+        public MasterInvoice MasterInvoice { get; set; }
     }
 }

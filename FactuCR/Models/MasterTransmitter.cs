@@ -5,7 +5,7 @@ namespace FactuCR.Models
 {
     public partial class MasterTransmitter
     {
-        public int IdTransmitter { get; set; }
+        public int IdClave { get; set; }
         public string Name { get; set; }
         public int Id { get; set; }
         public int KindId { get; set; }
