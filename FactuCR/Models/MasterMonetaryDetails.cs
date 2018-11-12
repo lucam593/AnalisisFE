@@ -5,7 +5,8 @@ namespace FactuCR.Models
 {
     public partial class MasterMonetaryDetails
     {
-        public int IdClave { get; set; }
+        public string IdMonetary { get; set; }
+        public int Idvoucher { get; set; }
         public double ValueCoin { get; set; }
         public string CodeCoin { get; set; }
         public double? TotalTaxedServices { get; set; }
@@ -20,6 +21,6 @@ namespace FactuCR.Models
         public double TotalTax { get; set; }
         public double Total { get; set; }
 
-        public MasterInvoiceVoucher IdClaveNavigation { get; set; }
+        public MasterInvoiceVoucher IdvoucherNavigation { get; set; }
     }
 }

@@ -21,8 +21,13 @@
     <!-- DASHBOARD CUSTOM CSS -->
     <link href="~/css/dashboard/custom.min.css" rel="stylesheet" />
     <link href="~/css/dashboard/dashboard.css" rel="stylesheet" />
+    <link href="~/css/general.css" rel="stylesheet" />
 
     <script src="~/vendor/jquery/dist/jquery.min.js"></script>
+
+    <!-- SCRIPTS FOR VALIDATION
+    <script src="~/vendor/jquery-validation-1.17.0/dist/jquery.validate.min.js"></script>
+    <script src="~/vendor/jquery-validation-1.17.0/dist/localization/messages_es.js"></script>-->
 
     @RenderSection("styles", required: false)
     @RenderSection("scripts", required: false)
@@ -64,6 +69,8 @@
                                     <ul class="nav child_menu">
                                         <li><a asp-area="" asp-controller="Clients" asp-action="Create">Ingresar Cliente</a></li>
                                         <li><a asp-area="" asp-controller="Clients" asp-action="Index">Lista de Clientes</a></li>
+                                        <li><a asp-area="" asp-controller="ClientTypes" asp-action="Create">Crear un Tipo de Cliente</a></li>
+                                        <li><a asp-area="" asp-controller="ClientTypes" asp-action="Index">Lista de Tipos de Cliente</a></li>
                                     </ul>
                                 </li>
                                 <li>
@@ -71,6 +78,8 @@
                                     <ul class="nav child_menu">
                                         <li><a asp-area="" asp-controller="Products" asp-action="Create">Ingresar Producto</a></li>
                                         <li><a asp-area="" asp-controller="Products" asp-action="Index">Lista de Productos</a></li>
+                                        <li><a asp-area="" asp-controller="Categories" asp-action="Create">Crear Categor&iacute;a</a></li>
+                                        <li><a asp-area="" asp-controller="Categories" asp-action="Index">Lista de Categor&iacute;as</a></li>
                                     </ul>
                                 </li>
                                 <li>
@@ -274,7 +283,6 @@
     <script src="~/vendor/jquery.tagsinput/src/jquery.tagsinput.js"></script>
     <script src="~/vendor/switchery/dist/switchery.min.js"></script>
     <script src="~/vendor/select2/dist/js/select2.full.min.js"></script>
-    <script src="~/vendor/parsleyjs/dist/parsley.min.js"></script>
     <script src="~/vendor/autosize/dist/autosize.min.js"></script>
     <script src="~/vendor/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
     <script src="~/vendor/starrr/dist/starrr.js"></script>
@@ -292,7 +300,7 @@
     <script src="~/vendor/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
     <script src="~/vendor/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
     <!-- dashboard-custom -->
-    <script src="~/js/dashboard/custom.min.js"></script>
+    <script src="~/js/dashboard/custom.js"></script>
     <script src="~/js/dashboard/dynamic-menu.js"></script>
 </body>
 </html>

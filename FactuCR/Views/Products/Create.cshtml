@@ -1,0 +1,135 @@
+﻿@model FactuCR.Models.ProductsManagement
+
+@{
+    ViewData["Title"] = "Ingresar Producto";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+
+    int currentUser = 1234;
+}
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Ingreso de Producto <small>complete todos los campos requeridos</small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="#">Settings 1</a>
+                            </li>
+                            <li>
+                                <a href="#">Settings 2</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+                <!-- Init product form -->
+                <div class="form-horizontal">
+                    @using (Html.BeginForm("Create", "Products", FormMethod.Post))
+                    {
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">ID de usuario *</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input asp-for="Product.IdUser" class="form-control" value="@currentUser" readonly />
+                                @Html.ValidationMessageFor(model => model.Product.IdUser, "", new { @class = "text-danger" })
+                            </div>
+                        </div>                   
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Tipo de c&oacute;digo *</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input asp-for="Product.KindCode" class="form-control" />
+                                @Html.ValidationMessageFor(model => model.Product.KindCode, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Nombre *</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.TextBoxFor(model => model.Product.Name, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Product.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Descripci&oacute;n</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.TextBoxFor(model => model.Product.Description, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Categor&iacute;a *</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.DropDownListFor(model => model.IdCategory, ViewBag.Categories as SelectList, "- seleccione la categoria -", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.IdCategory, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Marca *</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.DropDownListFor(model => model.IdBrand, ViewBag.Brands as SelectList, "- seleccione la marca -", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.IdBrand, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Unidad de medida *</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.DropDownListFor(model => model.IdUnit, ViewBag.Units as SelectList, "- seleccione la unidad -", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.IdUnit, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Precio de costo *</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.TextBoxFor(model => model.Product.CostPrice, new { @class = "form-control", @type = "number" })
+                                @Html.ValidationMessageFor(model => model.Product.CostPrice, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Impuesto *</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.DropDownListFor(model => model.IdTax, ViewBag.Taxes as SelectList, "- seleccione la marca -", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.IdTax, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">C&oacute;digo de barras </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.TextBoxFor(model => model.Product.Barcode, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Estado *</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.TextBoxFor(model => model.Product.Status, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Product.Status, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="ln_solid"></div>
+                        <input type="submit" value="Guardar producto" class="btn btn-success" />
+                    }
+                </div>
+                
+                <!-- Finish product form -->
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-default">Lista de Productos</a>
+</div>
+
+<!-- For client side validation -->
+<script src="~/vendor/jquery-validation-1.17.0/dist/jquery.validate.min.js"></script>
+<script src="~/vendor/jquery-validation-1.17.0/dist/jquery.validate.unobtrusive.min.js"></script>
