@@ -16,24 +16,21 @@ namespace FactuCR.Models
         }
 
         public int IdProduct { get; set; }
-
-        [Display(Name = "Codigo del producto")]
-        public string CodeProduct { get; set; }
         public uint IdUser { get; set; }
         public int IdUnit { get; set; }
         public int IdBrand { get; set; }
         public int IdTax { get; set; }
 
-        [Required(ErrorMessage = "Debe ingresar el nombre")]
+        [Required(ErrorMessage = "Debe ingresar un nombre")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Debe ingresar el tipo de codigo")]
+        [Required(ErrorMessage = "Debe ingresar un tipo de codigo")]
         public string KindCode { get; set; }
 
-        [Required(ErrorMessage = "Debe ingresar el estado")]
+        [Required(ErrorMessage = "Debe ingresar un estado")]
         public string Status { get; set; }
 
-        [Required(ErrorMessage = "Debe ingresar el precio de costo")]
+        [Required(ErrorMessage = "Debe ingresar un precio")]
         public double CostPrice { get; set; }
         public string Description { get; set; }
         public string Barcode { get; set; }
