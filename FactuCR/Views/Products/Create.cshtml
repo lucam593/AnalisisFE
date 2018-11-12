@@ -1,16 +1,12 @@
-﻿@model FactuCR.Models.Product
+﻿@model FactuCR.Models.ProductsManagement
 
 @{
     ViewData["Title"] = "Ingresar Producto";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+
+    int currentUser = 1234;
 }
 
-<!--
-<h2>Create</h2>
-
-<h4>Product</h4>
-<hr />
--->
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
@@ -39,118 +35,108 @@
             </div>
             <div class="x_content">
 
-                <!-- start form for validation -->
-                <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" asp-action="Create">
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
-                            Nombre del producto <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">
-                            Descripci&oacute;n <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="text" id="last-name" name="last-name" required="required" class="form-control col-md-7 col-xs-12">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="categoria">
-                            Categor&iacute;a <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select  id="categoria" class="form-control" required="required">
-                                <option disabled selected> -- seleccione una categoria -- </option>
-                                @foreach (var category in ViewBag.CommercialBrandIdBrand)
-                                {
-                                    <option>@category</option>
-                                }
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="precio" class="control-label col-md-3 col-sm-3 col-xs-12">
-                            Precio <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="precio" class="form-control col-md-7 col-xs-12" type="text" name="precio" required="required">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Gender</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <div id="gender" class="btn-group" data-toggle="buttons">
-                                <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                                    <input type="radio" name="gender" value="male"> &nbsp; Male &nbsp;
-                                </label>
-                                <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                                    <input type="radio" name="gender" value="female"> Female
-                                </label>
+                <!-- Init product form -->
+                <div class="form-horizontal">
+                    @using (Html.BeginForm("Create", "Products", FormMethod.Post))
+                    {
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">ID de usuario *</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input asp-for="Product.IdUser" class="form-control" value="@currentUser" readonly />
+                                @Html.ValidationMessageFor(model => model.Product.IdUser, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">
-                            Date Of Birth <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="birthday" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text">
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">C&oacute;digo *</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input asp-for="Product.CodeProduct" class="form-control" />
+                                @Html.ValidationMessageFor(model => model.Product.CodeProduct, "", new { @class = "text-danger" })
+                            </div>
                         </div>
-                    </div>
-                    <div class="ln_solid"></div>
-                    <div class="form-group">
-                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                            <button class="btn btn-primary" type="button">Cancel</button>
-                            <button class="btn btn-primary" type="reset">Reset</button>
-                            <button type="submit" class="btn btn-success">Submit</button>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Tipo de c&oacute;digo *</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input asp-for="Product.KindCode" class="form-control" />
+                                @Html.ValidationMessageFor(model => model.Product.KindCode, "", new { @class = "text-danger" })
+                            </div>
                         </div>
-                    </div>
-
-                </form>
-                <!-- end form for validations -->
-
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Nombre *</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.TextBoxFor(model => model.Product.Name, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Product.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Descripci&oacute;n</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.TextBoxFor(model => model.Product.Description, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Categor&iacute;a *</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.DropDownListFor(model => model.IdCategory, ViewBag.Categories as SelectList, "- seleccione la categoria -", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.IdCategory, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Marca *</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.DropDownListFor(model => model.IdBrand, ViewBag.Brands as SelectList, "- seleccione la marca -", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.IdBrand, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Unidad de medida *</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.DropDownListFor(model => model.IdUnit, ViewBag.Units as SelectList, "- seleccione la unidad -", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.IdUnit, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Precio de costo *</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.TextBoxFor(model => model.Product.CostPrice, new { @class = "form-control", @type = "number" })
+                                @Html.ValidationMessageFor(model => model.Product.CostPrice, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Impuesto *</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.DropDownListFor(model => model.IdTax, ViewBag.Taxes as SelectList, "- seleccione la marca -", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.IdTax, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">C&oacute;digo de barras </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.TextBoxFor(model => model.Product.Barcode, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Estado *</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.TextBoxFor(model => model.Product.Status, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Product.Status, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="ln_solid"></div>
+                        <input type="submit" value="Guardar producto" class="btn btn-success" />
+                    }
+                </div>
+                
+                <!-- Finish product form -->
+                
             </div>
         </div>
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="CommercialBrandIdBrand" class="control-label"></label>
-                <select asp-for="CommercialBrandIdBrand" class="form-control" asp-items="ViewBag.CommercialBrandIdBrand"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CostPrice" class="control-label"></label>
-                <input asp-for="CostPrice" class="form-control" />
-                <span asp-validation-for="CostPrice" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IVA" class="control-label"></label>
-                <input asp-for="IVA" class="form-control" />
-                <span asp-validation-for="IVA" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </form>
-    </div>
-</div>
-
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-default">Lista de Productos</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+<!-- For client side validation -->
+<script src="~/vendor/jquery-validation-1.17.0/dist/jquery.validate.min.js"></script>
+<script src="~/vendor/jquery-validation-1.17.0/dist/jquery.validate.unobtrusive.min.js"></script>

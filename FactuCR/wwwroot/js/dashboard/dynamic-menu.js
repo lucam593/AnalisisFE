@@ -6,7 +6,7 @@
     e.style.cursor = 'pointer';    
     
     if (checkStringInURL("Products") ||
-        checkStringInURL("Provider")) {
+        checkStringInURL("Categories")) {
         $('#mantenimiento-menu-container').show("slow");
     } else {
         $('#mantenimiento-menu-container').hide();
