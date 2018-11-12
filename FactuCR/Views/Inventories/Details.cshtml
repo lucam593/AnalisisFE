@@ -1,0 +1,49 @@
+﻿@model FactuCR.Models.Inventory
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Inventory</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.MovementType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MovementType)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Cuantity)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cuantity)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdProductNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdProductNavigation.KindCode)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdUserNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdUserNavigation.About)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.IdInventary">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
