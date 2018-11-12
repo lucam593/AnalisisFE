@@ -45,7 +45,9 @@
                                 <input asp-for="Product.IdUser" class="form-control" value="@currentUser" readonly />
                                 @Html.ValidationMessageFor(model => model.Product.IdUser, "", new { @class = "text-danger" })
                             </div>
-                        </div>
+
+                        </div>                   
+
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Tipo de c&oacute;digo *</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
