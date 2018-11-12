@@ -35,14 +35,7 @@
                 <!-- Init product modification form -->
                 <form id="modifyProductForm" class="form-horizontal form-label-left" asp-action="Edit">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for="IdProduct" />
-                    <div class="form-group">
-                        <label asp-for="CodeProduct" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input asp-for="CodeProduct" class="form-control" readonly />
-                            <span asp-validation-for="CodeProduct" class="text-danger"></span>
-                        </div>
-                    </div>
+                    <input type="hidden" asp-for="IdProduct" />                    
                     <div class="form-group">
                         <label asp-for="IdUser" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
