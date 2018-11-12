@@ -88,7 +88,6 @@ namespace FactuCR.Controllers
 
             Product product = new Product();
             product.IdUser = model.Product.IdUser;
-            product.CodeProduct = model.Product.CodeProduct;
             product.KindCode = model.Product.KindCode;
             product.CostPrice = model.Product.CostPrice;
             product.Name = model.Product.Name;
