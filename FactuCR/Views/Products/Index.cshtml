@@ -1,0 +1,145 @@
+﻿@model IEnumerable<FactuCR.Models.Product>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <!-- Init Panel Title -->
+            <div class="x_title">
+                <h2>Lista de Productos</h2>
+                <!-- Top Right Tools Menu -->
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="#">Settings 1</a>
+                            </li>
+                            <li>
+                                <a href="#">Settings 2</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
+                <!-- Finish Top Right Tools Menu -->
+                <div class="clearfix"></div>
+            </div>
+            <!-- Finish Panel Title -->
+            <!-- Init Panel Content -->
+            <div class="x_content">
+                <!-- Init Products Table -->
+                <table id="datatable" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CodeProduct)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </th>
+                            <!--
+                            <th>
+                                @Html.DisplayNameFor(model => model.KindCode)
+                            </th>
+                            -->
+                            <th>
+                                @Html.DisplayNameFor(model => model.Status)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CostPrice)
+                            </th>
+                            <!--
+                            <th>
+                                @Html.DisplayNameFor(model => model.Description)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Barcode)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.IdBrandNavigation)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.IdTaxNavigation)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.IdUnitNavigation)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.IdUserNavigation)
+                            </th>
+                            
+                            -->
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            if (item.IdUser == 1234)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CodeProduct)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <!--
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.KindCode)
+                                    </td>
+                                    -->
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Status)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CostPrice)
+                                    </td>
+                                    <!--
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Description)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Barcode)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.IdBrandNavigation.IdProvider)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.IdTaxNavigation.Code)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.IdUnitNavigation.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.IdUserNavigation.About)
+                                    </td>
+                                    
+                                    -->
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.IdProduct" class="label label-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a>
+                                        <a asp-action="Details" asp-route-id="@item.IdProduct" class="label label-info"><i class="fa fa-list-alt" aria-hidden="true"></i> Detalles</a>
+                                        <a asp-action="Delete" asp-route-id="@item.IdProduct" class="label label-danger"><i class="fa fa-trash-o"></i> Eliminar</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+                <!-- Finish Products Table -->
+                <a class="btn btn-primary" asp-action="Create">Ingresar Producto</a>
+            </div>
+            <!-- Finish Panel Content -->
+        </div>
+    </div>
+</div>
