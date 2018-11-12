@@ -8,6 +8,7 @@ namespace FactuCR.Models
         public uint IdClient { get; set; }
         public uint IdUser { get; set; }
         public int? IdClientType { get; set; }
+        public string KindClient { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }

@@ -31,8 +31,8 @@ namespace FactuCR
         {
 
            // var connection = @"Server=localhost;Database=db_facturacion;User=root;Password=;";
-            services.AddDbContext<db_facturacionContext>(options => options.UseMySql(_config.GetConnectionString("db_Facturacion")));
-
+            //services.AddDbContext<db_facturacionContext>(options => options.UseMySql(_config.GetConnectionString("db_Facturacion")));
+            
             //services.AddDbContext<db_facturacionContext>(cfg =>
 
             //{

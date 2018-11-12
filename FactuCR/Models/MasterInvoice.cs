@@ -5,10 +5,16 @@ namespace FactuCR.Models
 {
     public partial class MasterInvoice
     {
-        public int IdClave { get; set; }
-        public DateTime EmissionDate { get; set; }
+        public MasterInvoice()
+        {
+            MasterInvoiceReference = new HashSet<MasterInvoiceReference>();
+        }
 
-        public MasterKey IdClaveNavigation { get; set; }
-        public MasterInvoiceReference MasterInvoiceReference { get; set; }
+        public int IdInvoice { get; set; }
+        public DateTime EmissionDate { get; set; }
+        public int IdKey { get; set; }
+
+        public MasterKey IdKeyNavigation { get; set; }
+        public ICollection<MasterInvoiceReference> MasterInvoiceReference { get; set; }
     }
 }
