@@ -1310,7 +1310,7 @@ namespace FactuCR.Models
 
                 entity.Property(e => e.Name)
                     .IsRequired()
-                    .HasColumnType("varchar(20)");
+                    .HasColumnType("varchar(50)");
 
                 entity.Property(e => e.Simboly)
                     .IsRequired()
@@ -1384,11 +1384,6 @@ namespace FactuCR.Models
                 entity.Property(e => e.Barcode)
                     .HasColumnName("barcode")
                     .HasColumnType("varchar(100)");
-
-                entity.Property(e => e.CodeProduct)
-                    .IsRequired()
-                    .HasColumnName("code_Product")
-                    .HasColumnType("varchar(45)");
 
                 entity.Property(e => e.CostPrice).HasColumnName("Cost_Price");
 
@@ -1626,7 +1621,7 @@ namespace FactuCR.Models
 
                 entity.Property(e => e.Name)
                     .IsRequired()
-                    .HasColumnType("varchar(25)");
+                    .HasColumnType("varchar(100)");
 
                 entity.Property(e => e.Percentage).HasColumnType("int(11)");
 

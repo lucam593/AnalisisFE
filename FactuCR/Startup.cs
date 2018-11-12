@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Microsoft.EntityFrameworkCore;
 using FactuCR.Models;
+using System.Configuration;
 
 namespace FactuCR
 {
@@ -29,9 +30,9 @@ namespace FactuCR
         public void ConfigureServices(IServiceCollection services)
         {
 
-            var connection = @"Server=localhost;Database=db_facturacion;User=root;Password=;";
-            services.AddDbContext<db_facturacionContext>(options => options.UseMySql(connection));
-
+           // var connection = @"Server=localhost;Database=db_facturacion;User=root;Password=;";
+            //services.AddDbContext<db_facturacionContext>(options => options.UseMySql(_config.GetConnectionString("db_Facturacion")));
+            
             //services.AddDbContext<db_facturacionContext>(cfg =>
 
             //{

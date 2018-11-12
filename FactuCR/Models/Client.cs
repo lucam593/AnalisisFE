@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace FactuCR.Models
 {
-
     public partial class Client
     {
         public uint IdClient { get; set; }
@@ -18,4 +17,3 @@ namespace FactuCR.Models
         public uint Timestamp { get; set; }
     }
 }
-
