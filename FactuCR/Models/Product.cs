@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace FactuCR.Models
 {
@@ -19,9 +20,17 @@ namespace FactuCR.Models
         public int IdUnit { get; set; }
         public int IdBrand { get; set; }
         public int IdTax { get; set; }
+
+        [Required(ErrorMessage = "Debe ingresar un nombre")]
         public string Name { get; set; }
+
+        [Required(ErrorMessage = "Debe ingresar un tipo de codigo")]
         public string KindCode { get; set; }
+
+        [Required(ErrorMessage = "Debe ingresar un estado")]
         public string Status { get; set; }
+
+        [Required(ErrorMessage = "Debe ingresar un precio")]
         public double CostPrice { get; set; }
         public string Description { get; set; }
         public string Barcode { get; set; }

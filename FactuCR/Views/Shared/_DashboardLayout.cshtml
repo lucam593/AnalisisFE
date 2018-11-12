@@ -38,7 +38,10 @@
             <div class="col-md-3 left_col">
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title" style="border: 0;">
-                        <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella Alela!</span></a>
+                        <a asp-area="" asp-controller="Products" asp-action="Index" class="site_title">
+                            <i class="fa fa-empire"></i>
+                            <span>Ice Labs CR</span>
+                        </a>
                     </div>
 
                     <div class="clearfix"></div>
@@ -46,11 +49,11 @@
                     <!-- menu profile quick info -->
                     <div class="profile clearfix">
                         <div class="profile_pic">
-                            <img src="images/img.jpg" alt="..." class="img-circle profile_img">
+                            <img src="~/images/Extreme-Tech-LogoFinal-2.png" alt="..." class="img-circle profile_img" style="padding: 0px;">
                         </div>
                         <div class="profile_info">
-                            <span>Welcome,</span>
-                            <h2>John Doe</h2>
+                            <span>Bienvenidos,</span>
+                            <h2>Extreme Tech</h2>
                         </div>
                     </div>
                     <!-- /menu profile quick info -->
@@ -85,8 +88,8 @@
                                 <li>
                                     <a><i class="fa fa-shopping-cart"></i> Proveedores <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="#">Ingresar Proveedor</a></li>
-                                        <li><a href="#">Borrar Proveedor</a></li>
+                                        <li><a asp-area="" asp-controller="Providers" asp-action="Create">Ingresar Proveedor</a></li>
+                                        <li><a asp-area="" asp-controller="Providers" asp-action="Index">Lista de Proveedores</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -139,7 +142,7 @@
                         <ul class="nav navbar-nav navbar-right">
                             <li class="">
                                 <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    <img src="images/img.jpg" alt="">John Doe
+                                    <img src="images/img.jpg" alt="">Extreme Tech
                                     <span class=" fa fa-angle-down"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-usermenu pull-right">
