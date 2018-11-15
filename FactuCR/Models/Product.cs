@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace FactuCR.Models
 {
@@ -8,41 +7,35 @@ namespace FactuCR.Models
     {
         public Product()
         {
-            CategoryHasProduct = new HashSet<CategoryHasProduct>();
-            Discount = new HashSet<Discount>();
-            Inventory = new HashSet<Inventory>();
-            ProductHasProductFamily = new HashSet<ProductHasProductFamily>();
-            SalePrice = new HashSet<SalePrice>();
+            Inventary = new HashSet<Inventary>();
+            ProductHasFamily = new HashSet<ProductHasFamily>();
         }
 
         public int IdProduct { get; set; }
-        public uint IdUser { get; set; }
-        public int IdUnit { get; set; }
-        public int IdBrand { get; set; }
-        public int IdTax { get; set; }
-
-        [Required(ErrorMessage = "Debe ingresar un nombre")]
-        public string Name { get; set; }
-
-        [Required(ErrorMessage = "Debe ingresar un tipo de codigo")]
-        public string KindCode { get; set; }
-
-        [Required(ErrorMessage = "Debe ingresar un estado")]
-        public string Status { get; set; }
-
-        [Required(ErrorMessage = "Debe ingresar un precio")]
-        public double CostPrice { get; set; }
+        public string CodeProduct { get; set; }
+        public string NameProduct { get; set; }
         public string Description { get; set; }
+        public string ComercialBranch { get; set; }
+        public sbyte Status { get; set; }
+        public double SalePrice { get; set; }
+        public double CostPrice { get; set; }
+        public double ProfitPercentage { get; set; }
+        public int? Quantity { get; set; }
         public string Barcode { get; set; }
+        public int? IdTax { get; set; }
+        public int? IdProvider { get; set; }
+        public int IdUnit { get; set; }
+        public int? IdDiscount { get; set; }
+        public int? IdCategory { get; set; }
+        public int IdCurrency { get; set; }
 
-        public CommerciallBrand IdBrandNavigation { get; set; }
-        public TaxExemption IdTaxNavigation { get; set; }
+        public Category IdCategoryNavigation { get; set; }
+        public Currency IdCurrencyNavigation { get; set; }
+        public Discount IdDiscountNavigation { get; set; }
+        public Provider IdProviderNavigation { get; set; }
+        public Tax IdTaxNavigation { get; set; }
         public MeasuredUnit IdUnitNavigation { get; set; }
-        public Users IdUserNavigation { get; set; }
-        public ICollection<CategoryHasProduct> CategoryHasProduct { get; set; }
-        public ICollection<Discount> Discount { get; set; }
-        public ICollection<Inventory> Inventory { get; set; }
-        public ICollection<ProductHasProductFamily> ProductHasProductFamily { get; set; }
-        public ICollection<SalePrice> SalePrice { get; set; }
+        public ICollection<Inventary> Inventary { get; set; }
+        public ICollection<ProductHasFamily> ProductHasFamily { get; set; }
     }
 }

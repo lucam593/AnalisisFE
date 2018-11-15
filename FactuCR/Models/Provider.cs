@@ -7,17 +7,16 @@ namespace FactuCR.Models
     {
         public Provider()
         {
-            CommerciallBrand = new HashSet<CommerciallBrand>();
+            Product = new HashSet<Product>();
         }
 
-        public string IdProvider { get; set; }
-        public uint IdUser { get; set; }
-        public string Description { get; set; }
-        public string NameProvider { get; set; }
-        public string KindId { get; set; }
+        public int IdProvider { get; set; }
+        public int IdType { get; set; }
+        public string Name { get; set; }
         public string Email { get; set; }
+        public string Description { get; set; }
 
-        public Users IdUserNavigation { get; set; }
-        public ICollection<CommerciallBrand> CommerciallBrand { get; set; }
+        public IdentificationType IdTypeNavigation { get; set; }
+        public ICollection<Product> Product { get; set; }
     }
 }
