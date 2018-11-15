@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace FactuCR.Models
 {
@@ -8,19 +7,13 @@ namespace FactuCR.Models
     {
         public Category()
         {
-            CategoryHasProduct = new HashSet<CategoryHasProduct>();
+            Product = new HashSet<Product>();
         }
 
         public int IdCategory { get; set; }
-
-        [Required]
-        public uint IdUser { get; set; }
-
-        [Required(ErrorMessage = "Ingrese el nombre")]
-        [Display(Name = "Nombre")]
+        public string Name { get; set; }
         public string Description { get; set; }
 
-        public Users IdUserNavigation { get; set; }
-        public ICollection<CategoryHasProduct> CategoryHasProduct { get; set; }
+        public ICollection<Product> Product { get; set; }
     }
 }

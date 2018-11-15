@@ -5,10 +5,18 @@ namespace FactuCR.Models
 {
     public partial class MasterConsecutive
     {
-        public int IdConsecutivo { get; set; }
-        public int BranchOffice { get; set; }
-        public int Terminal { get; set; }
+        public MasterConsecutive()
+        {
+            MasterKey = new HashSet<MasterKey>();
+        }
+
+        public int IdConsecutive { get; set; }
+        public string BranchOffice { get; set; }
+        public string Terminal { get; set; }
         public int VoucherType { get; set; }
-        public int NumberVoucher { get; set; }
+        public string NumberConsecutive { get; set; }
+
+        public VoucherType VoucherTypeNavigation { get; set; }
+        public ICollection<MasterKey> MasterKey { get; set; }
     }
 }
