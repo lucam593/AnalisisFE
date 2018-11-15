@@ -38,12 +38,4 @@
     </Content>
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="Views\ClientTypes\Create.cshtml" />
-    <None Include="Views\ClientTypes\Delete.cshtml" />
-    <None Include="Views\ClientTypes\Details.cshtml" />
-    <None Include="Views\ClientTypes\Edit.cshtml" />
-    <None Include="Views\ClientTypes\Index.cshtml" />
-  </ItemGroup>
-
 </Project>

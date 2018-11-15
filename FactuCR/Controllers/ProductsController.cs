@@ -21,7 +21,7 @@ namespace FactuCR.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            var db_facturacionContext = _context.Product.Include(p => p.IdBrandNavigation).Include(p => p.IdTaxNavigation).Include(p => p.IdUnitNavigation).Include(p => p.IdUserNavigation);
+            var db_facturacionContext = _context.Product.Include(p => p.IdCategoryNavigation).Include(p => p.IdCurrencyNavigation).Include(p => p.IdDiscountNavigation).Include(p => p.IdProviderNavigation).Include(p => p.IdTaxNavigation).Include(p => p.IdUnitNavigation);
             return View(await db_facturacionContext.ToListAsync());
         }
 
@@ -34,10 +34,12 @@ namespace FactuCR.Controllers
             }
 
             var product = await _context.Product
-                .Include(p => p.IdBrandNavigation)
+                .Include(p => p.IdCategoryNavigation)
+                .Include(p => p.IdCurrencyNavigation)
+                .Include(p => p.IdDiscountNavigation)
+                .Include(p => p.IdProviderNavigation)
                 .Include(p => p.IdTaxNavigation)
                 .Include(p => p.IdUnitNavigation)
-                .Include(p => p.IdUserNavigation)
                 .FirstOrDefaultAsync(m => m.IdProduct == id);
             if (product == null)
             {
@@ -50,77 +52,48 @@ namespace FactuCR.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
-            int currentUser = 1234;
-
-            List<Category> list = _context.Category.Where(o => o.IdUser == currentUser).ToList();
-            ViewBag.Categories = new SelectList(list, "IdCategory", "Description");
-
-            List<CommerciallBrand> brandsList = _context.CommerciallBrand.ToList();
-            ViewBag.Brands = new SelectList(brandsList, "IdBrand", "Name");
-
-            List<MeasuredUnit> unitsList = _context.MeasuredUnit.ToList();
-            ViewBag.Units = new SelectList(unitsList, "IdUnit", "Name");
-
-            List<TaxExemption> taxesList = _context.TaxExemption.ToList();
-            ViewBag.Taxes = new SelectList(taxesList, "IdTax", "Name");
+            ViewData["IdCategory"] = new SelectList(_context.Category, "IdCategory", "Name");
+            ViewData["IdCurrency"] = new SelectList(_context.Currency, "IdCurrency", "Name");
+            ViewData["IdDiscount"] = new SelectList(_context.Discount, "IdDiscount", "Name");
+            ViewData["IdProvider"] = new SelectList(_context.Provider, "IdProvider", "Name");
+            ViewData["IdUnit"] = new SelectList(_context.MeasuredUnit, "IdUnit", "Name");
+            ViewData["IdTax"] = new SelectList(_context.Tax, "IdTax", "Name");
 
             return View();
         }
 
         // POST: Products/Create
-        // CUSTOM
+        // CUSTOM MADE
         [HttpPost]
-        public IActionResult Create(ProductsManagement model)
+        public IActionResult Create(ProductManagement model)
         {
-            int currentUser = 1234;
-
-            List<Category> categorieslist = _context.Category.Where(o => o.IdUser == currentUser).ToList();
-            ViewBag.Categories = new SelectList(categorieslist, "IdCategory", "Description");
-
-            List<CommerciallBrand> brandsList = _context.CommerciallBrand.ToList();
-            ViewBag.Brands = new SelectList(brandsList, "IdBrand", "Name");
-
-            List<MeasuredUnit> unitsList = _context.MeasuredUnit.ToList();
-            ViewBag.Units = new SelectList(unitsList, "IdUnit", "Name");
-
-            List<TaxExemption> taxesList = _context.TaxExemption.ToList();
-            ViewBag.Taxes = new SelectList(taxesList, "IdTax", "Name");
+            ViewData["IdCategory"] = new SelectList(_context.Category, "IdCategory", "Name");
+            ViewData["IdCurrency"] = new SelectList(_context.Currency, "IdCurrency", "Name");
+            ViewData["IdDiscount"] = new SelectList(_context.Discount, "IdDiscount", "Name");
+            ViewData["IdProvider"] = new SelectList(_context.Provider, "IdProvider", "Name");
+            ViewData["IdUnit"] = new SelectList(_context.MeasuredUnit, "IdUnit", "Name");
+            ViewData["IdTax"] = new SelectList(_context.Tax, "IdTax", "Name");
 
             Product product = new Product();
-            product.IdUser = model.Product.IdUser;
-            product.KindCode = model.Product.KindCode;
-            product.CostPrice = model.Product.CostPrice;
-            product.Name = model.Product.Name;
-            product.Description = model.Product.Description;
-            product.IdBrand = model.IdBrand;
-            product.IdUnit = model.IdUnit;
-            product.IdTax = model.IdTax;
             product.Barcode = model.Product.Barcode;
+            product.CostPrice = model.Product.CostPrice;
             product.Status = model.Product.Status;
-            
+            product.IdCategory = model.Product.IdCategory;
+            product.IdTax = model.Product.IdTax;
+
             _context.Product.Add(product);
             _context.SaveChanges();
-            
 
-            int lastProductId = model.Product.IdProduct;
+            Family family = _context.Family.Find(model.IdFamily);
 
-            Category category = _context.Category.Find(model.IdCategory);
+            ProductHasFamily productHasFamily = new ProductHasFamily();
+            productHasFamily.IdProductNavigation = product;
+            productHasFamily.IdFamilyNavigation = family;
 
-            CategoryHasProduct productWithCategory = new CategoryHasProduct();
-            productWithCategory.CategoryIdCategoryNavigation = category;
-            productWithCategory.ProductIdProductNavigation = product;
-
-            category.CategoryHasProduct.Add(productWithCategory);
+            product.ProductHasFamily.Add(productHasFamily);
             _context.SaveChanges();
-            
+
             return RedirectToAction(nameof(Index));
-        }
-
-        public String GetTaxName(int code)
-        {
-            String name = _context.TaxExemption.Find(code).Name;
-
-            return name;
         }
 
         /* POST: Products/Create
@@ -128,7 +101,7 @@ namespace FactuCR.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdProduct,CodeProduct,IdUser,IdUnit,IdBrand,IdTax,Name,KindCode,Status,CostPrice,Description,Barcode")] Product product)
+        public async Task<IActionResult> Create([Bind("IdProduct,CodeProduct,NameProduct,Description,ComercialBranch,Status,SalePrice,CostPrice,ProfitPercentage,Quantity,Barcode,IdTax,IdProvider,IdUnit,IdDiscount,IdCategory,IdCurrency")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -136,12 +109,15 @@ namespace FactuCR.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdBrand"] = new SelectList(_context.CommerciallBrand, "IdBrand", "IdProvider", product.IdBrand);
-            ViewData["IdTax"] = new SelectList(_context.TaxExemption, "IdTax", "Code", product.IdTax);
+            ViewData["IdCategory"] = new SelectList(_context.Category, "IdCategory", "Description", product.IdCategory);
+            ViewData["IdCurrency"] = new SelectList(_context.Currency, "IdCurrency", "Code", product.IdCurrency);
+            ViewData["IdDiscount"] = new SelectList(_context.Discount, "IdDiscount", "Name", product.IdDiscount);
+            ViewData["IdProvider"] = new SelectList(_context.Provider, "IdProvider", "Email", product.IdProvider);
+            ViewData["IdTax"] = new SelectList(_context.Tax, "IdTax", "Code", product.IdTax);
             ViewData["IdUnit"] = new SelectList(_context.MeasuredUnit, "IdUnit", "Name", product.IdUnit);
-            ViewData["IdUser"] = new SelectList(_context.Users, "IdUser", "About", product.IdUser);
             return View(product);
-        }*/
+        }
+        */
 
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -156,10 +132,12 @@ namespace FactuCR.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdBrand"] = new SelectList(_context.CommerciallBrand, "IdBrand", "IdProvider", product.IdBrand);
-            ViewData["IdTax"] = new SelectList(_context.TaxExemption, "IdTax", "Code", product.IdTax);
+            ViewData["IdCategory"] = new SelectList(_context.Category, "IdCategory", "Description", product.IdCategory);
+            ViewData["IdCurrency"] = new SelectList(_context.Currency, "IdCurrency", "Code", product.IdCurrency);
+            ViewData["IdDiscount"] = new SelectList(_context.Discount, "IdDiscount", "Name", product.IdDiscount);
+            ViewData["IdProvider"] = new SelectList(_context.Provider, "IdProvider", "Email", product.IdProvider);
+            ViewData["IdTax"] = new SelectList(_context.Tax, "IdTax", "Code", product.IdTax);
             ViewData["IdUnit"] = new SelectList(_context.MeasuredUnit, "IdUnit", "Name", product.IdUnit);
-            ViewData["IdUser"] = new SelectList(_context.Users, "IdUser", "About", product.IdUser);
             return View(product);
         }
 
@@ -168,7 +146,7 @@ namespace FactuCR.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdProduct,CodeProduct,IdUser,IdUnit,IdBrand,IdTax,Name,KindCode,Status,CostPrice,Description,Barcode")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("IdProduct,CodeProduct,NameProduct,Description,ComercialBranch,Status,SalePrice,CostPrice,ProfitPercentage,Quantity,Barcode,IdTax,IdProvider,IdUnit,IdDiscount,IdCategory,IdCurrency")] Product product)
         {
             if (id != product.IdProduct)
             {
@@ -195,10 +173,12 @@ namespace FactuCR.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdBrand"] = new SelectList(_context.CommerciallBrand, "IdBrand", "IdProvider", product.IdBrand);
-            ViewData["IdTax"] = new SelectList(_context.TaxExemption, "IdTax", "Code", product.IdTax);
+            ViewData["IdCategory"] = new SelectList(_context.Category, "IdCategory", "Description", product.IdCategory);
+            ViewData["IdCurrency"] = new SelectList(_context.Currency, "IdCurrency", "Code", product.IdCurrency);
+            ViewData["IdDiscount"] = new SelectList(_context.Discount, "IdDiscount", "Name", product.IdDiscount);
+            ViewData["IdProvider"] = new SelectList(_context.Provider, "IdProvider", "Email", product.IdProvider);
+            ViewData["IdTax"] = new SelectList(_context.Tax, "IdTax", "Code", product.IdTax);
             ViewData["IdUnit"] = new SelectList(_context.MeasuredUnit, "IdUnit", "Name", product.IdUnit);
-            ViewData["IdUser"] = new SelectList(_context.Users, "IdUser", "About", product.IdUser);
             return View(product);
         }
 
@@ -211,10 +191,12 @@ namespace FactuCR.Controllers
             }
 
             var product = await _context.Product
-                .Include(p => p.IdBrandNavigation)
+                .Include(p => p.IdCategoryNavigation)
+                .Include(p => p.IdCurrencyNavigation)
+                .Include(p => p.IdDiscountNavigation)
+                .Include(p => p.IdProviderNavigation)
                 .Include(p => p.IdTaxNavigation)
                 .Include(p => p.IdUnitNavigation)
-                .Include(p => p.IdUserNavigation)
                 .FirstOrDefaultAsync(m => m.IdProduct == id);
             if (product == null)
             {

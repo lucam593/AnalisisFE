@@ -21,8 +21,7 @@ namespace FactuCR.Controllers
         // GET: Categories
         public async Task<IActionResult> Index()
         {
-            var db_facturacionContext = _context.Category.Include(c => c.IdUserNavigation);
-            return View(await db_facturacionContext.ToListAsync());
+            return View(await _context.Category.ToListAsync());
         }
 
         // GET: Categories/Details/5
@@ -34,7 +33,6 @@ namespace FactuCR.Controllers
             }
 
             var category = await _context.Category
-                .Include(c => c.IdUserNavigation)
                 .FirstOrDefaultAsync(m => m.IdCategory == id);
             if (category == null)
             {
@@ -47,7 +45,6 @@ namespace FactuCR.Controllers
         // GET: Categories/Create
         public IActionResult Create()
         {
-            ViewData["IdUser"] = new SelectList(_context.Users, "IdUser", "About");
             return View();
         }
 
@@ -56,7 +53,7 @@ namespace FactuCR.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdCategory,IdUser,Description")] Category category)
+        public async Task<IActionResult> Create([Bind("IdCategory,Name,Description")] Category category)
         {
             if (ModelState.IsValid)
             {
@@ -64,7 +61,6 @@ namespace FactuCR.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdUser"] = new SelectList(_context.Users, "IdUser", "About", category.IdUser);
             return View(category);
         }
 
@@ -81,7 +77,6 @@ namespace FactuCR.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdUser"] = new SelectList(_context.Users, "IdUser", "About", category.IdUser);
             return View(category);
         }
 
@@ -90,7 +85,7 @@ namespace FactuCR.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdCategory,IdUser,Description")] Category category)
+        public async Task<IActionResult> Edit(int id, [Bind("IdCategory,Name,Description")] Category category)
         {
             if (id != category.IdCategory)
             {
@@ -117,7 +112,6 @@ namespace FactuCR.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdUser"] = new SelectList(_context.Users, "IdUser", "About", category.IdUser);
             return View(category);
         }
 
@@ -130,7 +124,6 @@ namespace FactuCR.Controllers
             }
 
             var category = await _context.Category
-                .Include(c => c.IdUserNavigation)
                 .FirstOrDefaultAsync(m => m.IdCategory == id);
             if (category == null)
             {
