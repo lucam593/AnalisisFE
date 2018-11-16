@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace FactuCR.Models
 {
-    public partial class Inventary
+    public partial class Inventory
     {
-        public int IdInventary { get; set; }
+        public int IdInventory { get; set; }
         public int IdProduct { get; set; }
         public string MovementType { get; set; }
         public int Quantity { get; set; }

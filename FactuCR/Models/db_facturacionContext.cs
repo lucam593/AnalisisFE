@@ -26,7 +26,7 @@ namespace FactuCR.Models
         public virtual DbSet<Family> Family { get; set; }
         public virtual DbSet<Files> Files { get; set; }
         public virtual DbSet<IdentificationType> IdentificationType { get; set; }
-        public virtual DbSet<Inventary> Inventary { get; set; }
+        public virtual DbSet<Inventory> Inventory { get; set; }
         public virtual DbSet<MasterAddress> MasterAddress { get; set; }
         public virtual DbSet<MasterCertificate> MasterCertificate { get; set; }
         public virtual DbSet<MasterConsecutive> MasterConsecutive { get; set; }
@@ -400,17 +400,17 @@ namespace FactuCR.Models
                     .HasColumnType("varchar(50)");
             });
 
-            modelBuilder.Entity<Inventary>(entity =>
+            modelBuilder.Entity<Inventory>(entity =>
             {
-                entity.HasKey(e => e.IdInventary);
+                entity.HasKey(e => e.IdInventory);
 
-                entity.ToTable("inventary");
+                entity.ToTable("inventory");
 
                 entity.HasIndex(e => e.IdProduct)
-                    .HasName("fk_INVENTARY_PRODUCT1_idx");
+                    .HasName("fk_INVENTORY_PRODUCT1_idx");
 
-                entity.Property(e => e.IdInventary)
-                    .HasColumnName("Id_Inventary")
+                entity.Property(e => e.IdInventory)
+                    .HasColumnName("Id_Inventory")
                     .HasColumnType("int(11)");
 
                 entity.Property(e => e.IdProduct)
@@ -429,10 +429,10 @@ namespace FactuCR.Models
                 entity.Property(e => e.Quantity).HasColumnType("int(10)");
 
                 entity.HasOne(d => d.IdProductNavigation)
-                    .WithMany(p => p.Inventary)
+                    .WithMany(p => p.Inventory)
                     .HasForeignKey(d => d.IdProduct)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_INVENTARY_PRODUCT1");
+                    .HasConstraintName("fk_INVENTORY_PRODUCT1");
             });
 
             modelBuilder.Entity<MasterAddress>(entity =>
@@ -1123,11 +1123,7 @@ namespace FactuCR.Models
                     .IsRequired()
                     .HasColumnName("Code_Product")
                     .HasColumnType("varchar(20)");
-
-                entity.Property(e => e.ComercialBranch)
-                    .HasColumnName("Comercial_Branch")
-                    .HasColumnType("varchar(50)");
-
+                
                 entity.Property(e => e.CostPrice).HasColumnName("Cost_Price");
 
                 entity.Property(e => e.Description).HasColumnType("varchar(100)");
