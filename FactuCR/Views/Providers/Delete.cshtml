@@ -1,4 +1,4 @@
-﻿@model FactuCR.Models.ProductFamily
+﻿@model FactuCR.Models.Provider
 
 @{
     ViewData["Title"] = "Delete";
@@ -9,9 +9,21 @@
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>ProductFamily</h4>
+    <h4>Provider</h4>
     <hr />
     <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Description)
         </dt>
@@ -19,15 +31,15 @@
             @Html.DisplayFor(model => model.Description)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.FamilyType)
+            @Html.DisplayNameFor(model => model.IdTypeNavigation)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.FamilyType)
+            @Html.DisplayFor(model => model.IdTypeNavigation.Code)
         </dd>
     </dl>
     
     <form asp-action="Delete">
-        <input type="hidden" asp-for="IdFamily" />
+        <input type="hidden" asp-for="IdProvider" />
         <input type="submit" value="Delete" class="btn btn-default" /> |
         <a asp-action="Index">Back to List</a>
     </form>

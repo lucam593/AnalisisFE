@@ -9,23 +9,23 @@ using FactuCR.Models;
 
 namespace FactuCR.Controllers
 {
-    public class ProductFamiliesController : Controller
+    public class ProvidersController : Controller
     {
         private readonly db_facturacionContext _context;
 
-        public ProductFamiliesController(db_facturacionContext context)
+        public ProvidersController(db_facturacionContext context)
         {
             _context = context;
         }
 
-        // GET: ProductFamilies
+        // GET: Providers
         public async Task<IActionResult> Index()
         {
-            var db_facturacionContext = _context.ProductFamily.Include(p => p.IdUserNavigation);
+            var db_facturacionContext = _context.Provider.Include(p => p.IdTypeNavigation);
             return View(await db_facturacionContext.ToListAsync());
         }
 
-        // GET: ProductFamilies/Details/5
+        // GET: Providers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,42 +33,42 @@ namespace FactuCR.Controllers
                 return NotFound();
             }
 
-            var productFamily = await _context.ProductFamily
-                .Include(p => p.IdUserNavigation)
-                .FirstOrDefaultAsync(m => m.IdFamily == id);
-            if (productFamily == null)
+            var provider = await _context.Provider
+                .Include(p => p.IdTypeNavigation)
+                .FirstOrDefaultAsync(m => m.IdProvider == id);
+            if (provider == null)
             {
                 return NotFound();
             }
 
-            return View(productFamily);
+            return View(provider);
         }
 
-        // GET: ProductFamilies/Create
+        // GET: Providers/Create
         public IActionResult Create()
         {
-            ViewData["IdUser"] = new SelectList(_context.Users, "IdUser", "About");
+            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Code");
             return View();
         }
 
-        // POST: ProductFamilies/Create
+        // POST: Providers/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdFamily,IdUser,Description,FamilyType")] ProductFamily productFamily)
+        public async Task<IActionResult> Create([Bind("IdProvider,IdType,Name,Email,Description")] Provider provider)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(productFamily);
+                _context.Add(provider);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdUser"] = new SelectList(_context.Users, "IdUser", "About", productFamily.IdUser);
-            return View(productFamily);
+            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Code", provider.IdType);
+            return View(provider);
         }
 
-        // GET: ProductFamilies/Edit/5
+        // GET: Providers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -76,23 +76,23 @@ namespace FactuCR.Controllers
                 return NotFound();
             }
 
-            var productFamily = await _context.ProductFamily.FindAsync(id);
-            if (productFamily == null)
+            var provider = await _context.Provider.FindAsync(id);
+            if (provider == null)
             {
                 return NotFound();
             }
-            ViewData["IdUser"] = new SelectList(_context.Users, "IdUser", "About", productFamily.IdUser);
-            return View(productFamily);
+            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Code", provider.IdType);
+            return View(provider);
         }
 
-        // POST: ProductFamilies/Edit/5
+        // POST: Providers/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdFamily,IdUser,Description,FamilyType")] ProductFamily productFamily)
+        public async Task<IActionResult> Edit(int id, [Bind("IdProvider,IdType,Name,Email,Description")] Provider provider)
         {
-            if (id != productFamily.IdFamily)
+            if (id != provider.IdProvider)
             {
                 return NotFound();
             }
@@ -101,12 +101,12 @@ namespace FactuCR.Controllers
             {
                 try
                 {
-                    _context.Update(productFamily);
+                    _context.Update(provider);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductFamilyExists(productFamily.IdFamily))
+                    if (!ProviderExists(provider.IdProvider))
                     {
                         return NotFound();
                     }
@@ -117,11 +117,11 @@ namespace FactuCR.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdUser"] = new SelectList(_context.Users, "IdUser", "About", productFamily.IdUser);
-            return View(productFamily);
+            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Code", provider.IdType);
+            return View(provider);
         }
 
-        // GET: ProductFamilies/Delete/5
+        // GET: Providers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -129,31 +129,31 @@ namespace FactuCR.Controllers
                 return NotFound();
             }
 
-            var productFamily = await _context.ProductFamily
-                .Include(p => p.IdUserNavigation)
-                .FirstOrDefaultAsync(m => m.IdFamily == id);
-            if (productFamily == null)
+            var provider = await _context.Provider
+                .Include(p => p.IdTypeNavigation)
+                .FirstOrDefaultAsync(m => m.IdProvider == id);
+            if (provider == null)
             {
                 return NotFound();
             }
 
-            return View(productFamily);
+            return View(provider);
         }
 
-        // POST: ProductFamilies/Delete/5
+        // POST: Providers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var productFamily = await _context.ProductFamily.FindAsync(id);
-            _context.ProductFamily.Remove(productFamily);
+            var provider = await _context.Provider.FindAsync(id);
+            _context.Provider.Remove(provider);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProductFamilyExists(int id)
+        private bool ProviderExists(int id)
         {
-            return _context.ProductFamily.Any(e => e.IdFamily == id);
+            return _context.Provider.Any(e => e.IdProvider == id);
         }
     }
 }
