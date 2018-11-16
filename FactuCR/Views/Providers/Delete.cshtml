@@ -2,16 +2,24 @@
 
 @{
     ViewData["Title"] = "Delete";
+    ViewData["PanelTitle"] = "¿Seguro que desea eliminar este provedor?";
+    ViewData["Annotation"] = "cuando los datos son borrados, no pueden ser recuperados";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-<h2>Delete</h2>
-
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Provider</h4>
-    <hr />
     <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IdType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdType)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdentificationNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdentificationNumber)
+        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Name)
         </dt>
@@ -37,10 +45,10 @@
             @Html.DisplayFor(model => model.IdTypeNavigation.Code)
         </dd>
     </dl>
-    
+    <div class="ln_solid"></div>
     <form asp-action="Delete">
         <input type="hidden" asp-for="IdProvider" />
-        <input type="submit" value="Delete" class="btn btn-default" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Eliminar" class="btn btn-success" />
+        <a asp-action="Index" class="btn btn-default">Cancelar</a>
     </form>
-</div>
+
