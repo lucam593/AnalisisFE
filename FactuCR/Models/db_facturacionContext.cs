@@ -140,6 +140,10 @@ namespace FactuCR.Models
                 entity.HasIndex(e => e.IdType)
                     .HasName("fk_CLIENT_IDENTIFICATION_TYPE1_idx");
 
+                entity.Property(e => e.IdentificationNumber)
+                    .HasColumnName("Identification_Number")
+                    .HasColumnType("varchar(50)");
+
                 entity.Property(e => e.IdClient)
                     .HasColumnName("Id_Client")
                     .HasColumnType("int(11)");
@@ -1243,6 +1247,10 @@ namespace FactuCR.Models
                 entity.Property(e => e.IdProvider)
                     .HasColumnName("Id_Provider")
                     .HasColumnType("int(11)");
+
+                entity.Property(e => e.IdentificationNumber)
+                    .HasColumnName("Identification_Number")
+                    .HasColumnType("varchar(50)");
 
                 entity.Property(e => e.Description).HasColumnType("varchar(100)");
 

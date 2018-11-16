@@ -2,44 +2,58 @@
 
 @{
     ViewData["Title"] = "Create";
+    ViewData["PanelTitle"] = "Ingresar Proveedor";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-<h2>Create</h2>
-
-<h4>Provider</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="IdType" class="control-label"></label>
-                <select asp-for="IdType" class ="form-control" asp-items="ViewBag.IdType"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </form>
+<form asp-action="Create" class="form-horizontal">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="IdType" class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <select asp-for="IdType" class="form-control" asp-items="ViewBag.IdType">
+                <option selected disabled>- Seleccione una opcion -</option>
+            </select>
+            <span asp-validation-for="IdType" class="text-danger"></span>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
+    <div class="form-group">
+        <label asp-for="IdentificationNumber" class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <input asp-for="IdentificationNumber" class="form-control" data-inputmask="'mask': '9-999-999999'" />
+            <span asp-validation-for="IdentificationNumber" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Name" class="control-label col-md-4 col-sm-4 col-xs-12">Nombre del proveedor</label>
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <input asp-for="Name" type="text" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Email" class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description" class="control-label col-md-4 col-sm-4 col-xs-12">Descripci&oacute;n</label>
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <input asp-for="Description" class="form-control" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="ln_solid"></div>
+    <div class="form-group">
+        <div class="col-md-4 col-md-offset-4 col-sm-6 col-xs-12">
+            <button type="submit" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar proveedor</button>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-12">
+            <a asp-action="Index" class="btn btn-default"><i class="fa fa-caret-square-o-left" aria-hidden="true"></i> Lista de proveedores</a>
+        </div>
+    </div>
+</form>

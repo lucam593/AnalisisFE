@@ -47,8 +47,8 @@ namespace FactuCR.Controllers
         // GET: Providers/Create
         public IActionResult Create()
         {
-            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Code");
-            return View();
+            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Name");
+            return View(new Provider());
         }
 
         // POST: Providers/Create
@@ -56,7 +56,7 @@ namespace FactuCR.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdProvider,IdType,Name,Email,Description")] Provider provider)
+        public async Task<IActionResult> Create([Bind("IdProvider,IdType,IdentificationNumber,Name,Email,Description")] Provider provider)
         {
             if (ModelState.IsValid)
             {
@@ -64,7 +64,7 @@ namespace FactuCR.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Code", provider.IdType);
+            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Name", provider.IdType);
             return View(provider);
         }
 
@@ -81,7 +81,7 @@ namespace FactuCR.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Code", provider.IdType);
+            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Name", provider.IdType);
             return View(provider);
         }
 
@@ -90,7 +90,7 @@ namespace FactuCR.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdProvider,IdType,Name,Email,Description")] Provider provider)
+        public async Task<IActionResult> Edit(int id, [Bind("IdProvider,IdType,IdentificationNumber,Name,Email,Description")] Provider provider)
         {
             if (id != provider.IdProvider)
             {
@@ -117,7 +117,7 @@ namespace FactuCR.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Code", provider.IdType);
+            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Name", provider.IdType);
             return View(provider);
         }
 
