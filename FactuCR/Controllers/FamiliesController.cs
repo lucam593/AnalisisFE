@@ -9,23 +9,22 @@ using FactuCR.Models;
 
 namespace FactuCR.Controllers
 {
-    public class ClientTypesController : Controller
+    public class FamiliesController : Controller
     {
         private readonly db_facturacionContext _context;
 
-        public ClientTypesController(db_facturacionContext context)
+        public FamiliesController(db_facturacionContext context)
         {
             _context = context;
         }
 
-        // GET: ClientTypes
+        // GET: Families
         public async Task<IActionResult> Index()
         {
-            var db_facturacionContext = _context.ClientType.Include(c => c.UsersIdUserNavigation);
-            return View(await db_facturacionContext.ToListAsync());
+            return View(await _context.Family.ToListAsync());
         }
 
-        // GET: ClientTypes/Details/5
+        // GET: Families/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,42 +32,39 @@ namespace FactuCR.Controllers
                 return NotFound();
             }
 
-            var clientType = await _context.ClientType
-                .Include(c => c.UsersIdUserNavigation)
-                .FirstOrDefaultAsync(m => m.IdClientType == id);
-            if (clientType == null)
+            var family = await _context.Family
+                .FirstOrDefaultAsync(m => m.IdFamily == id);
+            if (family == null)
             {
                 return NotFound();
             }
 
-            return View(clientType);
+            return View(family);
         }
 
-        // GET: ClientTypes/Create
+        // GET: Families/Create
         public IActionResult Create()
         {
-            ViewData["UsersIdUser"] = new SelectList(_context.Users, "IdUser", "About");
             return View();
         }
 
-        // POST: ClientTypes/Create
+        // POST: Families/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdClientType,Code,Description,UsersIdUser")] ClientType clientType)
+        public async Task<IActionResult> Create([Bind("IdFamily,Name,Description")] Family family)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(clientType);
+                _context.Add(family);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UsersIdUser"] = new SelectList(_context.Users, "IdUser", "About", clientType.UsersIdUser);
-            return View(clientType);
+            return View(family);
         }
 
-        // GET: ClientTypes/Edit/5
+        // GET: Families/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -76,23 +72,22 @@ namespace FactuCR.Controllers
                 return NotFound();
             }
 
-            var clientType = await _context.ClientType.FindAsync(id);
-            if (clientType == null)
+            var family = await _context.Family.FindAsync(id);
+            if (family == null)
             {
                 return NotFound();
             }
-            ViewData["UsersIdUser"] = new SelectList(_context.Users, "IdUser", "About", clientType.UsersIdUser);
-            return View(clientType);
+            return View(family);
         }
 
-        // POST: ClientTypes/Edit/5
+        // POST: Families/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdClientType,Code,Description,UsersIdUser")] ClientType clientType)
+        public async Task<IActionResult> Edit(int id, [Bind("IdFamily,Name,Description")] Family family)
         {
-            if (id != clientType.IdClientType)
+            if (id != family.IdFamily)
             {
                 return NotFound();
             }
@@ -101,12 +96,12 @@ namespace FactuCR.Controllers
             {
                 try
                 {
-                    _context.Update(clientType);
+                    _context.Update(family);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ClientTypeExists(clientType.IdClientType))
+                    if (!FamilyExists(family.IdFamily))
                     {
                         return NotFound();
                     }
@@ -117,11 +112,10 @@ namespace FactuCR.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UsersIdUser"] = new SelectList(_context.Users, "IdUser", "About", clientType.UsersIdUser);
-            return View(clientType);
+            return View(family);
         }
 
-        // GET: ClientTypes/Delete/5
+        // GET: Families/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -129,31 +123,30 @@ namespace FactuCR.Controllers
                 return NotFound();
             }
 
-            var clientType = await _context.ClientType
-                .Include(c => c.UsersIdUserNavigation)
-                .FirstOrDefaultAsync(m => m.IdClientType == id);
-            if (clientType == null)
+            var family = await _context.Family
+                .FirstOrDefaultAsync(m => m.IdFamily == id);
+            if (family == null)
             {
                 return NotFound();
             }
 
-            return View(clientType);
+            return View(family);
         }
 
-        // POST: ClientTypes/Delete/5
+        // POST: Families/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var clientType = await _context.ClientType.FindAsync(id);
-            _context.ClientType.Remove(clientType);
+            var family = await _context.Family.FindAsync(id);
+            _context.Family.Remove(family);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ClientTypeExists(int id)
+        private bool FamilyExists(int id)
         {
-            return _context.ClientType.Any(e => e.IdClientType == id);
+            return _context.Family.Any(e => e.IdFamily == id);
         }
     }
 }
