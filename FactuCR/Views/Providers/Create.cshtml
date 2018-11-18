@@ -9,8 +9,8 @@
 <form asp-action="Create" class="form-horizontal">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group">
-        <label asp-for="Provider.IdType" class="control-label col-md-4 col-sm-4 col-xs-12"></label>
-        <div class="col-md-4 col-sm-4 col-xs-12">
+        <label asp-for="Provider.IdType" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <select id="idtype-select" asp-for="Provider.IdType" class="form-control" asp-items="ViewBag.IdType">
                 <option selected disabled>- Seleccione una opcion -</option>
             </select>
@@ -18,8 +18,8 @@
         </div>
     </div>
     <div class="form-group">
-        <label id="idnum-label" asp-for="IdentificationNumberCedJuridica" class="control-label col-md-4 col-sm-4 col-xs-12"></label>
-        <div class="col-md-4 col-sm-4 col-xs-12">
+        <label id="idnum-label" asp-for="IdentificationNumberCedJuridica" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <input id="cedfisica-input" asp-for="IdentificationNumberCedFisica" class="form-control" data-inputmask="'mask': '9-9999-9999'" />
             <span asp-validation-for="IdentificationNumberCedFisica" class="text-danger"></span>
 
@@ -34,15 +34,15 @@
         </div>
     </div>
     <div class="form-group">
-        <label asp-for="Provider.Name" class="control-label col-md-4 col-sm-4 col-xs-12">Nombre del proveedor</label>
-        <div class="col-md-4 col-sm-4 col-xs-12">
+        <label asp-for="Provider.Name" class="control-label col-md-3 col-sm-3 col-xs-12">Nombre del proveedor</label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <input asp-for="Provider.Name" type="text" class="form-control" />
             <span asp-validation-for="Provider.Name" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group">
-        <label asp-for="TelephoneContact.CountryCode" class="control-label col-md-4 col-sm-4 col-xs-12">Informaci&oacute;n de contacto</label>
-        <div class="col-md-4 col-sm-6 col-xs-12">
+        <label asp-for="TelephoneContact.CountryCode" class="control-label col-md-3 col-sm-3 col-xs-12">Informaci&oacute;n de contacto</label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <div class="well" style="overflow: hidden;">
                 <label asp-for="TelephoneContact.CountryCode" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;">C&oacute;digo de pa&iacute;s</label>
                 <div class="col-md-12 col-sm-12 col-xs-12">
@@ -85,24 +85,21 @@
         </div>
     </div>
     <div class="form-group">
-        
-    </div>
-    <div class="form-group">
-        <label asp-for="Provider.Description" class="control-label col-md-4 col-sm-4 col-xs-12">Descripci&oacute;n</label>
-        <div class="col-md-4 col-sm-4 col-xs-12">
+        <label asp-for="Provider.Description" class="control-label col-md-3 col-sm-3 col-xs-12">Descripci&oacute;n</label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <input asp-for="Provider.Description" class="form-control" />
             <span asp-validation-for="Provider.Description" class="text-danger"></span>
         </div>
     </div>
     <div class="ln_solid"></div>
     <div class="form-group">
-        <div class="col-md-4 col-md-offset-4 col-sm-6 col-xs-12">
+        <div class="col-md-6 col-md-offset-3 col-sm-6 col-xs-12">
             <button type="submit" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar proveedor</button>
         </div>
     </div>
     <div class="form-group">
         <div class="col-xs-12">
-            <a asp-action="Index" class="btn btn-default"><i class="fa fa-caret-square-o-left" aria-hidden="true"></i> Lista de proveedores</a>
+            <a asp-action="Index" class="btn btn-default"><i class="fa fa-caret-square-o-left" aria-hidden="true"></i> Cancelar</a>
         </div>
     </div>
 </form>
@@ -115,29 +112,27 @@
         $('#nite-input').hide();
         $('#dimex-input').hide();
 
-        $('select').change(function () {
+        $('#idtype-select').change(function () {
             $('#idnum-label').hide();
             $('#cedfisica-input').hide();
             $('#cedjuridica-input').hide();
             $('#nite-input').hide();
             $('#dimex-input').hide();
 
-            if ($(this).val() === "1") {
+            if ($(this).val() === "1")
+            {
                 $('#idnum-label').show("slow");
                 $('#cedfisica-input').show("slow");
             }
-
-            if ($(this).val() === "2") {
+            else if ($(this).val() === "2") {
                 $('#idnum-label').show("slow");
                 $('#cedjuridica-input').show("slow");
             }
-
-            if ($(this).val() === "3") {
+            else if ($(this).val() === "3") {
                 $('#idnum-label').show("slow");
                 $('#nite-input').show("slow");
             }
-
-            if ($(this).val() === "4") {
+            else {
                 $('#idnum-label').show("slow");
                 $('#dimex-input').show("slow");
             }

@@ -1,4 +1,4 @@
-﻿@model FactuCR.Models.Provider
+﻿@model FactuCR.Models.ProviderManagement
 
 @{
     ViewData["Title"] = "Delete";
@@ -9,46 +9,40 @@
 
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.IdType)
+            @Html.DisplayNameFor(model => model.Provider.IdType)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.IdType)
+            @ViewBag.IdentificationType.Name
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.IdentificationNumber)
+            @Html.DisplayNameFor(model => model.Provider.IdentificationNumber)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.IdentificationNumber)
+            @Html.DisplayFor(model => model.Provider.IdentificationNumber)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            Nombre del proveedor
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.Provider.Name)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.DisplayNameFor(model => model.Provider.Email)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Email)
+            @Html.DisplayFor(model => model.Provider.Email)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Description)
+            Descripci&oacute;n
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.IdTypeNavigation)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IdTypeNavigation.Code)
+            @Html.DisplayFor(model => model.Provider.Description)
         </dd>
     </dl>
     <div class="ln_solid"></div>
     <form asp-action="Delete">
-        <input type="hidden" asp-for="IdProvider" />
-        <input type="submit" value="Eliminar" class="btn btn-success" />
-        <a asp-action="Index" class="btn btn-default">Cancelar</a>
+        <input type="hidden" asp-for="Provider.IdProvider" />
+        <button type="submit" value="Eliminar" class="btn btn-danger"><i class="fa fa-trash-o"></i> Eliminar</button>
+        <a asp-action="Index" class="btn btn-default"><i class="fa fa-caret-square-o-left" aria-hidden="true"></i> Cancelar</a>
     </form>
 
