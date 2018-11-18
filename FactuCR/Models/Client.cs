@@ -42,8 +42,7 @@ namespace FactuCR.Models
         public sbyte Status { get; set; }
 
       
-        [Display(Name = "Fecha de Ingreso")]
-       
+        [Display(Name = "Fecha de Ingreso")]       
         [DataType(DataType.Date)]
         public DateTime AdmissionDate { get; set; }
 

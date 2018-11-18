@@ -71,17 +71,17 @@ namespace FactuCR.Controllers
             {
                 provider.IdentificationNumber = model.IdentificationNumberCedFisica;
             }
-            if (model.Provider.IdType == 2)
+            else if (model.Provider.IdType == 2)
             {
                 provider.IdentificationNumber = model.IdentificationNumberCedJuridica;
             }
-            if (model.Provider.IdType == 3)
+            else if (model.Provider.IdType == 3)
             {
                 provider.IdentificationNumber = model.IdentificationNumberNITE;
             }
-            if (model.Provider.IdType == 4)
+            else
             {
-                provider.IdentificationNumber = model.IdentificationNumberNITE;
+                provider.IdentificationNumber = model.IdentificationNumberDIMEX;
             }
             
             TelephoneContact telephoneContact = new TelephoneContact();
@@ -125,22 +125,96 @@ namespace FactuCR.Controllers
             }
 
             var provider = await _context.Provider.FindAsync(id);
+            var telephoneContact = _context.TelephoneContact.Where(tc => tc.IdOwner.Equals(provider.IdentificationNumber)).First();
+
+            ProviderManagement model = new ProviderManagement();
+            model.Provider = provider;
+            model.TelephoneContact = telephoneContact;
+
+            if (provider.IdType == 1)
+            {
+                model.IdentificationNumberCedFisica = provider.IdentificationNumber;
+            }
+            else if (provider.IdType == 2)
+            {
+                model.IdentificationNumberCedJuridica = provider.IdentificationNumber;
+            }
+            else if (provider.IdType == 3)
+            {
+                model.IdentificationNumberNITE = provider.IdentificationNumber;
+            }
+            else
+            {
+                model.IdentificationNumberDIMEX = provider.IdentificationNumber;
+            }
+
             if (provider == null)
             {
                 return NotFound();
             }
-            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Name", provider.IdType);
-            return View(provider);
+            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Name", model.Provider.IdType);
+            List<Country> countriesList = _context.Country.ToList();
+            ViewData["CountriesList"] = countriesList;
+            return View(model);
         }
 
-        // POST: Providers/Edit/5
+        [HttpPost]
+        public IActionResult Edit(int id, ProviderManagement model)
+        {
+            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Name", model.Provider.IdType);
+            List<Country> countriesList = _context.Country.ToList();
+            ViewData["CountriesList"] = countriesList;
+            
+            Provider providerInDB = _context.Provider.Find(model.Provider.IdProvider);
+            providerInDB.IdType = model.Provider.IdType;
+            providerInDB.Name = model.Provider.Name;
+            providerInDB.Email = model.Provider.Email;
+            providerInDB.Description = model.Provider.Description;
+
+            string providerIdBeforeChanges = providerInDB.IdentificationNumber;
+
+            if (model.Provider.IdType == 1)
+            {
+                providerInDB.IdentificationNumber = model.IdentificationNumberCedFisica;
+            }
+            else if (model.Provider.IdType == 2)
+            {
+                providerInDB.IdentificationNumber = model.IdentificationNumberCedJuridica;
+            }
+            else if (model.Provider.IdType == 3)
+            {
+                providerInDB.IdentificationNumber = model.IdentificationNumberNITE;
+            }
+            else
+            {
+                providerInDB.IdentificationNumber = model.IdentificationNumberDIMEX;
+            }
+
+            Console.WriteLine("ESTO ES EL MALDITO ID: " + providerIdBeforeChanges);
+
+            TelephoneContact telephoneContactInDB = _context.TelephoneContact.Where(tc => tc.IdOwner.Equals(providerIdBeforeChanges)).First();
+            telephoneContactInDB.IdOwner = providerInDB.IdentificationNumber;
+            telephoneContactInDB.CountryCode = model.TelephoneContact.CountryCode;
+            telephoneContactInDB.TelephoneNumber = model.TelephoneContact.TelephoneNumber;
+            telephoneContactInDB.Type = model.TelephoneContact.Type;
+            telephoneContactInDB.Description = model.TelephoneContact.Description;
+            telephoneContactInDB.Extension = model.TelephoneContact.Extension;
+
+            _context.Update(telephoneContactInDB);
+            _context.Update(providerInDB);
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        /* POST: Providers/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdProvider,IdType,IdentificationNumber,Name,Email,Description")] Provider provider)
+        public async Task<IActionResult> Edit(int id, [Bind("IdProvider,IdType,IdentificationNumber,Name,Email,Description")] ProviderManagement providerManagement)
         {
-            if (id != provider.IdProvider)
+            if (id != providerManagement.Provider.IdProvider)
             {
                 return NotFound();
             }
@@ -149,12 +223,13 @@ namespace FactuCR.Controllers
             {
                 try
                 {
-                    _context.Update(provider);
+                    _context.Update(providerManagement.Provider);
+                    _context.Update(providerManagement.TelephoneContact);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProviderExists(provider.IdProvider))
+                    if (!ProviderExists(providerManagement.Provider.IdProvider))
                     {
                         return NotFound();
                     }
@@ -165,9 +240,11 @@ namespace FactuCR.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Name", provider.IdType);
-            return View(provider);
-        }
+            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Name", providerManagement.Provider.IdType);
+            List<Country> countriesList = _context.Country.ToList();
+            ViewData["CountriesList"] = countriesList;
+            return View(providerManagement);
+        }*/
 
         // GET: Providers/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -176,6 +253,7 @@ namespace FactuCR.Controllers
             {
                 return NotFound();
             }
+            ProviderManagement model = new ProviderManagement();
 
             var provider = await _context.Provider
                 .Include(p => p.IdTypeNavigation)
@@ -185,7 +263,11 @@ namespace FactuCR.Controllers
                 return NotFound();
             }
 
-            return View(provider);
+            ViewData["IdentificationType"] = _context.IdentificationType.Find(provider.IdType);
+
+            model.Provider = provider;
+
+            return View(model);
         }
 
         // POST: Providers/Delete/5
@@ -194,7 +276,9 @@ namespace FactuCR.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var provider = await _context.Provider.FindAsync(id);
+            var telephone_contact = await _context.TelephoneContact.Where(tc => tc.IdOwner.Equals(provider.IdentificationNumber)).FirstAsync();
             _context.Provider.Remove(provider);
+            _context.TelephoneContact.Remove(telephone_contact);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
