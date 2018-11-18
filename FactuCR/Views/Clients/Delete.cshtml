@@ -1,0 +1,61 @@
+﻿@model FactuCR.Models.Client
+
+@{
+    ViewData["Title"] = "Delete";
+    ViewData["PanelTitle"] = "¿Seguro que desea eliminar esta categoria?";
+    ViewData["Annotation"] = "cuando los datos son borrados, no pueden ser recuperados";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IdentificationNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdentificationNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Country)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Country)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdmissionDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdmissionDate)
+        </dd>
+
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="IdClient" />
+        <input type="submit" value="Eliminar" class="btn btn-default" /> |
+        <a asp-action="Index">Cancelar</a>
+    </form>

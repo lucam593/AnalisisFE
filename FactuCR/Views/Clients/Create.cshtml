@@ -1,0 +1,89 @@
+﻿@model FactuCR.Models.Client
+
+@{
+    ViewData["Title"] = "Create";
+    ViewData["PanelTitle"] = "Ingresar Cliente";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+
+<form id="new-client-form" asp-action="Create" class="form-horizontal">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="IdType" class="control-label col-md-3 col-sm-3 col-xs-12">Tipo de identificacion <span class="required">*</span></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <select asp-for="IdType" class="form-control" asp-items="ViewBag.IdType"></select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="IdentificationNumber" class="control-label col-md-3 col-sm-3 col-xs-12">Numero de identificacion <span class="required">*</span></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <input asp-for="IdentificationNumber" class="form-control" />
+            <span asp-validation-for="IdentificationNumber" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Name" class="control-label col-md-3 col-sm-3 col-xs-12">Nombre <span class="required">*</span></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="LastName" class="control-label col-md-3 col-sm-3 col-xs-12">Apellido <span class="required">*</span></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <input asp-for="LastName" class="form-control" />
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Email" class="control-label col-md-3 col-sm-3 col-xs-12">Correo Electronico <span class="required">*</span></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+
+        <label asp-for="Country" class="control-label col-md-3 col-sm-3 col-xs-12"> Pais <span class="required">*</span></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <input asp-for="Country" class="form-control" />
+            <span asp-validation-for="Country" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Status" class="control-label col-md-3 col-sm-3 col-xs-12">Estado <span class="required">*</span></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <div id="status" class="btn-group" data-toggle="buttons">
+                <label class="btn btn-success active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                    <input type="radio" name="status" value="1" asp-for="Status" checked/> &nbsp; Activo &nbsp;
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </label>
+                <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                    <input type="radio" name="status" value="0" asp-for="Status" /> Inactivo
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </label>
+            </div>
+        </div>
+
+    </div>
+    <div class="form-group">
+        <label asp-for="AdmissionDate" class="control-label col-md-3 col-sm-3 col-xs-12">Fecha de Ingreso <span class="required">*</span></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <input asp-for="AdmissionDate" class="form-control" />
+            <span asp-validation-for="AdmissionDate" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="ln_solid"></div>
+    <div class="form-group">
+        <div class="col-md-6 col-md-6 col-xs-12 col-md-offset-3">
+            <input id="test" type="submit" value="Guardar Cliente" class="btn btn-success" />
+            <a asp-action="Index" class="btn btn-default">Lista de Clientes</a>
+        </div>
+    </div>
+</form>
+
+
+
