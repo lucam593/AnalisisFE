@@ -7,13 +7,9 @@
 
   <ItemGroup>
     <Compile Remove="Styles\**" />
-    <Compile Remove="Views\ClientTypes\**" />
     <Content Remove="Styles\**" />
-    <Content Remove="Views\ClientTypes\**" />
     <EmbeddedResource Remove="Styles\**" />
-    <EmbeddedResource Remove="Views\ClientTypes\**" />
     <None Remove="Styles\**" />
-    <None Remove="Views\ClientTypes\**" />
   </ItemGroup>
 
   <ItemGroup>
