@@ -5,7 +5,7 @@ namespace FactuCR.Models
 {
     public partial class RolHasUsers
     {
-        public int RolIdRol { get; set; }
+        public int IdRol { get; set; }
         public int IdUsers { get; set; }
 
         public Rol RolIdRolNavigation { get; set; }

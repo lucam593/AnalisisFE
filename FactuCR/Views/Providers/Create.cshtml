@@ -1,4 +1,4 @@
-﻿@model FactuCR.Models.Provider
+﻿@model FactuCR.Models.ProviderManagement
 
 @{
     ViewData["Title"] = "Create";
@@ -9,40 +9,89 @@
 <form asp-action="Create" class="form-horizontal">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group">
-        <label asp-for="IdType" class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+        <label asp-for="Provider.IdType" class="control-label col-md-4 col-sm-4 col-xs-12"></label>
         <div class="col-md-4 col-sm-4 col-xs-12">
-            <select asp-for="IdType" class="form-control" asp-items="ViewBag.IdType">
+            <select id="idtype-select" asp-for="Provider.IdType" class="form-control" asp-items="ViewBag.IdType">
                 <option selected disabled>- Seleccione una opcion -</option>
             </select>
-            <span asp-validation-for="IdType" class="text-danger"></span>
+            <span asp-validation-for="Provider.IdType" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group">
-        <label asp-for="IdentificationNumber" class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+        <label id="idnum-label" asp-for="IdentificationNumberCedJuridica" class="control-label col-md-4 col-sm-4 col-xs-12"></label>
         <div class="col-md-4 col-sm-4 col-xs-12">
-            <input asp-for="IdentificationNumber" class="form-control" data-inputmask="'mask': '9-999-999999'" />
-            <span asp-validation-for="IdentificationNumber" class="text-danger"></span>
+            <input id="cedfisica-input" asp-for="IdentificationNumberCedFisica" class="form-control" data-inputmask="'mask': '9-9999-9999'" />
+            <span asp-validation-for="IdentificationNumberCedFisica" class="text-danger"></span>
+
+            <input id="cedjuridica-input" asp-for="IdentificationNumberCedJuridica" class="form-control" data-inputmask="'mask': '9-999-999999'" />
+            <span asp-validation-for="IdentificationNumberCedJuridica" class="text-danger"></span>
+
+            <input id="nite-input" asp-for="IdentificationNumberNITE" class="form-control" />
+            <span asp-validation-for="IdentificationNumberNITE" class="text-danger"></span>
+
+            <input id="dimex-input" asp-for="IdentificationNumberDIMEX" class="form-control" />
+            <span asp-validation-for="IdentificationNumberDIMEX" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group">
-        <label asp-for="Name" class="control-label col-md-4 col-sm-4 col-xs-12">Nombre del proveedor</label>
+        <label asp-for="Provider.Name" class="control-label col-md-4 col-sm-4 col-xs-12">Nombre del proveedor</label>
         <div class="col-md-4 col-sm-4 col-xs-12">
-            <input asp-for="Name" type="text" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
+            <input asp-for="Provider.Name" type="text" class="form-control" />
+            <span asp-validation-for="Provider.Name" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group">
-        <label asp-for="Email" class="control-label col-md-4 col-sm-4 col-xs-12"></label>
-        <div class="col-md-4 col-sm-4 col-xs-12">
-            <input asp-for="Email" class="form-control" />
-            <span asp-validation-for="Email" class="text-danger"></span>
+        <label asp-for="TelephoneContact.CountryCode" class="control-label col-md-4 col-sm-4 col-xs-12">Informaci&oacute;n de contacto</label>
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <div class="well" style="overflow: hidden;">
+                <label asp-for="TelephoneContact.CountryCode" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;">C&oacute;digo de pa&iacute;s</label>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <select asp-for="TelephoneContact.CountryCode" asp-items="ViewBag.IdCountry" class="form-control">
+                        <option selected disabled>- Seleccione el c&oacute;digo de pa&iacute;s</option>
+
+                        @foreach (var country in ViewBag.CountriesList)
+                        {
+                            <option value="@country.CountryCode">@country.CountryName (@country.CountryCode)</option>
+                        }
+                    </select>
+                    <span asp-validation-for="TelephoneContact.CountryCode" class="text-danger"></span>
+                </div>
+                <label asp-for="TelephoneContact.TelephoneNumber" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;">N&uacute;mero telef&oacute;nico</label>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <input asp-for="TelephoneContact.TelephoneNumber" class="form-control" />
+                    <span asp-validation-for="TelephoneContact.TelephoneNumber" class="text-danger"></span>
+                </div>
+                <label asp-for="TelephoneContact.Type" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;">Tipo de tel&eacute;fono</label>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <input asp-for="TelephoneContact.Type" class="form-control" />
+                    <span asp-validation-for="TelephoneContact.Type" class="text-danger"></span>
+                </div>
+                <label asp-for="TelephoneContact.Description" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;">Descripci&oacute;n del tel&eacute;fono</label>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <input asp-for="TelephoneContact.Description" class="form-control" />
+                    <span asp-validation-for="TelephoneContact.Description" class="text-danger"></span>
+                </div>
+                <label asp-for="TelephoneContact.Extension" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;">Extensi&oacute;n del tel&eacute;fono</label>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <input asp-for="TelephoneContact.Extension" class="form-control" />
+                    <span asp-validation-for="TelephoneContact.Extension" class="text-danger"></span>
+                </div>
+                <label asp-for="Provider.Email" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;"></label>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <input asp-for="Provider.Email" class="form-control" />
+                    <span asp-validation-for="Provider.Email" class="text-danger"></span>
+                </div>
+            </div>
         </div>
     </div>
     <div class="form-group">
-        <label asp-for="Description" class="control-label col-md-4 col-sm-4 col-xs-12">Descripci&oacute;n</label>
+        
+    </div>
+    <div class="form-group">
+        <label asp-for="Provider.Description" class="control-label col-md-4 col-sm-4 col-xs-12">Descripci&oacute;n</label>
         <div class="col-md-4 col-sm-4 col-xs-12">
-            <input asp-for="Description" class="form-control" />
-            <span asp-validation-for="Description" class="text-danger"></span>
+            <input asp-for="Provider.Description" class="form-control" />
+            <span asp-validation-for="Provider.Description" class="text-danger"></span>
         </div>
     </div>
     <div class="ln_solid"></div>
@@ -57,3 +106,41 @@
         </div>
     </div>
 </form>
+
+<script>
+    $(document).ready(function () {
+        $('#idnum-label').hide();
+        $('#cedfisica-input').hide();
+        $('#cedjuridica-input').hide();
+        $('#nite-input').hide();
+        $('#dimex-input').hide();
+
+        $('select').change(function () {
+            $('#idnum-label').hide();
+            $('#cedfisica-input').hide();
+            $('#cedjuridica-input').hide();
+            $('#nite-input').hide();
+            $('#dimex-input').hide();
+
+            if ($(this).val() === "1") {
+                $('#idnum-label').show("slow");
+                $('#cedfisica-input').show("slow");
+            }
+
+            if ($(this).val() === "2") {
+                $('#idnum-label').show("slow");
+                $('#cedjuridica-input').show("slow");
+            }
+
+            if ($(this).val() === "3") {
+                $('#idnum-label').show("slow");
+                $('#nite-input').show("slow");
+            }
+
+            if ($(this).val() === "4") {
+                $('#idnum-label').show("slow");
+                $('#dimex-input').show("slow");
+            }
+        })
+    });
+</script>
