@@ -48,10 +48,58 @@ namespace FactuCR.Controllers
         public IActionResult Create()
         {
             ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Name");
-            return View(new Provider());
+            List<Country> countriesList = _context.Country.ToList();
+            ViewData["CountriesList"] = countriesList;
+
+            return View(new ProviderManagement());
         }
 
-        // POST: Providers/Create
+        [HttpPost]
+        public IActionResult Create(ProviderManagement model)
+        {
+            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Name");
+            List<Country> countriesList = _context.Country.ToList();
+            ViewData["CountriesList"] = countriesList;
+
+            Provider provider = new Provider();
+            provider.IdType = model.Provider.IdType;
+            provider.Name = model.Provider.Name;
+            provider.Email = model.Provider.Email;
+            provider.Description = model.Provider.Description;
+
+            if (model.Provider.IdType == 1)
+            {
+                provider.IdentificationNumber = model.IdentificationNumberCedFisica;
+            }
+            if (model.Provider.IdType == 2)
+            {
+                provider.IdentificationNumber = model.IdentificationNumberCedJuridica;
+            }
+            if (model.Provider.IdType == 3)
+            {
+                provider.IdentificationNumber = model.IdentificationNumberNITE;
+            }
+            if (model.Provider.IdType == 4)
+            {
+                provider.IdentificationNumber = model.IdentificationNumberNITE;
+            }
+            
+            TelephoneContact telephoneContact = new TelephoneContact();
+            telephoneContact.IdOwner = provider.IdentificationNumber;
+            telephoneContact.CountryCode = model.TelephoneContact.CountryCode;
+            telephoneContact.TelephoneNumber = model.TelephoneContact.TelephoneNumber;
+            telephoneContact.Type = model.TelephoneContact.Type;
+            telephoneContact.Description = model.TelephoneContact.Description;
+            telephoneContact.Extension = model.TelephoneContact.Extension;
+
+            _context.TelephoneContact.Add(telephoneContact);
+            _context.Provider.Add(provider);
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        /* POST: Providers/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -66,7 +114,7 @@ namespace FactuCR.Controllers
             }
             ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Name", provider.IdType);
             return View(provider);
-        }
+        }*/
 
         // GET: Providers/Edit/5
         public async Task<IActionResult> Edit(int? id)
