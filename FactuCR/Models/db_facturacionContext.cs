@@ -62,7 +62,7 @@ namespace FactuCR.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseMySql("Server=sql9.freesqldatabase.com;Database=sql9265941;user=sql9265941;password=DYRHWwrZaK");
+                optionsBuilder.UseMySql("Server=mysql5019.site4now.net;Database=db_a42d7c_dev;user=a42d7c_dev;password=2y5rNOBamiGS");
             }
         }
 
