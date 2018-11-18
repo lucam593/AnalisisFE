@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FactuCR.Models
 {
-    public partial class Mesages
+    public partial class Messages
     {
         public uint IdMessage { get; set; }
         public uint Timestamp { get; set; }
