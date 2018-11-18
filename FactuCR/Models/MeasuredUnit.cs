@@ -11,7 +11,7 @@ namespace FactuCR.Models
         }
 
         public int IdUnit { get; set; }
-        public string Simboly { get; set; }
+        public string Symboly { get; set; }
         public string Name { get; set; }
 
         public ICollection<Product> Product { get; set; }

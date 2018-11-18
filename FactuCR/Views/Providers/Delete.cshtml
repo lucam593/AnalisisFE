@@ -1,0 +1,54 @@
+﻿@model FactuCR.Models.Provider
+
+@{
+    ViewData["Title"] = "Delete";
+    ViewData["PanelTitle"] = "¿Seguro que desea eliminar este provedor?";
+    ViewData["Annotation"] = "cuando los datos son borrados, no pueden ser recuperados";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IdType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdType)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdentificationNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdentificationNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdTypeNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdTypeNavigation.Code)
+        </dd>
+    </dl>
+    <div class="ln_solid"></div>
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="IdProvider" />
+        <input type="submit" value="Eliminar" class="btn btn-success" />
+        <a asp-action="Index" class="btn btn-default">Cancelar</a>
+    </form>
+
