@@ -5,10 +5,6 @@
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-@section Styles {
-    <link href="~/css/definition-lists.css" rel="stylesheet" />
-}
-
 <h2>Details</h2>
 
 <div>
@@ -16,16 +12,16 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.Description)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.IdUserNavigation)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IdUserNavigation.About)
         </dd>
     </dl>
 </div>
