@@ -48,24 +48,66 @@ namespace FactuCR.Controllers
         public IActionResult Create()
         {
             ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Name");
-            return View();
+            List<Country> countriesList = _context.Country.ToList();
+            ViewData["CountriesList"] = countriesList;
+
+            return View(new ClientManagement());
         }
 
         // POST: Clients/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdClient,IdType,IdentificationNumber,Name,LastName,Email,Country,Status,AdmissionDate")] Client client)
+
+
+        [HttpPost]  
+        public IActionResult Create(ClientManagement model)
         {
-            if (ModelState.IsValid)
+            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Name");
+            List<Country> countriesList = _context.Country.ToList();
+            ViewData["CountriesList"] = countriesList;
+
+            Client client = new Client();
+            client.IdType = model.Client.IdType;
+            client.IdentificationNumber = model.Client.IdentificationNumber;
+            client.Name = model.Client.Name;
+            client.LastName = model.Client.LastName;
+            client.Email = model.Client.Email;
+            client.Country = model.Client.Country;
+            client.Status = model.Client.Status;
+            client.AdmissionDate = model.Client.AdmissionDate;
+
+            if (model.Client.IdType == 1)
             {
-                _context.Add(client);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                client.IdentificationNumber = model.IdentificationNumberCedFisica;
             }
-            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Name", client.IdType);
-            return View(client);
+            if (model.Client.IdType == 2)
+            {
+                client.IdentificationNumber = model.IdentificationNumberCedJuridica;
+            }
+            if (model.Client.IdType == 3)
+            {
+                client.IdentificationNumber = model.IdentificationNumberNITE;
+            }
+            if (model.Client.IdType == 4)
+            {
+                client.IdentificationNumber = model.IdentificationNumberNITE;
+            }
+            TelephoneContact telephoneContact = new TelephoneContact();
+            telephoneContact.IdOwner = client.IdentificationNumber;
+            telephoneContact.CountryCode = model.TelephoneContact.CountryCode;
+            telephoneContact.TelephoneNumber = model.TelephoneContact.TelephoneNumber;
+            telephoneContact.Type = model.TelephoneContact.Type;
+            telephoneContact.Description = model.TelephoneContact.Description;
+            telephoneContact.Extension = model.TelephoneContact.Extension;
+
+           
+
+
+
+            _context.TelephoneContact.Add(telephoneContact);
+            _context.Client.Add(client);
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Clients/Edit/5
@@ -82,7 +124,9 @@ namespace FactuCR.Controllers
                 return NotFound();
             }
             ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Name", client.IdType);
-            return View(client);
+            ClientManagement clientManagement = new ClientManagement();
+            clientManagement.Client = client;
+            return View(clientManagement);
         }
 
         // POST: Clients/Edit/5
@@ -118,7 +162,9 @@ namespace FactuCR.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Name", client.IdType);
-            return View(client);
+            ClientManagement clientManagement = new ClientManagement();
+            clientManagement.Client = client;
+            return View(clientManagement);
         }
 
         // GET: Clients/Delete/5

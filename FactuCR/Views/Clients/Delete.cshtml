@@ -56,6 +56,6 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="IdClient" />
-        <input type="submit" value="Eliminar" class="btn btn-default" /> |
-        <a asp-action="Index">Cancelar</a>
+        <button type="submit" value="Eliminar" class="btn btn-danger"><i class="fa fa-trash-o"></i> Eliminar</button>
+        <a asp-action="Index"><i class="fa fa-caret-square-o-left" aria-hidden="true"></i> Cancelar</a>
     </form>
