@@ -19,6 +19,7 @@ namespace FactuCR.Models
         public virtual DbSet<BranchOffice> BranchOffice { get; set; }
         public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<Client> Client { get; set; }
+        public virtual DbSet<Country> Country { get; set; }
         public virtual DbSet<ConfigCompany> ConfigCompany { get; set; }
         public virtual DbSet<Conversations> Conversations { get; set; }
         public virtual DbSet<Currency> Currency { get; set; }
@@ -26,7 +27,7 @@ namespace FactuCR.Models
         public virtual DbSet<Family> Family { get; set; }
         public virtual DbSet<Files> Files { get; set; }
         public virtual DbSet<IdentificationType> IdentificationType { get; set; }
-        public virtual DbSet<Inventary> Inventary { get; set; }
+        public virtual DbSet<Inventory> Inventory { get; set; }
         public virtual DbSet<MasterAddress> MasterAddress { get; set; }
         public virtual DbSet<MasterCertificate> MasterCertificate { get; set; }
         public virtual DbSet<MasterConsecutive> MasterConsecutive { get; set; }
@@ -42,7 +43,7 @@ namespace FactuCR.Models
         public virtual DbSet<MasterSqlupgrade> MasterSqlupgrade { get; set; }
         public virtual DbSet<MasterTransmitter> MasterTransmitter { get; set; }
         public virtual DbSet<MeasuredUnit> MeasuredUnit { get; set; }
-        public virtual DbSet<Mesages> Mesages { get; set; }
+        public virtual DbSet<Messages> Mesages { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<ProductHasFamily> ProductHasFamily { get; set; }
         public virtual DbSet<Provider> Provider { get; set; }
@@ -61,7 +62,7 @@ namespace FactuCR.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseMySql("Server=localhost;Database=db_facturacion;user=root;password=");
+                optionsBuilder.UseMySql("Server=sql9.freesqldatabase.com;Database=sql9265941;user=sql9265941;password=DYRHWwrZaK");
             }
         }
 
@@ -139,6 +140,10 @@ namespace FactuCR.Models
 
                 entity.HasIndex(e => e.IdType)
                     .HasName("fk_CLIENT_IDENTIFICATION_TYPE1_idx");
+
+                entity.Property(e => e.IdentificationNumber)
+                    .HasColumnName("Identification_Number")
+                    .HasColumnType("varchar(50)");
 
                 entity.Property(e => e.IdClient)
                     .HasColumnName("Id_Client")
@@ -278,6 +283,31 @@ namespace FactuCR.Models
                     .HasColumnType("varchar(255)");
             });
 
+            modelBuilder.Entity<Country>(entity =>
+            {
+                entity.HasKey(e => e.IdCountry);
+
+                entity.ToTable("country");
+
+                entity.Property(e => e.IdCountry)
+                    .HasColumnName("Id_Country")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.CountryName)
+                    .IsRequired()
+                    .HasColumnName("Country_Name")
+                    .HasColumnType("varchar(64)");
+
+                entity.Property(e => e.CountryISOCode)
+                    .IsRequired()
+                    .HasColumnName("Country_ISO_Code")
+                    .HasColumnType("varchar(2)");
+
+                entity.Property(e => e.CountryCode)
+                    .HasColumnName("Country_Code")
+                    .HasColumnType("varchar(7)");
+            });
+
             modelBuilder.Entity<Currency>(entity =>
             {
                 entity.HasKey(e => e.IdCurrency);
@@ -400,17 +430,17 @@ namespace FactuCR.Models
                     .HasColumnType("varchar(50)");
             });
 
-            modelBuilder.Entity<Inventary>(entity =>
+            modelBuilder.Entity<Inventory>(entity =>
             {
-                entity.HasKey(e => e.IdInventary);
+                entity.HasKey(e => e.IdInventory);
 
-                entity.ToTable("inventary");
+                entity.ToTable("inventory");
 
                 entity.HasIndex(e => e.IdProduct)
-                    .HasName("fk_INVENTARY_PRODUCT1_idx");
+                    .HasName("fk_INVENTORY_PRODUCT1_idx");
 
-                entity.Property(e => e.IdInventary)
-                    .HasColumnName("Id_Inventary")
+                entity.Property(e => e.IdInventory)
+                    .HasColumnName("Id_Inventory")
                     .HasColumnType("int(11)");
 
                 entity.Property(e => e.IdProduct)
@@ -429,10 +459,10 @@ namespace FactuCR.Models
                 entity.Property(e => e.Quantity).HasColumnType("int(10)");
 
                 entity.HasOne(d => d.IdProductNavigation)
-                    .WithMany(p => p.Inventary)
+                    .WithMany(p => p.Inventory)
                     .HasForeignKey(d => d.IdProduct)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_INVENTARY_PRODUCT1");
+                    .HasConstraintName("fk_INVENTORY_PRODUCT1");
             });
 
             modelBuilder.Entity<MasterAddress>(entity =>
@@ -1055,7 +1085,7 @@ namespace FactuCR.Models
                     .HasColumnType("varchar(5)");
             });
 
-            modelBuilder.Entity<Mesages>(entity =>
+            modelBuilder.Entity<Messages>(entity =>
             {
                 entity.HasKey(e => e.IdMessage);
 
@@ -1083,7 +1113,7 @@ namespace FactuCR.Models
                     .HasColumnType("text");
 
                 entity.HasOne(d => d.IdConversationNavigation)
-                    .WithMany(p => p.Mesages)
+                    .WithMany(p => p.Messages)
                     .HasForeignKey(d => d.IdConversation)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_MESAGES_CONVERSATIONS1");
@@ -1123,11 +1153,7 @@ namespace FactuCR.Models
                     .IsRequired()
                     .HasColumnName("Code_Product")
                     .HasColumnType("varchar(20)");
-
-                entity.Property(e => e.ComercialBranch)
-                    .HasColumnName("Comercial_Branch")
-                    .HasColumnType("varchar(50)");
-
+                
                 entity.Property(e => e.CostPrice).HasColumnName("Cost_Price");
 
                 entity.Property(e => e.Description).HasColumnType("varchar(100)");
@@ -1248,6 +1274,10 @@ namespace FactuCR.Models
                     .HasColumnName("Id_Provider")
                     .HasColumnType("int(11)");
 
+                entity.Property(e => e.IdentificationNumber)
+                    .HasColumnName("Identification_Number")
+                    .HasColumnType("varchar(50)");
+
                 entity.Property(e => e.Description).HasColumnType("varchar(100)");
 
                 entity.Property(e => e.Email)
@@ -1288,22 +1318,22 @@ namespace FactuCR.Models
 
             modelBuilder.Entity<RolHasUsers>(entity =>
             {
-                entity.HasKey(e => new { e.RolIdRol, e.IdUsers });
+                entity.HasKey(e => new { e.IdRol, e.IdUsers });
 
                 entity.ToTable("rol_has_users");
 
-                entity.HasIndex(e => e.RolIdRol)
+                entity.HasIndex(e => e.IdRol)
                     .HasName("fk_ROL_has_users_ROL1_idx");
 
-                entity.Property(e => e.RolIdRol)
-                    .HasColumnName("ROL_Id_Rol")
+                entity.Property(e => e.IdRol)
+                    .HasColumnName("Id_Rol")
                     .HasColumnType("int(11)");
 
                 entity.Property(e => e.IdUsers).HasColumnType("int(11)");
 
                 entity.HasOne(d => d.RolIdRolNavigation)
                     .WithMany(p => p.RolHasUsers)
-                    .HasForeignKey(d => d.RolIdRol)
+                    .HasForeignKey(d => d.IdRol)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_ROL_has_users_ROL1");
             });
@@ -1384,13 +1414,14 @@ namespace FactuCR.Models
                     .HasColumnName("Id_Contact")
                     .HasColumnType("int(11)");
 
-                entity.Property(e => e.Contact)
+                entity.Property(e => e.TelephoneNumber)
                     .IsRequired()
+                    .HasColumnName("Telephone_Number")
                     .HasColumnType("varchar(45)");
 
                 entity.Property(e => e.CountryCode)
                     .HasColumnName("Country_Code")
-                    .HasColumnType("int(11)");
+                    .HasColumnType("varchar(7)");
 
                 entity.Property(e => e.Description).HasColumnType("varchar(100)");
 

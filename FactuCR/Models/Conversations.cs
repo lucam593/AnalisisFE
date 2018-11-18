@@ -7,7 +7,7 @@ namespace FactuCR.Models
     {
         public Conversations()
         {
-            Mesages = new HashSet<Mesages>();
+            Messages = new HashSet<Messages>();
         }
 
         public uint IdConversation { get; set; }
@@ -16,6 +16,6 @@ namespace FactuCR.Models
         public uint Timestamp { get; set; }
         public string Subject { get; set; }
 
-        public ICollection<Mesages> Mesages { get; set; }
+        public ICollection<Messages> Messages { get; set; }
     }
 }

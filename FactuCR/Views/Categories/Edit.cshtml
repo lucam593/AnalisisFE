@@ -2,68 +2,34 @@
 
 @{
     ViewData["Title"] = "Edit";
+    ViewData["PanelTitle"] = "Editar Categor&iacute;a";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-@{int currentUser = 1234;}
-
 <div class="row">
-    <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="x_panel">
-            <div class="x_title">
-                <h2>Editar Categor&iacute;a <small>complete los datos que desea modificar</small></h2>
-                <ul class="nav navbar-right panel_toolbox">
-                    <li>
-                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li>
-                                <a href="#">Settings 1</a>
-                            </li>
-                            <li>
-                                <a href="#">Settings 2</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a class="close-link"><i class="fa fa-close"></i></a>
-                    </li>
-                </ul>
-                <div class="clearfix"></div>
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdCategory" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="x_content">
-                <!-- Init edit category form -->
-                <form id="editCategoryForm" asp-action="Edit" class="form-horizontal">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for="IdCategory" />
-                    <div class="form-group hidden">
-                        <input asp-for="IdUser" value="@currentUser" type="hidden" />
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Description" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input asp-for="Description" class="form-control" required />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                            <input type="submit" value="Guardar cambios" class="btn btn-success" />
-                        </div>
-                    </div>
-                </form>
-                <!-- Finish edit category form -->
-                <div class="ln_solid"></div>
-                <a asp-action="Index" class="btn btn-default">Regresar a la lista</a>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-        </div>
+            <div class="ln_solid"></div>
+            <div class="form-group">
+                <input type="submit" value="Guardar" class="btn btn-success" />
+            </div>
+        </form>
     </div>
 </div>
 
-<!-- validation -->
-<script src="~/vendor/Parsley.js-2.8.1/dist/parsley.min.js"></script>
-<script src="~/vendor/Parsley.js-2.8.1/dist/i18n/es.js"></script>
-<script>
-    $('#editCategoryForm').parsley();
-</script>
+<div>
+    <a asp-action="Index" class="btn btn-default">Regresar a la lista</a>
+</div>
+
