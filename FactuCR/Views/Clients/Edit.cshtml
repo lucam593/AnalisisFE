@@ -1,4 +1,4 @@
-﻿@model FactuCR.Models.Client
+﻿@model FactuCR.Models.ClientManagement
 
 @{
     ViewData["Title"] = "Edit";
@@ -11,51 +11,60 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="IdClient" />
+            <input type="hidden" asp-for="Client.IdClient" />
             <div class="form-group">
-                <label asp-for="IdType" class="control-label"></label>
-                <select asp-for="IdType" class="form-control" asp-items="ViewBag.IdType"></select>
-                <span asp-validation-for="IdType" class="text-danger"></span>
+                <label asp-for="Client.IdType" class="control-label"></label>
+                <select asp-for="Client.IdType" class="form-control" asp-items="ViewBag.IdType"></select>
+                <span asp-validation-for="Client.IdType" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IdentificationNumber" class="control-label"></label>
-                <input asp-for="IdentificationNumber" class="form-control" />
-                <span asp-validation-for="IdentificationNumber" class="text-danger"></span>
+                <label asp-for="Client.IdentificationNumber" class="control-label"></label>
+                <input asp-for="Client.IdentificationNumber" class="form-control" />
+                <span asp-validation-for="Client.IdentificationNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label asp-for="Client.Name" class="control-label"></label>
+                <input asp-for="Client.Name" class="form-control" />
+                <span asp-validation-for="Client.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
+                <label asp-for="Client.LastName" class="control-label"></label>
+                <input asp-for="Client.LastName" class="form-control" />
+                <span asp-validation-for="Client.LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+                <label asp-for="Client.Email" class="control-label"></label>
+                <input asp-for="Client.Email" class="form-control" />
+                <span asp-validation-for="Client.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Country" class="control-label"></label>
-                <input asp-for="Country" class="form-control" />
-                <span asp-validation-for="Country" class="text-danger"></span>
+                <label asp-for="Client.Country" class="control-label"></label>
+                <input asp-for="Client.Country" class="form-control" />
+                <span asp-validation-for="Client.Country" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <input asp-for="Status" class="form-control" />
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AdmissionDate" class="control-label"></label>
-                <input asp-for="AdmissionDate" class="form-control" />
-                <span asp-validation-for="AdmissionDate" class="text-danger"></span>
-            </div>
-            <div class="ln_solid"></div>
-            <div class="form-group">
-                <input type="submit" value="Guardar" class="btn btn-success" />
-            </div>
+                <label asp-for="Client.Status" class="control-label col-md-3 col-sm-3 col-xs-12">Estado <span class="required">*</span></label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div id="status" class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                            <input type="radio" name="status" value="1" asp-for="Client.Status" checked /> &nbsp; Activo &nbsp;
+                            <span asp-validation-for="Client.Status" class="text-danger"></span>
+                        </label>
+                        <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                            <input type="radio" name="status" value="0" asp-for="Client.Status" /> Inactivo
+                            <span asp-validation-for="Client.Status" class="text-danger"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Client.AdmissionDate" class="control-label"></label>
+                    <input asp-for="Client.AdmissionDate" class="form-control" />
+                    <span asp-validation-for="Client.AdmissionDate" class="text-danger"></span>
+                </div>
+                <div class="ln_solid"></div>
+                <div class="form-group">
+                    <button type="submit" value="Guardar" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar</button>
+                </div>
         </form>
     </div>
 </div>

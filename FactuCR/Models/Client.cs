@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FactuCR.Models
 {
@@ -15,6 +16,7 @@ namespace FactuCR.Models
         public int IdType { get; set; }
 
         [Required(ErrorMessage = "Debe ingresar un numero identificacion")]
+        [RegularExpression("^([0-9]{1})?([-]?)([0-9]{3}\\2([0-9]{6}))$", ErrorMessage = "Debe usar un formato válido (X-XXX-XXXXXX)")]
         [Display(Name = "Numero de Identificacion")]
         public string IdentificationNumber { get; set; }
 
@@ -40,8 +42,7 @@ namespace FactuCR.Models
         public sbyte Status { get; set; }
 
       
-        [Display(Name = "Fecha de Ingreso")]
-       
+        [Display(Name = "Fecha de Ingreso")]       
         [DataType(DataType.Date)]
         public DateTime AdmissionDate { get; set; }
 

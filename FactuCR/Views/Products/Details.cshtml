@@ -2,10 +2,10 @@
 
 @{
     ViewData["Title"] = "Details";
+    ViewData["PanelTitle"] = "Detalles de un Producto";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-<h2>Details</h2>
 
 <div>
     <h4>Product</h4>
@@ -105,5 +105,5 @@
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.IdProduct">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Regresar a la lista</a>
 </div>

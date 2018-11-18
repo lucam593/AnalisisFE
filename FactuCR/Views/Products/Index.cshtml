@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<FactuCR.Models.Product>
 
 @{
-    ViewData["PanelTitle"] = "Lista de Productos";
     ViewData["Title"] = "Index";
+    ViewData["PanelTitle"] = "Lista de Productos";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
@@ -106,13 +106,13 @@
                 @Html.DisplayFor(modelItem => item.IdUnitNavigation.Name)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdProduct">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdProduct">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdProduct">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.IdProduct" class="label label-success"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a>
+                <a asp-action="Details" asp-route-id="@item.IdProduct" class="label label-info"><i class="fa fa-list-alt" aria-hidden="true"></i> Detalles</a>
+                <a asp-action="Delete" asp-route-id="@item.IdProduct" class="label label-danger"><i class="fa fa-trash-o"></i> Eliminar</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
 
-<a asp-action="Create" class="btn btn-success">Ingresar Producto</a>
+<a asp-action="Create" class="btn btn-success"><i class="fa fa-plus-square" aria-hidden="true"></i> Ingresar Producto</a>
