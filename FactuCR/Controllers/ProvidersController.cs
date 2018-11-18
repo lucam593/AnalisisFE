@@ -166,6 +166,7 @@ namespace FactuCR.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Name", provider.IdType);
+
             return View(provider);
         }
 

@@ -1,0 +1,144 @@
+﻿@model FactuCR.Models.ConfigCompaniesManagement
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h2>Edit</h2>
+
+<h4>ConfigCompany</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="configCompany.IdConfig" />
+            <div class="form-group">
+                <label asp-for="configCompany.FullName" class="control-label"></label>
+                <input asp-for="configCompany.FullName" class="form-control" />
+                <span asp-validation-for="configCompany.FullName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="configCompany.IdType" class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <select id="idtype-select" asp-for="configCompany.IdType" class="form-control" asp-items="ViewBag.IdType">
+                        <option selected disabled>- Seleccione una opcion -</option>
+                    </select>
+                    <span asp-validation-for="configCompany.IdType" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="configCompany.IdUser" class="control-label"></label>
+                <input asp-for="configCompany.IdUser" class="form-control" />
+                <span asp-validation-for="configCompany.IdUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="configCompany.CompannyName" class="control-label"></label>
+                <input asp-for="configCompany.CompannyName" class="form-control" />
+                <span asp-validation-for="configCompany.CompannyName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="configCompany.Email" class="control-label"></label>
+                <input asp-for="configCompany.Email" class="form-control" />
+                <span asp-validation-for="configCompany.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="configCompany.Telephone" class="control-label"></label>
+                <input asp-for="configCompany.Telephone" class="form-control" />
+                <span asp-validation-for="configCompany.Telephone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="configCompany.Fax" class="control-label"></label>
+                <input asp-for="configCompany.Fax" class="form-control" />
+                <span asp-validation-for="configCompany.Fax" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="configCompany.Province" class="control-label"></label>
+                <input asp-for="configCompany.Province" class="form-control" />
+                <span asp-validation-for="configCompany.Province" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="configCompany.Canton" class="control-label"></label>
+                <input asp-for="configCompany.Canton" class="form-control" />
+                <span asp-validation-for="configCompany.Canton" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="configCompany.District" class="control-label"></label>
+                <input asp-for="configCompany.District" class="form-control" />
+                <span asp-validation-for="configCompany.District" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="configCompany.OtherSigns" class="control-label"></label>
+                <input asp-for="configCompany.OtherSigns" class="form-control" />
+                <span asp-validation-for="configCompany.OtherSigns" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="configCompany.Country" class="control-label"></label>
+                <input asp-for="configCompany.Country" class="form-control" />
+                <span asp-validation-for="configCompany.Country" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="configCompany.UserTax" class="control-label"></label>
+                <input asp-for="configCompany.UserTax" class="form-control" />
+                <span asp-validation-for="configCompany.UserTax" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="configCompany.PasswordTax" class="control-label"></label>
+                <input asp-for="configCompany.PasswordTax" class="form-control" />
+                <span asp-validation-for="configCompany.PasswordTax" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="configCompany.Currency" class="control-label"></label>
+                <input asp-for="configCompany.Currency" class="form-control" />
+                <span asp-validation-for="configCompany.Currency" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="configCompany.CurrencyValue" class="control-label"></label>
+                <input asp-for="configCompany.CurrencyValue" class="form-control" />
+                <span asp-validation-for="configCompany.CurrencyValue" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#idnum-label').hide();
+        $('#cedfisica-input').hide();
+        $('#cedjuridica-input').hide();
+        $('#nite-input').hide();
+        $('#dimex-input').hide();
+
+        $('select').change(function () {
+            $('#idnum-label').hide();
+            $('#cedfisica-input').hide();
+            $('#cedjuridica-input').hide();
+            $('#nite-input').hide();
+            $('#dimex-input').hide();
+
+            if ($(this).val() === "1") {
+                $('#idnum-label').show("slow");
+                $('#cedfisica-input').show("slow");
+            }
+
+            if ($(this).val() === "2") {
+                $('#idnum-label').show("slow");
+                $('#cedjuridica-input').show("slow");
+            }
+
+            if ($(this).val() === "3") {
+                $('#idnum-label').show("slow");
+                $('#nite-input').show("slow");
+            }
+
+            if ($(this).val() === "4") {
+                $('#idnum-label').show("slow");
+                $('#dimex-input').show("slow");
+            }
+        })
+    });
+</script>
