@@ -10,16 +10,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.CodeProduct)
+                C&oacute;digo
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NameProduct)
+                Nombre
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                Descripci&oacute;n
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Status)
+                Estado
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.SalePrice)
@@ -37,22 +37,22 @@
                 @Html.DisplayNameFor(model => model.Barcode)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdCategoryNavigation)
+                Categor&iacute;a
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdCurrencyNavigation)
+                Moneda
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdDiscountNavigation)
+                Descuento
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdProviderNavigation)
+                Proveedor
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdTaxNavigation)
+                Impuesto
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdUnitNavigation)
+                Unidad
             </th>
             <th></th>
         </tr>
@@ -79,7 +79,7 @@
                 @Html.DisplayFor(modelItem => item.CostPrice)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ProfitPercentage)
+                @Html.DisplayFor(modelItem => item.ProfitPercentage)%
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Quantity)
@@ -88,7 +88,7 @@
                 @Html.DisplayFor(modelItem => item.Barcode)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdCategoryNavigation.Description)
+                @Html.DisplayFor(modelItem => item.IdCategoryNavigation.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IdCurrencyNavigation.Code)
@@ -97,18 +97,18 @@
                 @Html.DisplayFor(modelItem => item.IdDiscountNavigation.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdProviderNavigation.Email)
+                @Html.DisplayFor(modelItem => item.IdProviderNavigation.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdTaxNavigation.Code)
+                @Html.DisplayFor(modelItem => item.IdTaxNavigation.Percentage)%
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IdUnitNavigation.Name)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdProduct" class="label label-success"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a>
-                <a asp-action="Details" asp-route-id="@item.IdProduct" class="label label-info"><i class="fa fa-list-alt" aria-hidden="true"></i> Detalles</a>
-                <a asp-action="Delete" asp-route-id="@item.IdProduct" class="label label-danger"><i class="fa fa-trash-o"></i> Eliminar</a>
+                <a asp-action="Edit" asp-route-id="@item.IdProduct" class="label label-success">Editar</a>
+                <a asp-action="Details" asp-route-id="@item.IdProduct" class="label label-default">Detalles</a>
+                <a asp-action="Delete" asp-route-id="@item.IdProduct" class="label label-danger">Eliminar</a>
             </td>
         </tr>
 }

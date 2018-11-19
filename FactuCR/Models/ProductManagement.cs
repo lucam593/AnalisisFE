@@ -19,7 +19,7 @@ namespace FactuCR.Models
         [Required]
         public String CategorySelection { get; set; }
 
-        [Required(ErrorMessage = "Debe seleccionar una categoría")]
+        [Required(ErrorMessage = "Debe seleccionar o crear una categoría para el producto")]
         public int IdCurrentCategory { get; set; }
 
         [Required(ErrorMessage = "Debe ingresar un nombre para la categoría")]
