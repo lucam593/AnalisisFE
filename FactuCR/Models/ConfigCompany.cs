@@ -22,7 +22,7 @@ namespace FactuCR.Models
         public string IdUser { get; set; }
 
         [Required(ErrorMessage = "Debe ingresar un nombre")]
-        [Display(Name = "Nombre")]
+        [Display(Name = "Nombre Compañia")]
         public string CompannyName { get; set; }
 
         [Required(ErrorMessage = "Debe ingresar un correo")]

@@ -5,12 +5,26 @@
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Inicio Configuración Compañia</h2>
 
-<p>
+@*<p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<input type="text" id="serchText" name="serchText" />
+<input type="submit" value="Serch" />
+<link href="~/AutoComplete/jquery-ui.css" rel="stylesheet" />
+<script src="~/AutoComplete/jquery-ui.js"></script>
+<script src="~/AutoComplete/jquery.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+        $("#serchText").autocomplete({
+            source: '@Url.Action("GetInfo")'
+        });
+    });
+
+</script>*@
+<table id="datatable" class="table table-bordered">
     <thead>
         <tr>
             <th>
@@ -33,16 +47,11 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Province)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Canton)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.District)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.OtherSigns)
             </th>
+
             <th>
                 @Html.DisplayNameFor(model => model.Country)
             </th>
@@ -58,14 +67,13 @@
             <th>
                 @Html.DisplayNameFor(model => model.CurrencyValue)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdTypeNavigation)
-            </th>
+
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.FullName)
@@ -87,16 +95,11 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Province)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Canton)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.District)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.OtherSigns)
             </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.Country)
             </td>
@@ -113,14 +116,12 @@
                 @Html.DisplayFor(modelItem => item.CurrencyValue)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdTypeNavigation.Code)
-            </td>
-            <td>
                 <a asp-action="Edit" asp-route-id="@item.IdConfig">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.IdConfig">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.IdConfig">Delete</a>
             </td>
         </tr>
-}
+    }
+
     </tbody>
 </table>

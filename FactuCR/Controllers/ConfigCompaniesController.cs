@@ -26,16 +26,16 @@ namespace FactuCR.Controllers
         }
 
         // GET: ConfigCompanies/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
 
             var configCompany = await _context.ConfigCompany
                 .Include(c => c.IdTypeNavigation)
-                .FirstOrDefaultAsync(m => m.IdConfig == id);
+                .FirstOrDefaultAsync(m => m.IdConfig == 1);
             if (configCompany == null)
             {
                 return NotFound();
@@ -69,14 +69,14 @@ namespace FactuCR.Controllers
         }
 
         // GET: ConfigCompanies/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
 
-            var configCompany = await _context.ConfigCompany.FindAsync(id);
+            var configCompany = await _context.ConfigCompany.FindAsync(1);
             if (configCompany == null)
             {
                 return NotFound();
@@ -158,6 +158,12 @@ namespace FactuCR.Controllers
         private bool ConfigCompanyExists(int id)
         {
             return _context.ConfigCompany.Any(e => e.IdConfig == id);
+        }
+
+        public JsonResult GetInfo(string term)
+        {
+            var bd = _context.ConfigCompany.Where(x => x.FullName.Contains(term)).Select(x => x.FullName).ToList();
+            return Json(bd);
         }
     }
 }
