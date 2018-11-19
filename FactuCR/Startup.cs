@@ -30,8 +30,10 @@ namespace FactuCR
         public void ConfigureServices(IServiceCollection services)
         {
 
+
           
             services.AddDbContext<db_facturacionContext>(options => options.UseMySql(_config.GetConnectionString("db_Facturacion")));
+
 
            
             services.Configure<CookiePolicyOptions>(options =>
