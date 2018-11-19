@@ -1,0 +1,57 @@
+﻿@model FactuCR.Models.MasterInvoiceVoucher
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h2>Edit</h2>
+
+<h4>MasterInvoiceVoucher</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdKey" />
+            <div class="form-group">
+                <label asp-for="IdPayment" class="control-label"></label>
+                <select asp-for="IdPayment" class="form-control" asp-items="ViewBag.IdPayment"></select>
+                <span asp-validation-for="IdPayment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdCondition" class="control-label"></label>
+                <select asp-for="IdCondition" class="form-control" asp-items="ViewBag.IdCondition"></select>
+                <span asp-validation-for="IdCondition" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <input asp-for="Status" class="form-control" />
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="XmlEnviadoBase64" class="control-label"></label>
+                <input asp-for="XmlEnviadoBase64" class="form-control" />
+                <span asp-validation-for="XmlEnviadoBase64" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RespuestaMhbase64" class="control-label"></label>
+                <input asp-for="RespuestaMhbase64" class="form-control" />
+                <span asp-validation-for="RespuestaMhbase64" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Env" class="control-label"></label>
+                <input asp-for="Env" class="form-control" />
+                <span asp-validation-for="Env" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

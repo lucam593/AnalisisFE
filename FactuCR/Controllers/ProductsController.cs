@@ -75,15 +75,41 @@ namespace FactuCR.Controllers
             ViewData["IdTax"] = new SelectList(_context.Tax, "IdTax", "Name");
 
             Product product = new Product();
-            product.Barcode = model.Product.Barcode;
-            product.CostPrice = model.Product.CostPrice;
+            product.CodeProduct = model.Product.CodeProduct;
+            product.NameProduct = model.Product.NameProduct;
+            product.Description = model.Product.Description;
             product.Status = model.Product.Status;
-            product.IdCategory = model.Product.IdCategory;
+            product.Barcode = model.Product.Barcode;
+            product.ProfitPercentage = model.Product.ProfitPercentage;
+            product.CostPrice = model.Product.CostPrice;
+            product.SalePrice = model.Product.SalePrice;
+            product.Quantity = model.Product.Quantity;
             product.IdTax = model.Product.IdTax;
+            product.IdProvider = model.Product.IdProvider;
+            product.IdUnit = model.Product.IdUnit;
+            product.IdDiscount = model.Product.IdDiscount;
+            product.IdCurrency = model.Product.IdCurrency;
+
+            if (model.IdCurrentCategory == 0)
+            {
+                Category category = new Category();
+                category.Name = model.NameNewCategory;
+                category.Description = model.DescriptionNewCategory;
+
+                _context.Category.Add(category);
+                _context.SaveChanges();
+
+                Category savedCategory = _context.Category.Last();
+                product.IdCategory = savedCategory.IdCategory;
+            }
+            else
+            {
+                product.IdCategory = model.IdCurrentCategory;
+            }
 
             _context.Product.Add(product);
             _context.SaveChanges();
-
+            /*
             Family family = _context.Family.Find(model.IdFamily);
 
             ProductHasFamily productHasFamily = new ProductHasFamily();
@@ -92,7 +118,7 @@ namespace FactuCR.Controllers
 
             product.ProductHasFamily.Add(productHasFamily);
             _context.SaveChanges();
-
+            */
             return RedirectToAction(nameof(Index));
         }
 

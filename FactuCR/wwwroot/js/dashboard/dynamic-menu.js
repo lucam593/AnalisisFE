@@ -7,14 +7,14 @@
     
     if (checkStringInURL("Products") ||
         checkStringInURL("Categories") ||
-        checkStringInURL("ClientTypes") ||
+        checkStringInURL("Families") ||
         checkStringInURL("Providers")) {
         $('#mantenimiento-menu-container').show("slow");
     } else {
         $('#mantenimiento-menu-container').hide();
     }
 
-    if (checkStringInURL("Facturacion")) {
+    if (checkStringInURL("Billing")) {
         $('#facturacion-menu-container').show("slow");
     } else {
         $('#facturacion-menu-container').hide();
