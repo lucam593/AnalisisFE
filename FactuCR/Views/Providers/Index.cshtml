@@ -13,7 +13,7 @@
                 @Html.DisplayNameFor(model => model.IdentificationNumber)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdTypeNavigation)
+                Tipo de Identificaci&oacute;n
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
@@ -22,7 +22,7 @@
                 @Html.DisplayNameFor(model => model.Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                Descripci&oacute;n
             </th>
             <th></th>
         </tr>
@@ -46,9 +46,9 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdProvider" class="label label-success"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a>
-                <a asp-action="Details" asp-route-id="@item.IdProvider" class="label label-info"><i class="fa fa-list-alt" aria-hidden="true"></i> Detalles</a>
-                <a asp-action="Delete" asp-route-id="@item.IdProvider" class="label label-danger"><i class="fa fa-trash-o"></i> Eliminar</a>
+                <a asp-action="Edit" asp-route-id="@item.IdProvider" class="label label-success">Editar</a>
+                <a asp-action="Details" asp-route-id="@item.IdProvider" class="label label-default">Detalles</a>
+                <a asp-action="Delete" asp-route-id="@item.IdProvider" class="label label-danger">Eliminar</a>
             </td>
         </tr>
 }

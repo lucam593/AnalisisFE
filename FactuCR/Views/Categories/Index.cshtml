@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Index";
-    ViewData["PanelTitle"] = "Lista de Categor&iaacute;as";
+    ViewData["PanelTitle"] = "Lista de Categorias";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
    
@@ -28,12 +28,12 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdCategory" class="label label-success"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a>
-                <a asp-action="Delete" asp-route-id="@item.IdCategory" class="label label-danger"><i class="fa fa-trash-o"></i> Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.IdCategory" class="label label-success">Editar</a>
+                <a asp-action="Delete" asp-route-id="@item.IdCategory" class="label label-danger">Eliminar</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
 <div class="ln_solid"></div>
-<a asp-action="Create" class="btn btn-success">Ingresar Categor&iacute;a</a>
+<a asp-action="Create" class="btn btn-success"><i class="fa fa-plus-square" aria-hidden="true"></i> Ingresar Categor&iacute;a</a>

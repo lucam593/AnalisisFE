@@ -7,7 +7,7 @@
     
     if (checkStringInURL("Products") ||
         checkStringInURL("Categories") ||
-        checkStringInURL("ClientTypes") ||
+        checkStringInURL("Families") ||
         checkStringInURL("Providers")) {
         $('#mantenimiento-menu-container').show("slow");
     } else {

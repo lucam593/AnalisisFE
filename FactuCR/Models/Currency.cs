@@ -14,7 +14,7 @@ namespace FactuCR.Models
         public string Name { get; set; }
         public string Code { get; set; }
         public string Country { get; set; }
-        public double CurrentChange { get; set; }
+        public double? CurrentChange { get; set; }
 
         public ICollection<Product> Product { get; set; }
     }
