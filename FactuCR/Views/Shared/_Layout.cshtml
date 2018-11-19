@@ -27,28 +27,23 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">FactuCR</a>
+                <a asp-area="" asp-controller="Login" asp-action="Index" class="navbar-brand">FactuCR</a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Inicio</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">Acerca</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contacto</a></li>
-                </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a asp-area="" asp-controller="Login" asp-action="Entrar">Entrar</a></li>
-                    <li><a asp-area="" asp-controller="Login" asp-action="Registro">Registrarse</a></li>
+                    <li><a asp-area="" asp-controller="Login" asp-action="Index">Entrar</a></li>
+                    <li><a asp-area="" asp-controller="Users" asp-action="Create">Registrarse</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <partial name="_CookieConsentPartial" />
+    
 
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
+        <footer class="footer">
             <p>&copy; 2018 - FactuCR</p>
         </footer>
     </div>

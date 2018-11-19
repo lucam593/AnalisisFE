@@ -1,0 +1,68 @@
+﻿@model FactuCR.Models.Login.Login
+@{
+    ViewData["Title"] = "Entrar";
+}
+
+<div class="container min-h-full">
+
+    <div id="loginbox" class="mainbox col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3">
+        <div class="row">
+            <div class="col-4 mx-auto text-center">
+                <img src="@Href("~/Images/FactuCR.PNG")" class="img-fluid" alt="Logo">
+            </div>
+          
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title text-center">Entrar al Sistema</div>
+                </div>
+                <div class="panel-body">
+                    @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            @Html.TextBoxFor(model => model.userName, new { @class = "form-control", @placeholder = "Usuario" })
+                            @Html.ValidationMessageFor(model => model.userName, "", new { @class = "text-danger" })
+                        </div>
+                        <br />
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            @Html.PasswordFor(model => model.pwd, new { @class = "form-control", @placeholder = "Contraseña" })
+                            @Html.ValidationMessageFor(model => model.pwd, "", new { @class = "text-danger" })
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <!-- Button -->
+                            <div class="col-sm-12 controls">
+                                <button type="submit" href="#" class="btn btn-primary pull-right"><i class="glyphicon glyphicon-log-in"></i> Entrar</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+@*<div class="col offset-3 col-md-4 col-sm-12">
+    <div class="col col-sm-12">
+        <img src="@Href("~/Images/FactuCR.PNG")" class="img-fluid" alt="Logo">
+    </div>
+    @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label for="userName">Usuario</label>
+            @Html.TextBoxFor(model => model.userName, new { @class = "form-control", @placeholder = "Usuario" })
+            @Html.ValidationMessageFor(model => model.userName, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            <label for="pwd">Contraseña</label>
+            @Html.PasswordFor(model => model.pwd, new { @class = "form-control", @placeholder = "Contraseña" })
+            @Html.ValidationMessageFor(model => model.pwd, "", new { @class = "text-danger" })
+        </div>
+        <button type="submit" class="btn btn-primary">Iniciar</button>
+    }
+</div>*@
