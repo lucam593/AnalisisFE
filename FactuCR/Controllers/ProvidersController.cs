@@ -41,6 +41,8 @@ namespace FactuCR.Controllers
                 return NotFound();
             }
 
+            ProviderManagement model = new ProviderManagement();
+
             return View(provider);
         }
 

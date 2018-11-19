@@ -47,29 +47,6 @@
             </div>
         </div>
     </div>
-
-    <div class="form-group">
-        <label asp-for="Product.SalePrice" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <input asp-for="Product.SalePrice" class="form-control" />
-            <span asp-validation-for="Product.SalePrice" class="text-danger"></span>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Product.CostPrice" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <input asp-for="Product.CostPrice" class="form-control" />
-            <span asp-validation-for="Product.CostPrice" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="Product.ProfitPercentage" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <input asp-for="Product.ProfitPercentage" class="form-control" />
-            <span asp-validation-for="Product.ProfitPercentage" class="text-danger"></span>
-        </div>
-    </div>
     <div class="form-group">
         <label asp-for="Product.Quantity" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -85,38 +62,32 @@
         </div>
     </div>
     <div class="form-group">
-        <label asp-for="Product.IdTax" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <select asp-for="Product.IdTax" class="form-control" asp-items="ViewBag.IdTax"></select>
-        </div>
-    </div>
-    <div class="form-group">
         <label asp-for="Product.IdProvider" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
         <div class="col-md-6 col-sm-6 col-xs-12">
-            <select asp-for="Product.IdProvider" class="form-control" asp-items="ViewBag.IdProvider"></select>
+            <select asp-for="Product.IdProvider" class="form-control" asp-items="ViewBag.IdProvider">
+                <option selected disabled>- seleccione el proveedor -</option>
+            </select>
+            <span asp-validation-for="Product.IdProvider" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group">
         <label asp-for="Product.IdUnit" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
         <div class="col-md-6 col-sm-6 col-xs-12">
-            <select asp-for="Product.IdUnit" class="form-control" asp-items="ViewBag.IdUnit"></select>
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="Product.IdDiscount" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <select asp-for="Product.IdDiscount" class="form-control" asp-items="ViewBag.IdDiscount"></select>
+            <select asp-for="Product.IdUnit" class="form-control" asp-items="ViewBag.IdUnit">
+                <option selected disabled>- seleccione la unidad de medida -</option>
+            </select>
+            <span asp-validation-for="Product.IdUnit" class="text-danger"></span>
         </div>
     </div>
     <div id="current-category-container" class="form-group">
         <label asp-for="IdCurrentCategory" class="control-label col-md-3 col-sm-3 col-xs-12">Categoria</label>
         <div class="col-md-6 col-sm-6 col-xs-12">
             <select id="category-select" asp-for="IdCurrentCategory" class="form-control" asp-items="ViewBag.IdCategory">
-                <option disabled selected>- seleccione una opcion -</option>
+                <option value="-1" disabled selected>- seleccione una opcion -</option>
                 <option value="0">Crear nueva categoria</option>
             </select>
+            <span asp-validation-for="IdCurrentCategory" class="text-danger"></span>
         </div>
-        <span asp-validation-for="IdCurrentCategory" class="text-danger"></span>
     </div>
     <div id="new-category-container" class="jumbotron col-md-6 col-sm-6 col-xs-12 col-md-offset-3 col-sm-offset-3" style="padding: 10px; margin-right: 100%;">
         <div class="form-group">
@@ -127,24 +98,60 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="NameNewCategory" class="control-label col-md-3 col-sm-3 col-xs-12">Descripcion</label>
+            <label asp-for="DescriptionNewCategory" class="control-label col-md-3 col-sm-3 col-xs-12">Descripcion</label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <input asp-for="NameNewCategory" id="category-input" class="form-control" />
+                <input asp-for="DescriptionNewCategory" id="category-input" class="form-control" />
             </div>
         </div>
     </div>
     <div class="form-group">
-        <label asp-for="Product.IdCurrency" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+        <label class="control-label col-md-3 col-sm-3 col-xs-12">Información de venta</label>
         <div class="col-md-6 col-sm-6 col-xs-12">
-            <select asp-for="Product.IdCurrency" class="form-control" asp-items="ViewBag.IdCurrency"></select>
+            <div class="well" style="overflow: hidden;">
+                <label asp-for="Product.IdCurrency" style="text-align: left;" class="control-label col-md-12 col-sm-12 col-xs-12"></label>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <select asp-for="Product.IdCurrency" class="form-control" asp-items="ViewBag.IdCurrency">
+                        <option selected disabled>- seleccione la moneda -</option>
+                    </select>
+                    <span asp-validation-for="Product.IdCurrency" class="text-danger"></span>
+                </div>
+                <label asp-for="Product.IdTax" style="text-align: left;" class="control-label col-md-12 col-sm-12 col-xs-12"></label>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <select asp-for="Product.IdTax" class="form-control" asp-items="ViewBag.IdTax">
+                        <option selected disabled>- seleccione el tipo de impuesto -</option>
+                    </select>
+                    <span asp-validation-for="Product.IdTax" class="text-danger"></span>
+                </div>
+                <label asp-for="Product.CostPrice" style="text-align: left;" class="control-label col-md-12 col-sm-12 col-xs-12"></label>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <input id="costPrice-input" asp-for="Product.CostPrice" class="form-control" />
+                    <span asp-validation-for="Product.CostPrice" class="text-danger"></span>
+                </div>
+                <label asp-for="Product.ProfitPercentage" style="text-align: left;" class="control-label col-md-12 col-sm-12 col-xs-12"></label>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <input id="profitPercentage-input" asp-for="Product.ProfitPercentage" class="form-control" />
+                    <span asp-validation-for="Product.ProfitPercentage" class="text-danger"></span>
+                </div>
+                <label asp-for="Product.IdDiscount" style="text-align: left;" class="control-label col-md-12 col-sm-12 col-xs-12">Porcentaje de descuento</label>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <select asp-for="Product.IdDiscount" class="form-control" asp-items="ViewBag.IdDiscount"></select>
+                </div>
+                <label asp-for="Product.SalePrice" style="text-align: left;" class="control-label col-md-12 col-sm-12 col-xs-12"></label>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <input id="salePrice-input" asp-for="Product.SalePrice" class="form-control" readonly />
+                    <span asp-validation-for="Product.SalePrice" class="text-danger"></span>
+                </div>
+            </div>
         </div>
     </div>
     <div class="ln_solid"></div>
     <div class="form-group">
         <div class="col-md-6 col-md-6 col-xs-12 col-md-offset-3">
-            <input type="submit" value="Guardar Producto" class="btn btn-success" />
-            <a asp-action="Index" class="btn btn-default">Lista de productos</a>
+            <button type="submit" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar Producto</button>
         </div>
+    </div>
+    <div class="form-group">
+        <a asp-action="Index" class="btn btn-default"><i class="fa fa-caret-square-o-left" aria-hidden="true"></i> Cancelar</a>
     </div>
 </form>
 
@@ -157,8 +164,24 @@
             } else {
                 $('#new-category-container').hide('slow');
             }
-        })
+        });
+        $('#costPrice-input').keyup(function () {
+            $('#salePrice-input').val($('#costPrice-input').val());
+            calculateSalePrice();
+        });
+        $('#profitPercentage-input').keyup(function () {
+            calculateSalePrice();
+        });
     });
+
+    function calculateSalePrice() {
+        if (($('#costPrice-input').val() != "") && ($('#profitPercentage-input').val() >= 0)) {
+            var decimalProfit = $('#profitPercentage-input').val() / 100;
+            var profitPrice = $('#costPrice-input').val() * decimalProfit;
+
+            $('#salePrice-input').val(parseFloat($('#costPrice-input').val()) + profitPrice);
+        }
+    }
 </script>
 
 <!-- For client side validation -->
