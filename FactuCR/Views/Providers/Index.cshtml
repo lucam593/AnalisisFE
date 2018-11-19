@@ -47,6 +47,7 @@
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.IdProvider" class="label label-success"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a>
+                <a asp-action="Details" asp-route-id="@item.IdProvider" class="label label-info"><i class="fa fa-list-alt" aria-hidden="true"></i> Detalles</a>
                 <a asp-action="Delete" asp-route-id="@item.IdProvider" class="label label-danger"><i class="fa fa-trash-o"></i> Eliminar</a>
             </td>
         </tr>
@@ -54,4 +55,4 @@
     </tbody>
 </table>
 <div class="ln_solid"></div>
-<a asp-action="Create" class="btn btn-success">Ingresar Proveedor</a>
+<a asp-action="Create" class="btn btn-success"><i class="fa fa-plus-square" aria-hidden="true"></i> Ingresar Proveedor</a>
