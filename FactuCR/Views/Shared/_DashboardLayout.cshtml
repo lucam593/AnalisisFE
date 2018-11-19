@@ -46,16 +46,7 @@
 
                     <div class="clearfix"></div>
 
-                    <!-- menu profile quick info -->
-                    <div class="profile clearfix">
-                        <div class="profile_pic">
-                            <img src="~/images/Extreme-Tech-LogoFinal-2.png" alt="..." class="img-circle profile_img" style="padding: 0px;">
-                        </div>
-                        <div class="profile_info">
-                            <span>Bienvenidos,</span>
-                            <h2>Extreme Tech</h2>
-                        </div>
-                    </div>
+                   
                     <!-- /menu profile quick info -->
 
                     <br />
@@ -143,7 +134,8 @@
                         <ul class="nav navbar-nav navbar-right">
                             <li class="">
                                 <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    <img src="images/img.jpg" alt="">Usuario
+
+                                    @User.Identity.Name
                                     <span class=" fa fa-angle-down"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -153,7 +145,7 @@
                                             <span>Configuración</span>
                                         </a>
                                     </li>
-                                    <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Salir</a></li>
+                                    <li><a asp-area="" asp-controller="Users" asp-action="Logout"><i class="fa fa-sign-out pull-right"></i> Salir</a></li>
                                 </ul>
                             </li>
 
