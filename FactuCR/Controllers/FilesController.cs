@@ -6,9 +6,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FactuCR.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using Newtonsoft.Json.Linq;
+using System.Net.Http;
+using System.IO;
 
 namespace FactuCR.Controllers
 {
+    [Authorize]
     public class FilesController : Controller
     {
         private readonly db_facturacionContext _context;
@@ -53,15 +60,38 @@ namespace FactuCR.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdFile,Md5,Name,Timestamp,Size,IdUser,DownloadCode,FileType,Type")] Files files)
+        public IActionResult Create([FromForm]IFormFile file)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(files);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(files);
+            return Ok();
+            //try
+            //{
+            //    if (file != null && file.Length > 0)
+            //    {
+            //        using (var client = new HttpClient())
+            //        {
+            //            try
+            //            {
+            //                client.BaseAddress = new Uri("http://localhost/apiCRLibre/www/api.php");
+
+            //                byte[] data;
+            //                using (var br = new BinaryReader(file.OpenReadStream()))
+            //                    data = br.ReadBytes((int)file.OpenReadStream().Length);
+
+            //                ByteArrayContent bytes = new ByteArrayContent(data);
+
+
+            //                MultipartFormDataContent multiContent = new MultipartFormDataContent();
+
+            //                multiContent.Add(bytes, "file", file.FileName);
+            //                //multiContent.Add(,,);
+
+            //                var result = client.PostAsync("api/Values", multiContent).Result;
+
+
+            //                return StatusCode((int)result.StatusCode); //201 Created the request has been fulfilled, resulting in the creation of a new resource.
+
+            //            }
+
         }
 
         // GET: Files/Edit/5

@@ -9,9 +9,9 @@ namespace FactuCR.Models.Login
     public class Login
     {
         [Required]
-        public string userName { get; set; }
+        public string UserName { get; set; }
         [Required]
         [DataType(DataType.Password)]
-        public string pwd { get; set; }
+        public string Pwd { get; set; }
     }
 }

@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using FactuCR.Models;
 using System.Configuration;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace FactuCR
 {
@@ -34,8 +35,13 @@ namespace FactuCR
           
             services.AddDbContext<db_facturacionContext>(options => options.UseMySql(_config.GetConnectionString("smarterasp_db_dev")));
 
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(options =>
+            {
+                options.LoginPath = "/";
 
-           
+            }); 
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -60,8 +66,8 @@ namespace FactuCR
             }
 
             app.UseStaticFiles();
-
-
+            app.UseAuthentication();
+          
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
