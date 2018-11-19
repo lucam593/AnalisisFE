@@ -51,7 +51,8 @@ namespace FactuCR.Controllers
 
                     await genClaimsAsync(user, sessionKey, idUser);
                    
-                    return RedirectToAction("Create", "Files");
+                    
+                    return RedirectToAction("Index", "Billing");
                 }
 
 
@@ -75,7 +76,7 @@ namespace FactuCR.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async System.Threading.Tasks.Task<IActionResult> CreateAsync([Bind("FullName,UserName,Email,About,Country,Status,Pwd")] Users users)
+        public async System.Threading.Tasks.Task<IActionResult> Create([Bind("FullName,UserName,Email,About,Country,Status,Pwd")] Users users)
         {
             if (ModelState.IsValid)
             {
