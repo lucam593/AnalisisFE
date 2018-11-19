@@ -37,10 +37,10 @@
         <div class="main_container">
             <div class="col-md-3 left_col">
                 <div class="left_col scroll-view">
-                    <div class="navbar nav_title" style="border: 0;">
+                    <div class="navbar nav_title" >
                         <a asp-area="" asp-controller="Products" asp-action="Index" class="site_title">
-                            <i  class="fa fa-empire"></i>
-                            <span>FactuCR</span>
+                            <img src="~/images/FactuCR_Icon.png" class="profile_img" style="padding:0; margin-top:0; margin-bottom: 10px; margin-left:0; width: 40px; height: 40px;" />
+                            <span style="color: white;">&nbsp; FactuCR</span>
                         </a>
                     </div>
 
@@ -59,12 +59,13 @@
                             <h3>Mantenimiento</h3>
                             <ul id="sales-menu" class="nav side-menu">
                                 <li>
-                                    <a><i class="fa fa-user"></i> Clientes <span class="fa fa-arrow-down"></span></a>
+                                    <a><i class="fa fa-user"></i> Socios <span class="fa fa-arrow-down"></span></a>
                                     <ul class="nav child_menu">
                                         <li><a asp-area="" asp-controller="Clients" asp-action="Create">Ingresar Cliente</a></li>
                                         <li><a asp-area="" asp-controller="Clients" asp-action="Index">Lista de Clientes</a></li>
-                                        <li><a asp-area="" asp-controller="ClientTypes" asp-action="Create">Crear un Tipo de Cliente</a></li>
-                                        <li><a asp-area="" asp-controller="ClientTypes" asp-action="Index">Lista de Tipos de Cliente</a></li>
+                                        <li><a asp-area="" asp-controller="Providers" asp-action="Create">Ingresar Proveedor</a></li>
+                                        <li><a asp-area="" asp-controller="Providers" asp-action="Index">Lista de Proveedores</a></li>
+
                                     </ul>
                                 </li>
                                 <li>
@@ -74,13 +75,8 @@
                                         <li><a asp-area="" asp-controller="Products" asp-action="Index">Lista de Productos</a></li>
                                         <li><a asp-area="" asp-controller="Categories" asp-action="Create">Crear Categor&iacute;a</a></li>
                                         <li><a asp-area="" asp-controller="Categories" asp-action="Index">Lista de Categor&iacute;as</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a><i class="fa fa-shopping-cart"></i> Proveedores <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a asp-area="" asp-controller="Providers" asp-action="Create">Ingresar Proveedor</a></li>
-                                        <li><a asp-area="" asp-controller="Providers" asp-action="Index">Lista de Proveedores</a></li>
+                                        <li><a asp-area="" asp-controller="Families" asp-action="Create">Crear Familia</a></li>
+                                        <li><a asp-area="" asp-controller="Families" asp-action="Index">Lista de Familias</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -148,7 +144,6 @@
                                 </ul>
                             </li>
 
-
                             <li id="btn-mantenimiento" class="">
                                 <a><i class="fa fa-clipboard"></i> Mantenimiento</a>
                             </li>
@@ -209,7 +204,7 @@
             <!-- footer content -->
             <footer class="">
                 <div class="pull-right">
-                    Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+                    © 2018 - FactuCR
                 </div>
                 <div class="clearfix"></div>
             </footer>
