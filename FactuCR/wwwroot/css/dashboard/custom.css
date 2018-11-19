@@ -214,6 +214,11 @@
     width: 100% !important;
     margin-bottom: 5px
 }
+
+#nav_bar {
+    background-color: red;
+    border-color: red;
+}
 .nav-sm ul.nav.child_menu {
     left: 100%;
     position: absolute;

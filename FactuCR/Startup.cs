@@ -30,16 +30,10 @@ namespace FactuCR
         public void ConfigureServices(IServiceCollection services)
         {
 
-            // var connection = @"Server=localhost;Database=db_facturacion;User=root;Password=;";
-            services.AddDbContext<db_facturacionContext>(options => options.UseMySql(_config.GetConnectionString("freemysqldatabase_sql9265941")));
+          
+            services.AddDbContext<db_facturacionContext>(options => options.UseMySql(_config.GetConnectionString("db_Facturacion")));
 
-
-            //services.AddDbContext<db_facturacionContext>(cfg =>
-
-            //{
-            //    cfg.UseMySql(_config.GetConnectionString("FactuCRConnectionString"));
-            //});
-
+           
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -64,13 +58,13 @@ namespace FactuCR
             }
 
             app.UseStaticFiles();
-            app.UseCookiePolicy();
+
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Login}/{action=Index}/{id?}");
             });
         }
     }

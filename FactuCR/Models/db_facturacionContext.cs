@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -62,7 +63,9 @@ namespace FactuCR.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseMySql("Server=sql9.freesqldatabase.com;Database=sql9265941;user=sql9265941;password=DYRHWwrZaK");
+                //  optionsBuilder.UseMySql("Server=sql9.freesqldatabase.com;Database=sql9265941;user=sql9265941;password=DYRHWwrZaK");
+                //optionsBuilder.UseMySql(ConfigurationManager.ConnectionStrings["db_Facturacion"].ConnectionString);
+                optionsBuilder.UseMySql("Server=localhost;Database=db_facturacion;user=root;password=;");
             }
         }
 
