@@ -1,0 +1,72 @@
+﻿@model IEnumerable<FactuCR.Models.MasterInvoiceVoucher>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.XmlEnviadoBase64)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RespuestaMhbase64)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Env)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdConditionNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdKeyNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdPaymentNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.XmlEnviadoBase64)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RespuestaMhbase64)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Env)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdConditionNavigation.Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdKeyNavigation.Country)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdPaymentNavigation.Code)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdKey">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdKey">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdKey">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
