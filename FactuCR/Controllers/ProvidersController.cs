@@ -44,6 +44,7 @@ namespace FactuCR.Controllers
             return View(provider);
         }
 
+
         // GET: Providers/Create
         public IActionResult Create()
         {
@@ -53,6 +54,7 @@ namespace FactuCR.Controllers
 
             return View(new ProviderManagement());
         }
+
 
         [HttpPost]
         public IActionResult Create(ProviderManagement model)
