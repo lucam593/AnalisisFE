@@ -33,7 +33,7 @@ namespace FactuCR
 
 
           
-            services.AddDbContext<db_facturacionContext>(options => options.UseMySql(_config.GetConnectionString("smarterasp_db_dev")));
+            services.AddDbContext<db_facturacionContext>(options => options.UseMySql(_config.GetConnectionString("db_Facturacion")));
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(options =>
