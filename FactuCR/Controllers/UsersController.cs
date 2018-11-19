@@ -7,9 +7,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FactuCR.Models;
 using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FactuCR.Controllers
 {
+    [Authorize]
     public class UsersController : Controller
     {
         private readonly db_facturacionContext _context;
@@ -22,7 +26,9 @@ namespace FactuCR.Controllers
         // GET: Users
         public async Task<IActionResult> Index()
         {
+         
             return View(await _context.Users.ToListAsync());
+
         }
 
         // GET: Users/Details/5
@@ -43,46 +49,24 @@ namespace FactuCR.Controllers
             return View(users);
         }
 
-        // GET: Users/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
+       
         // POST: Users/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("FullName,UserName,Email,About,Country,Status,Pwd")] Users users)
+        
+        [HttpGet]
+        public async Task<IActionResult> Logout()
         {
-            if (ModelState.IsValid)
-            {
-
-                try
+            var values = new Dictionary<string, string>
                 {
-                    var values = new Dictionary<string, string>
-                {
-                   { "fullName", users.FullName },
-                   { "userName", users.UserName },
-                   { "email", users.Email },
-                   { "pwd", users.Pwd }
+                   { "iam", User.Identity.Name },
+                   { "sessionKey", User.Claims.First(c => c.Type == "SessionKey").ToString()}
                 };
-                    ApiConnect api = new ApiConnect();
-                    JToken jObjet = api.PostApi(values, "users", "users_register");
-                    var sessionKey = (string)jObjet["sessionKey"];
-                    var user = (string)jObjet["userName"];
-                    //LoginController login = new LoginController();
-                }
-                catch (Exception e)
-                {
-                    //var status = (string)JObject["status"];
-                    ModelState.AddModelError("", e.Message);
-                }
-            }
-            return View(users);
+            ApiConnect api = new ApiConnect();
+            JToken jObjet = api.PostApi( values,"users", "users_log_me_out");
+            await HttpContext.SignOutAsync();
+            return RedirectToAction("Index", "Login");
         }
-
         // GET: Users/Edit/5
         public async Task<IActionResult> Edit(uint? id)
         {
