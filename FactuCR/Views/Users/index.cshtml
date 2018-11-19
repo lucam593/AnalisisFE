@@ -1,0 +1,96 @@
+﻿@model IEnumerable<FactuCR.Models.Users>
+
+@{
+    ViewData["Title"] = "index";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h2>index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.About)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Country)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Timestamp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastAccess)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pwd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Avatar)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Settings)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.About)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Country)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Timestamp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastAccess)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pwd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Avatar)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Settings)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdUser">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdUser">Details</a> |
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
