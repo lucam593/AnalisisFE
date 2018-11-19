@@ -1,0 +1,169 @@
+﻿@model FactuCR.Models.BillManagement
+
+@{
+    ViewData["Title"] = "Create";
+    ViewData["PanelTitle"] = "Crear Factura";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h2>Informaci&oacute;n general</h2>
+<form asp-action="Create" class="form-horizontal">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <!--
+    <div class="form-group">
+        <label asp-for="MasterInvoiceVoucher.IdKey" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <select asp-for="MasterInvoiceVoucher.IdKey" class="form-control" asp-items="ViewBag.IdKey"></select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="MasterInvoiceVoucher.Status" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <input asp-for="MasterInvoiceVoucher.Status" class="form-control" />
+            <span asp-validation-for="MasterInvoiceVoucher.Status" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="MasterInvoiceVoucher.XmlEnviadoBase64" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <input asp-for="MasterInvoiceVoucher.XmlEnviadoBase64" class="form-control" />
+            <span asp-validation-for="MasterInvoiceVoucher.XmlEnviadoBase64" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="MasterInvoiceVoucher.RespuestaMhbase64" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <input asp-for="MasterInvoiceVoucher.RespuestaMhbase64" class="form-control" />
+            <span asp-validation-for="MasterInvoiceVoucher.RespuestaMhbase64" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="MasterInvoiceVoucher.Env" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <input asp-for="MasterInvoiceVoucher.Env" class="form-control" />
+            <span asp-validation-for="MasterInvoiceVoucher.Env" class="text-danger"></span>
+        </div>
+    </div>
+    -->
+    <div class="form-group">
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <label asp-for="MasterInvoiceVoucher.IdPayment" class="control-label">M&eacute;todo de pago</label>
+            <select asp-for="MasterInvoiceVoucher.IdPayment" class="form-control" asp-items="ViewBag.IdPayment">
+                <option selected disabled>- seleccione el m&eacute;todo de pago -</option>
+            </select>
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <label asp-for="MasterInvoiceVoucher.IdCondition" class="control-label">Codici&oacute;n de pago</label>
+            <select asp-for="MasterInvoiceVoucher.IdCondition" class="form-control" asp-items="ViewBag.IdCondition">
+                <option selected disabled>- seleccione la condici&oacute;n de pago -</option>
+            </select>
+        </div>
+        <div class="col-md-4 col-sm-12 col-xs-12">
+            <label class="control-label">Fecha actual</label>
+            <input class="form-control" value="@DateTime.Now.ToShortDateString()" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class=" col-md-4 col-sm-12 col-xs-12">
+            <label>Cliente</label>
+            <select class="form-control" asp-items="@ViewBag.ClientsList">
+                <option selected disabled>- seleccione un cliente -</option>
+            </select>
+        </div>
+    </div>
+    <div class="ln_solid"></div>
+    <div style="margin-bottom: 30px;">
+        <h2>L&iacute;neas de detalle</h2>
+    </div>
+    <div class="form-group">
+        <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 10px;">
+            <button id="btnAddProduct" class="btn btn-warning"><i class="fa fa-plus" aria-hidden="true"></i> Agregar Producto</button>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <table id="datatable" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Codigo</th>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in Model.SelectedProducts)
+                    {
+                        <tr>
+                            <td>@product.CodeProduct</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="ln_solid"></div>
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3 col-sm-offset-3">
+            <button type="submit" class="btn btn-success"> Generar Factura</button>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-12">
+            <a asp-action="Index" class="btn btn-default">Cancelar</a>
+        </div>
+    </div>
+</form>
+
+    <div id="addProductModal" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <label class="modal-title">Agregar un producto a factura</label>
+                    <button type="button" class="close" data-dismiss="modal">x</button>
+                </div>
+                <div class="modal-body" style="overflow: hidden;">
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <label class="control-label">Producto</label>
+                        <select id="addProduct-select" asp-for="IdProduct" class="form-control" asp-items="@ViewBag.ProductsList">
+                            <option selected disabled>- seleccione el producto -</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <label class="control-label">Cantidad</label>
+                        <input type="number" class="form-control" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnAddProductDetail" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Agregar</button>
+                    <button id="btnHideModal" type="button" class="btn btn-default">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<script>
+    $(document).ready(function () {
+        $('#btnAddProduct').click(function () {
+            $('#addProductModal').modal('show');
+        });
+        $('#btnHideModal').click(function () {
+            $('#addProductModal').modal('hide');
+        });
+    })
+
+    var productsList = @Html.Raw(ViewBag.Products);
+
+    $('#btnAddProductDetail').click(function () {
+        var id = $('#addProduct-select').val();
+
+        $.each(productsList, function (value) {
+            alert(value);
+            $('#datatable tr:last').after('<tr>' + value.CodeProduct + '</tr>');
+        })
+
+    })
+
+</script>

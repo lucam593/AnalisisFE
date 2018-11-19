@@ -8,3 +8,7 @@ body {
     min-width: 596px;
 }
 /* finish */
+
+.label-success {
+    background-color: #1ABB9C !important;
+}
