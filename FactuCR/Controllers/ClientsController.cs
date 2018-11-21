@@ -92,7 +92,7 @@ namespace FactuCR.Controllers
             }
             if (model.Client.IdType == 4)
             {
-                client.IdentificationNumber = model.IdentificationNumberNITE;
+                client.IdentificationNumber = model.IdentificationNumberDIMEX;
             }
             TelephoneContact telephoneContact = new TelephoneContact();
             telephoneContact.IdOwner = client.IdentificationNumber;
@@ -117,12 +117,39 @@ namespace FactuCR.Controllers
             }
 
             var client = await _context.Client.FindAsync(id);
+            var telephoneContact = _context.TelephoneContact.Where(tc => tc.IdOwner.Equals(client.IdentificationNumber)).First();
+
+            ClientManagement model = new ClientManagement();
+            model.Client = client;
+            model.TelephoneContact = telephoneContact;
+
+            if (client.IdType == 1)
+            {
+            model.IdentificationNumberCedFisica  = client.IdentificationNumber;
+            }
+            else if (model.Client.IdType == 2)
+            {
+                model.IdentificationNumberCedJuridica = client.IdentificationNumber ;
+            }
+          else  if (model.Client.IdType == 3)
+            {
+                model.IdentificationNumberNITE = client.IdentificationNumber  ;
+            }
+        else   
+            {
+                model.IdentificationNumberDIMEX = client.IdentificationNumber  ;
+            }
+
+
             if (client == null)
             {
                 return NotFound();
             }
             ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Name", client.IdType);
-            return View(client);
+            List<Country> countriesList = _context.Country.ToList();
+            ViewData["CountriesList"] = countriesList;
+
+            return View(model);
         }
 
         // POST: Clients/Edit/5
@@ -130,36 +157,52 @@ namespace FactuCR.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdClient,IdType,IdentificationNumber,Name,LastName,Email,Country,Status,AdmissionDate")] Client client)
+        public  IActionResult Edit(int id, ClientManagement model)
         {
-            if (id != client.IdClient)
-            {
-                return NotFound();
-            }
+            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Name", model.Client.IdType);
+            List<Country> countriesList = _context.Country.ToList();
+            ViewData["CountriesList"] = countriesList;
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(client);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ClientExists(client.IdClient))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Name", client.IdType);
+            Client client = _context.Client.Find(model.Client.IdClient);
+            client.IdType = model.Client.IdType;
+            client.IdentificationNumber = model.Client.IdentificationNumber;
+            client.Name = model.Client.Name;
+            client.LastName = model.Client.LastName;
+            client.Email = model.Client.Email;
+            client.Country = model.Client.Country;
+            client.Status = model.Client.Status;
+            client.AdmissionDate = model.Client.AdmissionDate;
 
-            return View(client);
+
+            if (client.IdType == 1)
+            {
+                model.IdentificationNumberCedFisica = client.IdentificationNumber;
+            }
+            else if (model.Client.IdType == 2)
+            {
+                model.IdentificationNumberCedJuridica = client.IdentificationNumber;
+            }
+            else if (model.Client.IdType == 3)
+            {
+                model.IdentificationNumberNITE = client.IdentificationNumber;
+            }
+            else
+            {
+                model.IdentificationNumberDIMEX = client.IdentificationNumber;
+            }
+            TelephoneContact telephoneContact = new TelephoneContact();
+            telephoneContact.IdOwner = client.IdentificationNumber;
+            telephoneContact.CountryCode = model.TelephoneContact.CountryCode;
+            telephoneContact.TelephoneNumber = model.TelephoneContact.TelephoneNumber;
+            telephoneContact.Type = model.TelephoneContact.Type;
+            telephoneContact.Description = model.TelephoneContact.Description;
+            telephoneContact.Extension = model.TelephoneContact.Extension;
+
+            _context.TelephoneContact.Add(telephoneContact);
+            _context.Client.Add(client);
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
         }
         
         
