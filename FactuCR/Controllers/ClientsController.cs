@@ -157,7 +157,7 @@ namespace FactuCR.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public  IActionResult Edit(int id, ClientManagement model)
+        public IActionResult Edit(int id, ClientManagement model)
         {
             ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Name", model.Client.IdType);
             List<Country> countriesList = _context.Country.ToList();
@@ -176,19 +176,20 @@ namespace FactuCR.Controllers
 
             if (client.IdType == 1)
             {
-                model.IdentificationNumberCedFisica = client.IdentificationNumber;
+              client.IdentificationNumber = model.IdentificationNumberCedFisica;
             }
             else if (model.Client.IdType == 2)
             {
-                model.IdentificationNumberCedJuridica = client.IdentificationNumber;
+               client.IdentificationNumber = model.IdentificationNumberCedJuridica ;
             }
             else if (model.Client.IdType == 3)
             {
-                model.IdentificationNumberNITE = client.IdentificationNumber;
+                client.IdentificationNumber = model.IdentificationNumberNITE;
             }
             else
             {
-                model.IdentificationNumberDIMEX = client.IdentificationNumber;
+                client.IdentificationNumber = model.IdentificationNumberDIMEX;
+            
             }
             TelephoneContact telephoneContact = new TelephoneContact();
             telephoneContact.IdOwner = client.IdentificationNumber;
@@ -198,8 +199,8 @@ namespace FactuCR.Controllers
             telephoneContact.Description = model.TelephoneContact.Description;
             telephoneContact.Extension = model.TelephoneContact.Extension;
 
-            _context.TelephoneContact.Add(telephoneContact);
-            _context.Client.Add(client);
+            _context.Update(telephoneContact);
+            _context.Update(client);
             _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
@@ -217,11 +218,15 @@ namespace FactuCR.Controllers
             var client = await _context.Client
                 .Include(c => c.IdTypeNavigation)
                 .FirstOrDefaultAsync(m => m.IdClient == id);
-            if (client == null)
+
+            ClientManagement model = new ClientManagement();
+            model.Client = client;
+
+            if (model == null)
             {
                 return NotFound();
             }
-            return View(client);
+            return View(model);
         }
 
         // POST: Clients/Delete/5

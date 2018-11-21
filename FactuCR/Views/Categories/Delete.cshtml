@@ -24,6 +24,6 @@
 <div class="ln_solid"></div>
 <form asp-action="Delete">
     <input type="hidden" asp-for="IdCategory" />
-    <input type="submit" value="Eliminar" class="btn btn-danger" />
-    <a asp-action="Index" class="btn btn-default">Regresar a la lista</a>
+    <button type="submit" value="Eliminar" class="btn btn-danger"><i class="fa fa-trash-o"></i> Eliminar</button>
+    <a asp-action="Index" class="btn btn-default"><i class="fa fa-caret-square-o-left" aria-hidden="true"></i> Cancelar</a>
 </form>
