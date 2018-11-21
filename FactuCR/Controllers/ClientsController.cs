@@ -29,6 +29,7 @@ namespace FactuCR.Controllers
         // GET: Clients/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+
             if (id == null)
             {
                 return NotFound();
@@ -37,6 +38,7 @@ namespace FactuCR.Controllers
             var client = await _context.Client
                 .Include(c => c.IdTypeNavigation)
                 .FirstOrDefaultAsync(m => m.IdClient == id);
+
             if (client == null)
             {
                 return NotFound();
@@ -99,10 +101,6 @@ namespace FactuCR.Controllers
             telephoneContact.Type = model.TelephoneContact.Type;
             telephoneContact.Description = model.TelephoneContact.Description;
             telephoneContact.Extension = model.TelephoneContact.Extension;
-
-           
-
-
 
             _context.TelephoneContact.Add(telephoneContact);
             _context.Client.Add(client);
