@@ -7,23 +7,6 @@
 
 <h2>Inicio Configuración Compañia</h2>
 
-@*<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<input type="text" id="serchText" name="serchText" />
-<input type="submit" value="Serch" />
-<link href="~/AutoComplete/jquery-ui.css" rel="stylesheet" />
-<script src="~/AutoComplete/jquery-ui.js"></script>
-<script src="~/AutoComplete/jquery.js"></script>
-<script type="text/javascript">
-
-    $(function () {
-        $("#serchText").autocomplete({
-            source: '@Url.Action("GetInfo")'
-        });
-    });
-
-</script>*@
 <table id="datatable" class="table table-bordered">
     <thead>
         <tr>
@@ -117,8 +100,7 @@
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.IdConfig">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdConfig">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdConfig">Delete</a>
+                <a asp-action="Details" asp-route-id="@item.IdConfig">Details</a>
             </td>
         </tr>
     }

@@ -9,6 +9,7 @@
 <form asp-action="Edit" class="form-horizontal">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="Provider.IdProvider" />
+
     <div class="form-group">
         <label asp-for="Provider.IdType" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -18,6 +19,7 @@
             <span asp-validation-for="Provider.IdType" class="text-danger"></span>
         </div>
     </div>
+
     <div class="form-group">
         <label id="idnum-label" asp-for="IdentificationNumberCedJuridica" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -34,6 +36,7 @@
             <span asp-validation-for="IdentificationNumberDIMEX" class="text-danger"></span>
         </div>
     </div>
+
     <div class="form-group">
         <label asp-for="Provider.Name" class="control-label col-md-3 col-sm-3 col-xs-12">Nombre del proveedor</label>
         <div class="col-md-6 col-sm-6 col-xs-12">

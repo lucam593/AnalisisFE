@@ -18,14 +18,13 @@ namespace FactuCR.Controllers
             _context = context;
         }
 
-        // GET: ConfigCompanies
+        //GET: ConfigCompanies
         public async Task<IActionResult> Index()
         {
             var db_facturacionContext = _context.ConfigCompany.Include(c => c.IdTypeNavigation);
             return View(await db_facturacionContext.ToListAsync());
         }
 
-        // GET: ConfigCompanies/Details/5
         public async Task<IActionResult> Details()
         {
             //if (id == null)
@@ -84,6 +83,39 @@ namespace FactuCR.Controllers
             ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Code", configCompany.IdType);
             ConfigCompaniesManagement conf = new ConfigCompaniesManagement();
             conf.configCompany = configCompany;
+
+            List<Province> Provinces = new List<Province>();
+
+            List<string> provinceList = _context.MasterAddress.Select(x => x.NombreProvincia).Distinct().ToList();
+            foreach (string province in provinceList)
+            {
+                //List<string> CantonList = _context.MasterAddress.Where(x => x.NombreProvincia == province).Select(x => x.NombreCanton).Distinct().ToList();
+                //Cantons = new List<Canton>();
+
+                //foreach (string canton in CantonList)
+                //{
+                //    List<string> DistrictList = _context.MasterAddress.Where(x => x.NombreProvincia == province && x.NombreCanton == canton).Select(x => x.NombreDistrito).Distinct().ToList();
+                //    Districts = new List<District>();
+
+                //    foreach (string district in DistrictList)
+                //    {
+                //        List<string> NeighborhoodsList = _context.MasterAddress.Where(x => x.NombreProvincia == province && x.NombreCanton == canton && x.NombreCanton == district).Select(x => x.NombreBarrio).Distinct().ToList();
+                //        Neighborhoods = new List<Neighborhood>();
+
+                //        foreach (string Neighborhood in NeighborhoodsList)
+                //        {
+                //            Neighborhoods.Add(new Neighborhood(Neighborhood));
+                //        }
+                //        Districts.Add(new District(district, Neighborhoods));
+                //    }
+
+                //    Cantons.Add(new Canton(canton));
+                //}
+                Provinces.Add(new Province(province));
+            }
+
+            ViewData["provinceList"] = Provinces;
+
             return View(conf);
         }
 
@@ -160,10 +192,29 @@ namespace FactuCR.Controllers
             return _context.ConfigCompany.Any(e => e.IdConfig == id);
         }
 
-        public JsonResult GetInfo(string term)
+        public JsonResult getCanton(string id)
         {
-            var bd = _context.ConfigCompany.Where(x => x.FullName.Contains(term)).Select(x => x.FullName).ToList();
-            return Json(bd);
+            List<Canton> canton = new List<Canton>();
+
+            List<string> CantonList = _context.MasterAddress.Where(p => p.NombreProvincia == id).Select(p => p.NombreCanton).Distinct().ToList();
+            foreach (string c in CantonList)
+            {
+                canton.Add(new Canton(c));
+            }
+            return Json(new SelectList (canton, "NameCanton", "NameCanton"));
+        }
+
+        public JsonResult getDistrict(string idP, string idC)
+        {
+            List<District> district = new List<District>();
+
+            List<string> districtList = _context.MasterAddress.Where(p => p.NombreCanton == idC).Select(p => p.NombreDistrito).Distinct().ToList();
+
+            foreach (string c in districtList)
+            {
+                district.Add(new District(c));
+            }
+            return Json(new SelectList(district, "NameDistrict", "NameDistrict"));
         }
     }
 }

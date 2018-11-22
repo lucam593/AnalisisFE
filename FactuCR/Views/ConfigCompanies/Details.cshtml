@@ -5,11 +5,10 @@
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-<h2>Details</h2>
 
 <div>
-    <h4>ConfigCompany</h4>
-    <hr />
+    <h4>Detalles de Configuración</h4>
+
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.FullName)
@@ -104,6 +103,5 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.IdConfig">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.IdConfig">Edit</a>
 </div>
