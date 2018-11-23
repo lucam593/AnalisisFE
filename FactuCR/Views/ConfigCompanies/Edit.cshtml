@@ -13,7 +13,7 @@
     <input type="hidden" asp-for="configCompany.IdConfig" />
 
     <div class="form-group">
-        <label asp-for="configCompany.FullName" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+        <label asp-for="configCompany.FullName" class="control-label col-md-3 col-sm-3 col-xs-12">Nombre Completo</label>
         <div class="col-md-4 col-sm-4 col-xs-12">
             <input asp-for="configCompany.FullName" class="form-control" />
             <span asp-validation-for="configCompany.FullName" class="text-danger"></span>
@@ -21,7 +21,7 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="configCompany.IdType" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+        <label asp-for="configCompany.IdType" class="control-label col-md-3 col-sm-3 col-xs-12">Tipo de Identificación</label>
         <div class="col-md-4 col-sm-4 col-xs-12">
             <select id="idtype-select" asp-for="configCompany.IdType" class="form-control" asp-items="ViewBag.IdType">
                 <option selected disabled>- Seleccione una opcion -</option>
@@ -31,8 +31,8 @@
     </div>
 
     <div class="form-group">
-        <label id="idnum-label" asp-for="IdentificationNumberCedJuridica" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
-        <div class="col-md-6 col-sm-6 col-xs-12">
+        <label id="idnum-label" asp-for="IdentificationNumberCedJuridica" class="control-label col-md-3 col-sm-3 col-xs-12">Número de Cédula</label>
+        <div class="col-md-4 col-sm-4 col-xs-12">
             <input id="cedfisica-input" asp-for="IdentificationNumberCedFisica" class="form-control" data-inputmask="'mask': '9-9999-9999'" />
             <span asp-validation-for="IdentificationNumberCedFisica" class="text-danger"></span>
 
@@ -48,106 +48,100 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="configCompany.CompannyName" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
-        <div class="col-md-6 col-sm-6 col-xs-12">
+        <label asp-for="configCompany.CompannyName" class="control-label col-md-3 col-sm-3 col-xs-12">Nombre Compañia</label>
+        <div class="col-md-4 col-sm-4 col-xs-12">
             <input asp-for="configCompany.CompannyName" class="form-control" />
             <span asp-validation-for="configCompany.CompannyName" class="text-danger"></span>
         </div>
     </div>
 
     <div class="form-group">
-        <label asp-for="configCompany.Email" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
-        <div class="col-md-6 col-sm-6 col-xs-12">
+        <label asp-for="configCompany.Email" class="control-label col-md-3 col-sm-3 col-xs-12">Correo Electrónico</label>
+        <div class="col-md-4 col-sm-4 col-xs-12">
             <input asp-for="configCompany.Email" class="form-control" />
             <span asp-validation-for="configCompany.Email" class="text-danger"></span>
         </div>
     </div>
-
     <div class="form-group">
-        <label asp-for="configCompany.Telephone" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <input asp-for="configCompany.Telephone" class="form-control" />
-            <span asp-validation-for="configCompany.Telephone" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="configCompany.Fax" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <input asp-for="configCompany.Fax" class="form-control" />
-            <span asp-validation-for="configCompany.Fax" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="configCompany.Province" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+        <label asp-for="configCompany.Country" class="control-label col-md-3 col-sm-3 col-xs-12">Código Páis</label>
         <div class="col-md-4 col-sm-4 col-xs-12">
-            <select id="ProvinceName" name="ProvinceList" asp-for="configCompany.Province" asp-items="@(new SelectList(ViewBag.provinceList,"NameProvince", "NameProvince"))" class="form-control">
-                <option selected disabled>- Seleccione el c&oacute;digo de pa&iacute;s</option>
-            </select>
-            <span asp-validation-for="configCompany.Province" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="configCompany.Canton" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
-        <div class="col-md-4 col-sm-4 col-xs-12">
-            <select id="CantonName" name="CantonList" asp-for="configCompany.Canton" asp-items="@(new SelectList(string.Empty,"NameCanton", "NameCanton"))" class="form-control">
-                <option selected disabled>- Seleccione el c&oacute;digo de canton</option>
-            </select>
-            <span asp-validation-for="configCompany.Canton" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="configCompany.District" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
-        <div class="col-md-4 col-sm-4 col-xs-12">
-            <select id="DistrictName" name="DistrictList" asp-for="configCompany.District" asp-items="@(new SelectList(string.Empty,"NameDistrict", "NameDistrict"))" class="form-control">
-                <option selected disabled>- Seleccione un distrito</option>
-            </select>
-            <span asp-validation-for="configCompany.District" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="configCompany.OtherSigns" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <input asp-for="configCompany.OtherSigns" class="form-control" />
-            <span asp-validation-for="configCompany.OtherSigns" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="configCompany.Country" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
-        <div class="col-md-6 col-sm-6 col-xs-12">
             <input asp-for="configCompany.Country" class="form-control" />
             <span asp-validation-for="configCompany.Country" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group">
-        <label asp-for="configCompany.UserTax" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
-        <div class="col-md-6 col-sm-6 col-xs-12">
+        <label asp-for="configCompany.Telephone" class="control-label col-md-3 col-sm-3 col-xs-12">Telefono</label>
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <input asp-for="configCompany.Telephone" class="form-control" data-inputmask="'mask': '9999-9999'" />
+            <span asp-validation-for="configCompany.Telephone" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="configCompany.Fax" class="control-label col-md-3 col-sm-3 col-xs-12">Fax</label>
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <input asp-for="configCompany.Fax" class="form-control" data-inputmask="'mask': '9999-9999'" />
+            <span asp-validation-for="configCompany.Fax" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="configCompany.Province" class="control-label col-md-3 col-sm-3 col-xs-12">Provincia</label>
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <select id="ProvinceName" asp-for="configCompany.Province" asp-items="@(new SelectList(ViewBag.provinceList,"NameProvince", "NameProvince"))" class="form-control"></select>
+            <span asp-validation-for="configCompany.Province" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="configCompany.Canton" class="control-label col-md-3 col-sm-3 col-xs-12">Cantón</label>
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <select id="CantonName" asp-for="configCompany.Canton" asp-items="@(new SelectList(string.Empty,"NameCanton", "NameCanton"))" class="form-control"></select>
+            <span asp-validation-for="configCompany.Canton" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="configCompany.District" class="control-label col-md-3 col-sm-3 col-xs-12">Distrito</label>
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <select id="DistrictName" asp-for="configCompany.District" asp-items="@(new SelectList(string.Empty,"NameDistrict", "NameDistrict"))" class="form-control"></select>
+            <span asp-validation-for="configCompany.District" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="configCompany.OtherSigns" class="control-label col-md-3 col-sm-3 col-xs-12">Otras Señas</label>
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <input asp-for="configCompany.OtherSigns" class="form-control" />
+            <span asp-validation-for="configCompany.OtherSigns" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="configCompany.UserTax" class="control-label col-md-3 col-sm-3 col-xs-12">Usuario Tributación</label>
+        <div class="col-md-4 col-sm-4 col-xs-12">
             <input asp-for="configCompany.UserTax" class="form-control" />
             <span asp-validation-for="configCompany.UserTax" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group">
-        <label asp-for="configCompany.PasswordTax" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <input asp-for="configCompany.PasswordTax" class="form-control" />
+        <label asp-for="configCompany.PasswordTax" class="control-label col-md-3 col-sm-3 col-xs-12">Contraseña Tributación</label>
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <input asp-for="configCompany.PasswordTax" type="password" class="form-control" />
             <span asp-validation-for="configCompany.PasswordTax" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group">
-        <label asp-for="configCompany.Currency" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
-        <div class="col-md-6 col-sm-6 col-xs-12">
+        <label asp-for="configCompany.Currency" class="control-label col-md-3 col-sm-3 col-xs-12">Moneda Estándar</label>
+        <div class="col-md-4 col-sm-4 col-xs-12">
             <input asp-for="configCompany.Currency" class="form-control" />
             <span asp-validation-for="configCompany.Currency" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group">
-        <label asp-for="configCompany.CurrencyValue" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
-        <div class="col-md-6 col-sm-6 col-xs-12">
+        <label asp-for="configCompany.CurrencyValue" class="control-label col-md-3 col-sm-3 col-xs-12">Precio Moneda</label>
+        <div class="col-md-4 col-sm-4 col-xs-12">
             <input asp-for="configCompany.CurrencyValue" class="form-control" />
             <span asp-validation-for="configCompany.CurrencyValue" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group">
-        <input type="submit" value="Guardar Configuración" class="btn btn-default" />
+        <input type="submit" id="Guardar" value="Guardar Configuración" class="btn btn-default" />
     </div>
 </form>
 
@@ -192,32 +186,35 @@
         $("#ProvinceName").change(function () {
             var url = '@Url.Content("~/")' + "ConfigCompanies/getCanton";
             var ddlsource = "#ProvinceName";
-            $.getJSON(url, { id: $(ddlsource).val() }, function (data) {
+            $.getJSON(url, { Province: $(ddlsource).val() }, function (data) {
                 var items = '';
                 $("#CantonName").empty();
                 $.each(data, function (i, row) {
-                    items += "<option value= '>" + row.value + "'>" + row.text + "</option>";
+                    items += "<option value= '" + row.value + "'>" + row.text + "</option>";
                 });
                 $("#CantonName").html(items);
             })
         });
     });
 
+
      $(function () {
          $("#CantonName").change(function () {
              var url = '@Url.Content("~/")' + "ConfigCompanies/getDistrict";
              var ddlsource = "#ProvinceName";
              var ddlsource2 = "#CantonName";
-             $.getJSON(url, { idP: $(ddlsource).val(), idC: $(ddlsource2).val() }, function (data) {
+             $.getJSON(url, { Province: $(ddlsource).val(), Canton: $(ddlsource2).val() }, function (data) {
                 var items = '';
                  $("#DistrictName").empty();
                 $.each(data, function (i, row) {
-                    items += "<option value= '>" + row.value + "'>" + row.text + "</option>";
+                    items += "<option value= '" + row.value + "'>" + row.text + "</option>";
                 });
                  $("#DistrictName").html(items);
             })
         });
     });
+
+
 </script>
 
 

@@ -28,12 +28,14 @@ namespace FactuCR.Models
         [Required(ErrorMessage = "Debe ingresar un correo")]
         [Display(Name = "Correo electrónico")]
         public string Email { get; set; }
-
-        [Required(ErrorMessage = "Debe ingresar un número telefónico")]
+        [Display(Name = "Telefono")]
         public int Telephone { get; set; }
         public string Fax { get; set; }
+        [Required(ErrorMessage = "Debe ingresar una provincia")]
         public string Province { get; set; }
+        [Required(ErrorMessage = "Debe ingresar un cantón")]
         public string Canton { get; set; }
+        [Required(ErrorMessage = "Debe ingresar un distrito")]
         public string District { get; set; }
         public string OtherSigns { get; set; }
         public string Country { get; set; }
