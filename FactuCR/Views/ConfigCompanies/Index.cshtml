@@ -11,52 +11,47 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FullName)
+                Nombre Completo
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdUser)
+                Número de Identificación
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CompannyName)
+                Nombre Conpañia
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                Correo Electrónico
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Telephone)
+                Teléfono
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Fax)
+                Fax
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Province)
-                @Html.DisplayNameFor(model => model.Canton)
-                @Html.DisplayNameFor(model => model.District)
-                @Html.DisplayNameFor(model => model.OtherSigns)
+                Dirección
+            </th>
+            <th>
+                Código País
+            </th>
+            <th>
+                Usuario y Contraseña Tributación
+            </th>
+            <th>
+                Moneda
+            </th>
+            <th>
+                Estado
             </th>
 
             <th>
-                @Html.DisplayNameFor(model => model.Country)
+                Pin Hacienda
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserTax)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PasswordTax)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Currency)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CurrencyValue)
-            </th>
-
-            <th></th>
         </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model)
-    {
+        @foreach (var item in Model)
+        {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.FullName)
@@ -77,33 +72,34 @@
                 @Html.DisplayFor(modelItem => item.Fax)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Province)
-                @Html.DisplayFor(modelItem => item.Canton)
-                @Html.DisplayFor(modelItem => item.District)
-                @Html.DisplayFor(modelItem => item.OtherSigns)
+                @Html.DisplayFor(modelItem => item.Province),
+                @Html.DisplayFor(modelItem => item.Canton),
+                @Html.DisplayFor(modelItem => item.District),
+                @Html.DisplayFor(modelItem => item.OtherSigns).
             </td>
-
             <td>
                 @Html.DisplayFor(modelItem => item.Country)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.UserTax)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.PasswordTax)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Currency)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.CurrencyValue)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdConfig">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdConfig">Details</a>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.pin)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdConfig">Modificar</a> |
+                <a asp-action="Details" asp-route-id="@item.IdConfig">Detalles</a>
             </td>
         </tr>
-    }
+        }
 
     </tbody>
 </table>

@@ -72,14 +72,14 @@
     <div class="form-group">
         <label asp-for="configCompany.Telephone" class="control-label col-md-3 col-sm-3 col-xs-12">Telefono</label>
         <div class="col-md-4 col-sm-4 col-xs-12">
-            <input asp-for="configCompany.Telephone" class="form-control" data-inputmask="'mask': '9999-9999'" />
+            <input id="telefone-input" asp-for="configCompany.Telephone" class="form-control" data-inputmask="'mask': '9999-9999'" />
             <span asp-validation-for="configCompany.Telephone" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group">
         <label asp-for="configCompany.Fax" class="control-label col-md-3 col-sm-3 col-xs-12">Fax</label>
         <div class="col-md-4 col-sm-4 col-xs-12">
-            <input asp-for="configCompany.Fax" class="form-control" data-inputmask="'mask': '9999-9999'" />
+            <input id="fax-input" asp-for="configCompany.Fax" class="form-control" data-inputmask="'mask': '9999-9999'" />
             <span asp-validation-for="configCompany.Fax" class="text-danger"></span>
         </div>
     </div>
@@ -140,10 +140,37 @@
             <span asp-validation-for="configCompany.CurrencyValue" class="text-danger"></span>
         </div>
     </div>
+
     <div class="form-group">
-        <input type="submit" id="Guardar" value="Guardar Configuración" class="btn btn-default" />
+        <label asp-for="configCompany.Status" class="control-label col-md-3 col-sm-3 col-xs-12">Estado <span class="required">*</span></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <div id="status" class="btn-group" data-toggle="buttons">
+                <label class="btn btn-success active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                    <input type="radio" value="Activa" asp-for="configCompany.Status" checked /> &nbsp; Activa &nbsp;
+                    <span asp-validation-for="configCompany.Status" class="text-danger"></span>
+                </label>
+                <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                    <input type="radio" value="Inactiva" asp-for="configCompany.Status" /> Inactiva
+                    <span asp-validation-for="configCompany.Status" class="text-danger"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="configCompany.pin" class="control-label col-md-3 col-sm-3 col-xs-12">Pin Hacienda</label>
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <input asp-for="configCompany.pin" class="form-control" />
+            <span asp-validation-for="configCompany.pin" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" id="Guardar" value="Guardar Configuración" class="btn btn-default" />|
+        <a asp-action="Index">Regresar</a>
     </div>
 </form>
+
 
 <script>
     $(document).ready(function () {

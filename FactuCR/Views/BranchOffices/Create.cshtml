@@ -1,0 +1,35 @@
+﻿@model FactuCR.Models.BranchOffice
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h2>Crear Nueva Sucursal</h2>
+
+<form asp-action="Create" class="form-horizontal">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="Name" class="control-label col-md-4 col-sm-4 col-xs-12">Nombre</label>
+        <div class="control-label col-md-4 col-sm-4 col-xs-12">
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="OfficeNumber" class="control-label col-md-4 col-sm-4 col-xs-12">Número Oficina</label>
+        <div class="control-label col-md-4 col-sm-4 col-xs-12">
+            <input asp-for="OfficeNumber" class="form-control"  data-inputmask="'mask':'999'" />
+            <span asp-validation-for="OfficeNumber" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Crear Nuevo" class="btn btn-default" />
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Regresar</a>
+</div>
+

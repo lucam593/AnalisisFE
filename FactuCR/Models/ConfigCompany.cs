@@ -29,7 +29,7 @@ namespace FactuCR.Models
         [Display(Name = "Correo electrónico")]
         public string Email { get; set; }
         [Display(Name = "Telefono")]
-        public int Telephone { get; set; }
+        public string Telephone { get; set; }
         public string Fax { get; set; }
         [Required(ErrorMessage = "Debe ingresar una provincia")]
         public string Province { get; set; }
@@ -44,6 +44,13 @@ namespace FactuCR.Models
         public string Currency { get; set; }
         public double CurrencyValue { get; set; }
 
+        [Required(ErrorMessage = "Debe ingresar un status")]
+        [Display(Name = "Estado")]
+        public string Status { get; set; }
+        
+        [Required(ErrorMessage = "Debe ingresar un pin")]
+        [Display(Name = "Pin")]
+        public string pin { get; set; }
         public IdentificationType IdTypeNavigation { get; set; }
     }
 }

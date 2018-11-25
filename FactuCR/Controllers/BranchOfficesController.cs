@@ -6,28 +6,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FactuCR.Models;
-using Microsoft.AspNetCore.Authorization;
 
 namespace FactuCR.Controllers
 {
-    [Authorize]
-    public class CategoriesController : Controller
+    public class BranchOfficesController : Controller
     {
         private readonly db_facturacionContext _context;
 
-        public CategoriesController(db_facturacionContext context)
+        public BranchOfficesController(db_facturacionContext context)
         {
             _context = context;
         }
 
-        // GET: Categories
+        // GET: BranchOffices
         public async Task<IActionResult> Index()
         {
-            var db_facturacionContext = _context.Category.Include(c => c.IdCategory);
-            return View(await _context.Category.ToListAsync());
+            return View(await _context.BranchOffice.ToListAsync());
         }
 
-        // GET: Categories/Details/5
+        // GET: BranchOffices/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,39 +32,39 @@ namespace FactuCR.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Category
-                .FirstOrDefaultAsync(m => m.IdCategory == id);
-            if (category == null)
+            var branchOffice = await _context.BranchOffice
+                .FirstOrDefaultAsync(m => m.IdOffice == id);
+            if (branchOffice == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(branchOffice);
         }
 
-        // GET: Categories/Create
+        // GET: BranchOffices/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Categories/Create
+        // POST: BranchOffices/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdCategory,Name,Description")] Category category)
+        public async Task<IActionResult> Create([Bind("IdOffice,Name,OfficeNumber")] BranchOffice branchOffice)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(category);
+                _context.Add(branchOffice);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            return View(branchOffice);
         }
 
-        // GET: Categories/Edit/5
+        // GET: BranchOffices/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -75,22 +72,22 @@ namespace FactuCR.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Category.FindAsync(id);
-            if (category == null)
+            var branchOffice = await _context.BranchOffice.FindAsync(id);
+            if (branchOffice == null)
             {
                 return NotFound();
             }
-            return View(category);
+            return View(branchOffice);
         }
 
-        // POST: Categories/Edit/5
+        // POST: BranchOffices/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdCategory,Name,Description")] Category category)
+        public async Task<IActionResult> Edit(int id, [Bind("IdOffice,Name,OfficeNumber")] BranchOffice branchOffice)
         {
-            if (id != category.IdCategory)
+            if (id != branchOffice.IdOffice)
             {
                 return NotFound();
             }
@@ -99,12 +96,12 @@ namespace FactuCR.Controllers
             {
                 try
                 {
-                    _context.Update(category);
+                    _context.Update(branchOffice);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategoryExists(category.IdCategory))
+                    if (!BranchOfficeExists(branchOffice.IdOffice))
                     {
                         return NotFound();
                     }
@@ -115,10 +112,10 @@ namespace FactuCR.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            return View(branchOffice);
         }
 
-        // GET: Categories/Delete/5
+        // GET: BranchOffices/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -126,30 +123,30 @@ namespace FactuCR.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Category
-                .FirstOrDefaultAsync(m => m.IdCategory == id);
-            if (category == null)
+            var branchOffice = await _context.BranchOffice
+                .FirstOrDefaultAsync(m => m.IdOffice == id);
+            if (branchOffice == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(branchOffice);
         }
 
-        // POST: Categories/Delete/5
+        // POST: BranchOffices/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var category = await _context.Category.FindAsync(id);
-            _context.Category.Remove(category);
+            var branchOffice = await _context.BranchOffice.FindAsync(id);
+            _context.BranchOffice.Remove(branchOffice);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CategoryExists(int id)
+        private bool BranchOfficeExists(int id)
         {
-            return _context.Category.Any(e => e.IdCategory == id);
+            return _context.BranchOffice.Any(e => e.IdOffice == id);
         }
     }
 }

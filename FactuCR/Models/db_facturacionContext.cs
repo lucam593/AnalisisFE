@@ -255,12 +255,21 @@ namespace FactuCR.Models
                     .IsRequired()
                     .HasColumnType("varchar(20)");
 
-                entity.Property(e => e.Telephone).HasColumnType("int(10)");
+                entity.Property(e => e.Telephone).HasColumnType("varchar(10)");
 
                 entity.Property(e => e.UserTax)
                     .IsRequired()
                     .HasColumnName("User_Tax")
-                    .HasColumnType("varchar(50)");
+                    .HasColumnType("varchar(100)");
+
+                entity.Property(e => e.Status)
+                   .IsRequired()
+                   .HasColumnType("varchar(10)");
+
+                entity.Property(e => e.pin)
+                    .IsRequired()
+                    .HasColumnName("pin")
+                    .HasColumnType("varchar(10)");
 
                 entity.HasOne(d => d.IdTypeNavigation)
                     .WithMany(p => p.ConfigCompany)
