@@ -28,6 +28,15 @@
             </th>
             -->
             <th>
+                Tipo de documento
+            </th>
+            <th>
+                Identificaci&oacute;n del cliente
+            </th>
+            <th>
+                Nombre del cliente
+            </th>
+            <th>
                 Pa&iacute;s
             </th>
             <th>
@@ -59,6 +68,15 @@
                 @Html.DisplayFor(modelItem => item.Env)
             </td>
             -->
+            <td>
+                @Html.DisplayFor(modelItem => item.IdKeyNavigation.IdConsecutiveNavigation.VoucherType)    
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MasterReceiver.IdentificationNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MasterReceiver.Fullname)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IdKeyNavigation.Country)
             </td>

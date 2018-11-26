@@ -342,11 +342,45 @@
                         $('#embeddedPDF').attr('src', data);
                     }, 10)
                     //Finish Embedded PDF data
+
+                    sendDocumentsToClient();
                 }
             })
             .fail(function () {
                 console.log("ERROR");
             })
+    }
+
+    function sendDocumentsToClient() {
+        var emailData = {
+            "text": "Example Text",
+            "subject": "FactuCR - Documentos Electronicos",
+            "from": {
+                "name": "Sandy Valdez",
+                "email": "sandy.ovg@gmail.com"
+            },
+            "to": [
+                {
+                    "name": "SandyVG",
+                    "email": "sandy.valdez@ucrso.info"
+                }
+            ],
+            "attachments": {
+                "text.txt": "SIMPLE TXT"
+            }
+        };
+
+        $.ajax({
+            url: "https://api.sendpulse.com/smtp/emails",
+            type: 'POST',
+            data: emailData
+        })
+        .done(function () {
+            console.log("EMAIL SEND");
+        })
+        .fail(function () {
+            console.log("EMAIL FAIL");
+        })
     }
 
     function transformProductDetails() {

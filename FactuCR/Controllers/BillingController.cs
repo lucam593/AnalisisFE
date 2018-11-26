@@ -24,7 +24,13 @@ namespace FactuCR.Controllers
         // GET: Billing
         public async Task<IActionResult> Index()
         {
-            var db_facturacionContext = _context.MasterInvoiceVoucher.Include(m => m.IdConditionNavigation).Include(m => m.IdKeyNavigation).Include(m => m.IdPaymentNavigation);
+            var db_facturacionContext = _context.MasterInvoiceVoucher
+                .Include(m => m.IdConditionNavigation)
+                .Include(m => m.IdKeyNavigation)
+                .Include(m => m.IdPaymentNavigation)
+                .Include(m => m.IdKeyNavigation.IdConsecutiveNavigation)
+                .Include(m => m.MasterReceiver);
+
             ViewData["Bills"] = _context.MasterInvoiceVoucher.ToList<MasterInvoiceVoucher>();
 
             return View(await db_facturacionContext.ToListAsync());
@@ -42,6 +48,9 @@ namespace FactuCR.Controllers
                 .Include(m => m.IdConditionNavigation)
                 .Include(m => m.IdKeyNavigation)
                 .Include(m => m.IdPaymentNavigation)
+                .Include(m => m.IdKeyNavigation.IdConsecutiveNavigation)
+                .Include(m => m.MasterReceiver)
+                .Include(m => m.MasterDetail)
                 .FirstOrDefaultAsync(m => m.IdKey == id);
             if (masterInvoiceVoucher == null)
             {
@@ -189,7 +198,7 @@ namespace FactuCR.Controllers
             _context.MasterInvoiceVoucher.Add(masterInvoiceVoucher);
             _context.SaveChanges();
 
-            //------------- FINISH INVOICE VOUCHER RECORD -------
+            //---------- FINISH INVOICE VOUCHER RECORD ----------
 
             //------------- CLIENT RECEIVER RECORD --------------
 
@@ -212,7 +221,7 @@ namespace FactuCR.Controllers
                 _context.SaveChanges();
             }
 
-            //------------- FINISH CLIENT RECEIVER RECORD -------
+            //----------- FINISH CLIENT RECEIVER RECORD ---------
 
             int IdClient = dynamicAllBill.clientId;
 
@@ -233,7 +242,7 @@ namespace FactuCR.Controllers
 
             SaveProductDetails(productDetailsList, lastMasterKey);
 
-            CreateKey(lastMasterKey, voucherTypeSymbology, "fisico", "112070714", "normal", consecutive, number, terminal, branchOffice);
+            CreateKey(lastMasterKey, voucherTypeSymbology, "fisico", "112070714", "normal", consecutive, number, terminal, branchOffice);            
 
             return Json(new { state = 0, message = string.Empty });
         }
