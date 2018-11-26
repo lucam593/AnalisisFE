@@ -344,22 +344,131 @@ namespace FactuCR.Controllers
             return strNewNumber;
         }
 
-        private void FE()
+        private string[] CreateXML(int idKey)
         {
+            MasterInvoiceVoucher miv = _context.MasterInvoiceVoucher.Find(idKey);
+            ConfigCompany configC = _context.ConfigCompany.Find(1);
+            var values = new Dictionary<string, string>
+                {
+                   { "clave",  miv.ApiKey},
+                   { "consecutivo", miv.ApiConsecutive },
+                   { "fecha_emision",  DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss%K") },
+                   { "emisor_nombre", configC.FullName },
+                   { "emisor_tipo_indetif", Convert.ToString( configC.IdType) },
+                   { "emisor_num_identif", Convert.ToString( configC.IdUser).Replace("-","") },
+                   { "emisor_nombre", configC.CompannyName },
+                   { "emisor_provincia", configC.Province },
+                   { "emisor_canton", configC.Canton },
+                   { "emisor_distrito", configC.District },
+                   { "emisor_barrio", configC.Province }, //arreglar a barrio
+                   { "emisor_otras_senas", configC.OtherSigns },
+                   { "emisor_cod_pais_tel", configC.Country },
+                   { "emisor_tel", configC.Telephone },
+                   { "emisor_cod_pais_fax", configC.Country },
+                   { "emisor_fax", configC.Fax },
+                   { "emisor_email", configC.Email },
+                   { "receptor_nombre", "NOMBRECLIENTE" }, //TODO REFERENTE A CLIENTE
+                   { "receptor_tipo_identif", "TIPOCEDCLIENTE" },
+                   { "receptor_num_identif", "CEDULACLIENTE" },
+                   { "receptor_provincia", "PROVINCIA CLIENTE" },
+                   { "receptor_canton", "CANTONCLIENTE" },
+                   { "receptor_distrito", "DISTRITOCLIENTE" },
+                   { "receptor_barrio", "BARRIOCLIENTE" },
+                   { "receptor_cod_pais_tel", "CLIENTECODPAIS" },
+                   { "receptor_tel", "CLIENTETELEFONO" },
+                   { "receptor_cod_pais_fax", "CLIENTEFAXCOD" }, //eje: 506
+                   { "receptor_fax", "CLIENTEFAX" },
+                   { "receptor_email", "CLIENTEEMAIL" },
+                   { "condicion_venta", "" }, // eje: 01
+                   { "plazo_credito", "0" }, // 
+                   { "medio_pago", "" }, // medio pago 01
+                   { "cod_moneda", "" }, //eje CRC
+                   { "tipo_cambio", Convert.ToString(configC.CurrencyValue) },
+                   { "total_serv_gravados", "" },
+                   { "total_serv_exentos", "" },
+                   { "total_merc_gravada", "" },
+                   { "total_merc_exenta", "" },
+                   { "total_gravados", "" },
+                   { "total_exentos", "" },
+                   { "total_ventas", "" },
+                   { "total_descuentos", "" },
+                   { "total_ventas_neta", "" },
+                   { "total_impuestos", "" },
+                   { "total_comprobante", "" },
+                   { "otros", "" },
+                   { "otrosType", "" }
+                };
 
-            //var values = new Dictionary<string, string>
-            //    {
-            //       { "grant_type", "password" },
-            //       { "client_id", "api-stag" },
-            //       { "username", "cpf-01-1207-0714@stag.comprobanteselectronicos.go.cr" }, //usuario y contraseña se deben obtener de la BD
-            //       { "password", ">|o+-JNb_G(1#9$xs}b]" }
-            //    };
-            //ApiConnect api = new ApiConnect();
-            //JToken jObjet = api.PostApi(values, "token", "gettoken");
-            //var sessionKey = (string)jObjet["sessionKey"];
-            //var user = (string)jObjet["userName"];
-            //var idUser = (string)jObjet["idUser"];
+            string detalle = "{";
+            List<MasterDetail> listaDetalle = new List<MasterDetail>(); // DEBE SER LA LISTA DE DETALLE
+            int count = 0;
+            foreach (var item in listaDetalle)
+            {
+                count++;
+                if (count > 1)
+                {
+                    detalle += ",";
+                }
+                detalle += "\"" + count + "\":{ " +
+                                                "\"cantidad\":\"" + item.Quantity + "\"," +
+                                                "\"unidadMedida\":\"" + item.MeasuredUnitSymbology + "\"," +
+                                                "\"detalle\":\"" + item.NameProduct + "\"," +
+                                                "\"precioUnitario\":\"" + item.UnitPrice + "\"," +
+                                                "\"montoTotal\":\"" + item.TotalAmount + "\"," +
+                                                "\"subtotal\":\"" + item.Subtotal + "\"," +
+                                                "\"montoTotalLinea\":\"" + item.TotalLineAmount + "\"," +
+                                                "\"montoDescuento\":\"" + item.DiscountAmount + "\"," +
+                                                "\"naturalezaDescuento\":\"Oferta\"}";
+            }
+            detalle += "}";
 
+            values.Add("detalles", detalle);
+
+            ApiConnect api = new ApiConnect();
+            JToken jObjet = api.PostApi(values, "genXML", "gen_xml_fe");
+            var clave = (string)jObjet["clave"];
+            var xml = (string)jObjet["xml"];
+            string[] vals = { clave, xml, "FE" };
+            return vals;
+        }
+
+        private string CreateSignXML(string[] vals)
+        {
+            ConfigCompany configC = _context.ConfigCompany.Find(1);
+            var file = _context.Files.Find(1);
+            var values = new Dictionary<string, string>
+                {
+                   { "p12Url", file.DownloadCode },
+                   { "inXml", vals[1] },
+                   { "pinP12", configC.pin },
+                   { "tipodoc", vals[2] }
+                };
+            ApiConnect api = new ApiConnect();
+            JToken jObjet = api.PostApi(values, "signXML", "signFE");
+            var xmlFirmado = (string)jObjet["xmlFirmado"];
+
+            return xmlFirmado;
+        }
+
+        private void SendHacienda(string[] valToken, string xFirmado)
+        {
+            ConfigCompany configC = _context.ConfigCompany.Find(1);
+            
+            var values = new Dictionary<string, string>
+                {
+                   { "token", valToken[0]},
+                   { "clave", "" }, //clave de factura
+                   { "fecha", DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss%K") },
+                   { "emi_tipoIdentificacion", Convert.ToString( configC.IdType)},
+                   { "emi_numeroIdentificacion", Convert.ToString( configC.IdUser).Replace("-","") },
+                   { "recp_tipoIdentificacion", "" }, //tipo cedula cliente
+                   { "recp_numeroIdentificacion", "" }, //cedula cliente
+                   { "comprobanteXml", xFirmado },
+                   { "client_id", "api-stag" }
+                };
+            ApiConnect api = new ApiConnect();
+            JToken jObjet = api.PostApi(values, "send", "json");
+            var status = (string)jObjet["Status"];
         }
 
         private void CreateKey(int idKey, string tipoDocumento, string tipoCedula, string cedula, string situacion, string consec, string codSeg, string ter, string sucr)
@@ -389,15 +498,15 @@ namespace FactuCR.Controllers
             _context.SaveChanges();
         }
 
-        private void Token()
+        private string[] Token()
         {
-
+            var configC = _context.ConfigCompany.Find(1);
             var values = new Dictionary<string, string>
                 {
                    { "grant_type", "password" },
                    { "client_id", "api-stag" },
-                   { "username", "cpf-01-1207-0714@stag.comprobanteselectronicos.go.cr" }, //usuario y contraseña se deben obtener de la BD
-                   { "password", ">|o+-JNb_G(1#9$xs}b]" }
+                   { "username", configC.UserTax }, 
+                   { "password",  configC.PasswordTax}
                 };
 
             ApiConnect api = new ApiConnect();
@@ -406,6 +515,10 @@ namespace FactuCR.Controllers
             var access_token = (string)jObjet["access_token"];
             var refresh_token = (string)jObjet["refresh_token"];
             var expires_in = (string)jObjet["expires_in"];
+
+            string[] vals = { access_token, refresh_token, expires_in };
+
+            return vals;
         }
     }
 }

@@ -36,7 +36,7 @@ namespace FactuCR.Controllers
 
                 if (ModelState.IsValid)
                 {
-
+                    var temp = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss%K");
 
                     var values = new Dictionary<string, string>
                 {
