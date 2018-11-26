@@ -5,111 +5,119 @@
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-<h2>Details</h2>
 
 <div>
-    <h4>ConfigCompany</h4>
-    <hr />
+    <h4>Detalles de Configuración</h4>
+
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.FullName)
+            <label>Nombre Completo</label>
         </dt>
         <dd>
             @Html.DisplayFor(model => model.FullName)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.IdUser)
+            <label>Número Identificación</label>
         </dt>
         <dd>
             @Html.DisplayFor(model => model.IdUser)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.CompannyName)
+            <label>Nombre Compañia</label>
         </dt>
         <dd>
             @Html.DisplayFor(model => model.CompannyName)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Email)
+            <label>Correo Electrónico</label>
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Email)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Telephone)
+            <label>Teléfono</label>
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Telephone)
         </dd>
         <dt>
+            <label>Fax</label>
             @Html.DisplayNameFor(model => model.Fax)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Fax)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Province)
+            <label>Province</label>
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Province)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Canton)
+            <label>Canton</label>
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Canton)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.District)
+            <label>Distrito</label>
         </dt>
         <dd>
             @Html.DisplayFor(model => model.District)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.OtherSigns)
+            <label>Otras Señas</label>
         </dt>
         <dd>
             @Html.DisplayFor(model => model.OtherSigns)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Country)
+            <label>Código País</label>
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Country)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.UserTax)
+            <label>Usuario Tributación</label>
         </dt>
         <dd>
             @Html.DisplayFor(model => model.UserTax)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.PasswordTax)
+            <label>Contraseña Tributación</label>
         </dt>
         <dd>
             @Html.DisplayFor(model => model.PasswordTax)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Currency)
+            <label>Moneda</label>
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Currency)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.CurrencyValue)
+            <label>Tipo de Cambio</label>
         </dt>
         <dd>
             @Html.DisplayFor(model => model.CurrencyValue)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.IdTypeNavigation)
+            <label>Estado</label>
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.IdTypeNavigation.Code)
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+        <dt>
+            <label>Pin Hacienda</label>
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.pin)
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.IdConfig">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+<form asp-action="Edit">
+    <input type="hidden" asp-for="@Model.IdConfig" />
+    <input type="submit" value="Modificar" class="btn btn-default" /> |
+    <a asp-action="Index">Regresar</a>
+</form>

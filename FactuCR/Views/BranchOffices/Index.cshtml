@@ -1,0 +1,48 @@
+﻿@model IEnumerable<FactuCR.Models.BranchOffice>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h2>Sucursales Disponibles</h2>
+
+
+<div>
+    <h4>
+        <a asp-action="Create">Crear Nueva</a>
+    </h4>
+</div>
+<hr />
+
+<table id="datatable" class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                Nombre de Sucursal
+            </th>
+            <th>
+                Número de Sucursal
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OfficeNumber)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdOffice">Modificar</a> |
+                    <a asp-action="Details" asp-route-id="@item.IdOffice">Detalles</a> |
+                    <a asp-action="Delete" asp-route-id="@item.IdOffice">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
