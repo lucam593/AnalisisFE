@@ -120,7 +120,12 @@ namespace FactuCR.Controllers
             ClaimsIdentity userIdentity = new ClaimsIdentity(claims, "login");
             ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
             Thread.CurrentPrincipal = principal;
-            await HttpContext.SignInAsync(principal);
+            await HttpContext.SignInAsync(
+                principal, 
+                properties: new AuthenticationProperties
+            {
+                ExpiresUtc = DateTime.UtcNow.AddMinutes(5)
+            });
             return principal;
         }
 

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FactuCR.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace FactuCR.Controllers
 {
@@ -45,6 +46,11 @@ namespace FactuCR.Controllers
             {
                 return NotFound();
             }
+            //llamado al api
+
+
+            //
+          
 
             return View(masterInvoiceVoucher);
         }
@@ -213,5 +219,8 @@ namespace FactuCR.Controllers
 
             return View();
         }*/
+
+
+       
     }
 }
