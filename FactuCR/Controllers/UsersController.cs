@@ -23,33 +23,6 @@ namespace FactuCR.Controllers
             _context = context;
         }
 
-        // GET: Users
-        public async Task<IActionResult> Index()
-        {
-         
-            return View(await _context.Users.ToListAsync());
-
-        }
-
-        // GET: Users/Details/5
-        public async Task<IActionResult> Details(uint? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var users = await _context.Users
-                .FirstOrDefaultAsync(m => m.IdUser == id);
-            if (users == null)
-            {
-                return NotFound();
-            }
-
-            return View(users);
-        }
-
-       
         // POST: Users/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -60,7 +33,7 @@ namespace FactuCR.Controllers
             var values = new Dictionary<string, string>
                 {
                    { "iam", User.Identity.Name },
-                   { "sessionKey", User.Claims.First(c => c.Type == "SessionKey").ToString()}
+                   { "sessionKey", User.Claims.First(c => c.Type == "SessionKey").Value}
                 };
             ApiConnect api = new ApiConnect();
             JToken jObjet = api.PostApi( values,"users", "users_log_me_out");
@@ -68,8 +41,9 @@ namespace FactuCR.Controllers
             return RedirectToAction("Index", "Login");
         }
         // GET: Users/Edit/5
-        public async Task<IActionResult> Edit(uint? id)
+        public async Task<IActionResult> Index()
         {
+            uint? id = Convert.ToUInt32(User.Claims.First(c => c.Type == "idUser").Value);
             if (id == null)
             {
                 return NotFound();
@@ -80,6 +54,11 @@ namespace FactuCR.Controllers
             {
                 return NotFound();
             }
+             //Unix timestamp is seconds past epoch
+            DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+            dtDateTime = dtDateTime.AddSeconds(users.LastAccess).ToLocalTime();
+ 
+            ViewBag.Message = dtDateTime.ToString();
             return View(users);
         }
 
@@ -88,7 +67,7 @@ namespace FactuCR.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(uint id, [Bind("IdUser,FullName,UserName,Email,About,Country,Status,Timestamp,LastAccess,Pwd,Avatar,Settings")] Users users)
+        public async Task<IActionResult> Index(uint id, [Bind("IdUser,FullName,UserName,Email,About,Country,Status,Timestamp,LastAccess,Pwd,Avatar,Settings")] Users users)
         {
             if (id != users.IdUser)
             {

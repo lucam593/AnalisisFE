@@ -34,5 +34,18 @@ namespace FactuCR.Models
             JToken jResult = jObject["resp"];
             return jResult;
         }
+
+        //public JToken PostApiFile()
+        //{
+        //    var values = new Dictionary<string, object>{};
+        //    values.Add("w", "fileUploader");
+        //    values.Add("r", "subir_certif");
+        //    var content = new FormUrlEncodedContent(values);
+        //    var response = client.PostAsync(url, content).Result;
+        //    var responseString = response.Content.ReadAsMultipartAsync().Result;
+        //    JObject jObject = JObject.Parse(responseString);
+        //    JToken jResult = jObject["resp"];
+        //    return jResult;
+        //}
     }
 }
