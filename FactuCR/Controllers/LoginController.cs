@@ -5,11 +5,9 @@ using FactuCR.Models;
 using FactuCR.Models.Login;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Owin.Security;
 using Newtonsoft.Json.Linq;
-
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNetCore.Authentication;
+using System.Threading;
 
 namespace FactuCR.Controllers
 {
@@ -19,7 +17,7 @@ namespace FactuCR.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return Redirect("/Home");
+                return Redirect("/Categories");
             }
             else
             {
@@ -30,55 +28,104 @@ namespace FactuCR.Controllers
         // POST: Login
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public virtual ActionResult Index(Login model)
+        public virtual async System.Threading.Tasks.Task<ActionResult> Index([Bind("UserName,Pwd")] Login login)
         {
             try
             {
-                if (!ModelState.IsValid)
+
+
+                if (ModelState.IsValid)
                 {
-                    return View(model);
+
+
+                    var values = new Dictionary<string, string>
+                {
+                   { "userName", login.UserName },
+                   { "pwd", login.Pwd }
+                };
+                    ApiConnect api = new ApiConnect();
+                    JToken jObjet = api.PostApi(values, "users", "users_log_me_in");
+                    var sessionKey = (string)jObjet["sessionKey"];
+                    var user = (string)jObjet["userName"];
+                    var idUser = (string)jObjet["idUser"];
+
+                    await genClaimsAsync(user, sessionKey, idUser);
+                   
+                    
+                    return RedirectToAction("Index", "Billing");
                 }
 
-                //IAuthenticationManager authenticationManager = HttpContext.GetOwinContext().Authentication;
-                //var authService = new ApiAuthenticationService(authenticationManager);
-                //var authenticationResult = authService.SignIn(model.userName, model.pwd);
-                //if (authenticationResult.IsSuccess)
-                //{
-                //    return Redirect("/Home");
 
-                //}
-                //ModelState.AddModelError("", authenticationResult.ErrorMessage);
+
+
             }
             catch (Exception e)
             {
-                ModelState.AddModelError("", e.Message);
 
+                TempData["UserLoginFailed"] = "Error al entrar.Por favor ingresa datos correctos";
+                return View();
             }
-            return View(model);
+            return View();
         }
-        public ActionResult Logoff()
+
+        // GET: Users/Create
+        public IActionResult Create()
         {
-            try
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async System.Threading.Tasks.Task<IActionResult> Create([Bind("FullName,UserName,Email,About,Country,Status,Pwd")] Users users)
+        {
+            if (ModelState.IsValid)
             {
-                var claims = User.Identity as ClaimsIdentity;
-                var sessionKey = claims.FindFirst(ClaimTypes.Sid).Value;
-                var values = new Dictionary<string, string>
+
+                try
                 {
-                   { "iam", User.Identity.Name },
-                   { "sessionKey", sessionKey }
+                    var values = new Dictionary<string, string>
+                {
+                   { "fullName", users.FullName },
+                   { "userName", users.UserName },
+                   { "email", users.Email },
+                   { "pwd", users.Pwd }
                 };
-                ApiConnect api = new ApiConnect();
-                JToken jObjet = api.PostApi(values, "users", "users_log_me_out");
-
+                    ApiConnect api = new ApiConnect();
+                    JToken jObjet = api.PostApi(values, "users", "users_register");
+                    var sessionKey = (string)jObjet["sessionKey"];
+                    var user = (string)jObjet["userName"];
+                    var idUser = (string)jObjet["idUser"];
+                    await genClaimsAsync(user, sessionKey, idUser);
+                    ModelState.Clear();
+                    TempData["Success"] = "Registro Exitoso";
+                    return RedirectToAction("Create", "Files");
+                }
+                catch (Exception e)
+                {
+                    TempData["Fail"] = "Este Usuario ya existe. Registro fallido.";
+                    return View();
+                }
             }
-            catch (Exception e)
-            {
+            return View(users);
+        }
 
-            }
-            //IAuthenticationManager authenticationManager = HttpContext.GetOwinContext().Authentication;
-            //authenticationManager.SignOut(MyAuthentication.ApplicationCookie);
-            return RedirectToAction("Index");
+        private async System.Threading.Tasks.Task<ClaimsPrincipal> genClaimsAsync(string UserName, string sessionKey, string id)
+        {
+            var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, UserName),
+                        new Claim("SessionKey", sessionKey),
+                        new Claim("idUser", id)
+                    };
+            ClaimsIdentity userIdentity = new ClaimsIdentity(claims, "login");
+            ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
+            Thread.CurrentPrincipal = principal;
+            await HttpContext.SignInAsync(principal);
+            return principal;
         }
 
     }
+
+
+
 }
