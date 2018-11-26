@@ -1,0 +1,147 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    ViewData["PanelTitle"] = "Resumen General";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+<style>
+    div.card {
+        border-radius: 3px;
+        color: white;
+        height: 100%;
+        margin-bottom: 20px;
+        overflow: hidden;
+    }
+    
+    .card span {
+        font-size: 3em;    
+    }
+
+    .card .card-body {
+        padding: 10px 10px;
+        overflow: hidden;
+    }
+
+    .card .card-footer {
+        padding: 5px 0px;
+        text-align: center;
+    }
+
+    .card-footer a {
+        color: white;
+        cursor: pointer;
+    }
+
+    .card-info .card-body {
+        background-color: #00B0F2;
+    }
+
+    .card-info .card-body i {
+        color: #0094DA;
+    }
+
+    .card-info .card-footer {
+        background-color: #009EDC;
+    }
+
+    .card-danger .card-body {
+        background-color: #EC5738;
+    }
+
+    .card-danger .card-body i {
+        color: #C84A2D;
+    }
+
+    .card-danger .card-footer {
+        background-color: #D54E31;
+    }
+
+    .card-warning .card-body {
+        background-color: #FD9C0B;
+    }
+
+    .card-warning .card-body i {
+        color: #D9830B;
+    }
+
+    .card-warning .card-footer {
+        background-color: #E68C0C;
+    }
+
+    .card-success .card-body {
+        background-color: #00915C;
+    }
+
+    .card-success .card-body i {
+        color: #007D4C;
+    }
+
+    .card-success .card-footer {
+        background-color: #008452;
+    }
+</style>
+
+<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <div class="card card-danger">
+        <div class="card-body">
+            <div class="col-md-6">
+                <span>@ViewBag.TotalClients</span>
+                <p>Clientes en total</p>
+            </div>
+            <div class="col-md-6">
+                <i class="pull-right fa fa-users fa-5x" aria-hidden="true"></i>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a class="" asp-controller="Clients" asp-action="Index">M&aacute;s informaci&oacute;n <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
+        </div>
+    </div>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <div class="card card-info">
+        <div class="card-body">
+            <div class="col-md-6">
+                <span>@ViewBag.TotalProducts</span>
+                <p>Productos en total</p>
+            </div>
+            <div class="col-md-6">
+                <i class="pull-right fa fa-product-hunt fa-5x" aria-hidden="true"></i>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a class="" asp-controller="Products" asp-action="Index">M&aacute;s informaci&oacute;n <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
+        </div>
+    </div>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <div class="card card-warning">
+        <div class="card-body">
+            <div class="col-md-6">
+                <span>@ViewBag.TotalProviders</span>
+                <p>Proveedores en total</p>
+            </div>
+            <div class="col-md-6">
+                <i class="pull-right fa fa-truck fa-5x" aria-hidden="true"></i>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a class="" asp-controller="Providers" asp-action="Index">M&aacute;s informaci&oacute;n <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
+        </div>
+    </div>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <div class="card card-success">
+        <div class="card-body">
+            <div class="col-md-6">
+                <span>@ViewBag.TotalBills</span>
+                <p>Facturas en total</p>
+            </div>
+            <div class="col-md-6">
+                <i class="pull-right fa fa-line-chart fa-5x" aria-hidden="true"></i>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a class="">M&aacute;s informaci&oacute;n <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
+        </div>
+    </div>
+</div>

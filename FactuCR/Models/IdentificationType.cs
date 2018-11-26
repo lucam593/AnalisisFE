@@ -14,6 +14,7 @@ namespace FactuCR.Models
 
         public int IdType { get; set; }
         public string Code { get; set; }
+        public string Symbology { get; set; }
         public string Name { get; set; }
 
         public ICollection<Client> Client { get; set; }
