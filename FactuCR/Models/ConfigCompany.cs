@@ -37,6 +37,7 @@ namespace FactuCR.Models
         public string Canton { get; set; }
         [Required(ErrorMessage = "Debe ingresar un distrito")]
         public string District { get; set; }
+        public string neighborhood { get; set; }
         public string OtherSigns { get; set; }
         public string Country { get; set; }
         public string UserTax { get; set; }
@@ -47,7 +48,7 @@ namespace FactuCR.Models
         [Required(ErrorMessage = "Debe ingresar un status")]
         [Display(Name = "Estado")]
         public string Status { get; set; }
-        
+
         [Required(ErrorMessage = "Debe ingresar un pin")]
         [Display(Name = "Pin")]
         public string pin { get; set; }
