@@ -62,7 +62,7 @@ namespace FactuCR.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
 
               
                 optionsBuilder.UseMySql(ConfigurationManager.ConnectionStrings["smarterasp_db_dev"].ConnectionString);
@@ -255,12 +255,21 @@ namespace FactuCR.Models
                     .IsRequired()
                     .HasColumnType("varchar(20)");
 
-                entity.Property(e => e.Telephone).HasColumnType("int(10)");
+                entity.Property(e => e.Telephone).HasColumnType("varchar(10)");
 
                 entity.Property(e => e.UserTax)
                     .IsRequired()
                     .HasColumnName("User_Tax")
-                    .HasColumnType("varchar(50)");
+                    .HasColumnType("varchar(100)");
+
+                entity.Property(e => e.Status)
+                   .IsRequired()
+                   .HasColumnType("varchar(10)");
+
+                entity.Property(e => e.pin)
+                    .IsRequired()
+                    .HasColumnName("pin")
+                    .HasColumnType("varchar(10)");
 
                 entity.HasOne(d => d.IdTypeNavigation)
                     .WithMany(p => p.ConfigCompany)
