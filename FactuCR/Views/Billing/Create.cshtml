@@ -82,7 +82,7 @@
     </div>
     <div class="form-group">
         <div class="col-md-12 col-sm-12 col-xs-12">
-            <table id="datatable" class="table table-bordered">
+            <table id="productsTable" class="table table-bordered">
                 <thead>
                     <tr>
                         <th>Codigo</th>
@@ -90,15 +90,11 @@
                         <th>Precio</th>
                         <th>Cantidad</th>
                         <th>Subtotal</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var product in Model.SelectedProducts)
-                    {
-                        <tr>
-                            <td>@product.CodeProduct</td>
-                        </tr>
-                    }
+
                 </tbody>
             </table>
         </div>
@@ -132,7 +128,7 @@
                     </div>
                     <div class="col-md-6 col-sm-12 col-xs-12">
                         <label class="control-label">Cantidad</label>
-                        <input type="number" class="form-control" />
+                        <input id="quantity-input" type="number" class="form-control" />
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -155,15 +151,37 @@
     })
 
     var productsList = @Html.Raw(ViewBag.Products);
+    
 
     $('#btnAddProductDetail').click(function () {
         var id = $('#addProduct-select').val();
+        console.log(id);
+        $.each(productsList, function (index, value) {
 
-        $.each(productsList, function (value) {
-            alert(value);
-            $('#datatable tr:last').after('<tr>' + value.CodeProduct + '</tr>');
+            if (id == value.IdProduct) {
+                var productName = value.NameProduct;
+                var productCode = value.CodeProduct;
+                var productSalePrice = value.SalePrice;
+                var productQuantity = $('#quantity-input').val();
+                var subtotal = productSalePrice * productQuantity;
+
+                var tableRow = "<tr id=rowWithProductId" + value.IdProduct + ">"
+                    + "<td>" + productCode + "</td>"
+                    + "<td>" + productName + "</td>"
+                    + "<td>" + productSalePrice + "</td>"
+                    + "<td>" + productQuantity + "</td>"
+                    + "<td>" + subtotal + "</td>"
+                    + "<td><button class='btn btn-danger' onclick='removeTableRow(" + value.IdProduct + ")'>Eliminar</button></td>"
+                    + "</tr>";
+
+                $('#productsTable tbody').append(tableRow);
+            }
         })
 
     })
+
+    function removeTableRow(productId) {
+        $('#rowWithProductId' + productId).remove();
+    }
 
 </script>

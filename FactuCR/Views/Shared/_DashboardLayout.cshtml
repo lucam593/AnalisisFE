@@ -26,6 +26,7 @@
 
     <script src="~/vendor/jquery/dist/jquery.min.js"></script>
 
+    <script src="~/AutoComplete/jquery-1.10.2.js"></script>
     <!-- SCRIPTS FOR VALIDATION
     <script src="~/vendor/jquery-validation-1.17.0/dist/jquery.validate.min.js"></script>
     <script src="~/vendor/jquery-validation-1.17.0/dist/localization/messages_es.js"></script>-->
@@ -38,7 +39,7 @@
         <div class="main_container">
             <div class="col-md-3 left_col">
                 <div class="left_col scroll-view">
-                    <div class="navbar nav_title" >
+                    <div class="navbar nav_title">
                         <a asp-area="" asp-controller="Products" asp-action="Index" class="site_title">
                             <img src="~/images/FactuCR_Icon.png" class="profile_img" style="padding:0; margin-top:0; margin-bottom: 10px; margin-left:0; width: 40px; height: 40px;" />
                             <span style="color: white;">&nbsp; FactuCR</span>
@@ -47,7 +48,7 @@
 
                     <div class="clearfix"></div>
 
-                   
+
                     <!-- /menu profile quick info -->
 
                     <br />
@@ -78,6 +79,13 @@
                                         <li><a asp-area="" asp-controller="Categories" asp-action="Index">Lista de Categor&iacute;as</a></li>
                                         <li><a asp-area="" asp-controller="Families" asp-action="Create">Crear Familia</a></li>
                                         <li><a asp-area="" asp-controller="Families" asp-action="Index">Lista de Familias</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a><i class="fa fa-shopping-cart"></i> Proveedores <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a asp-area="" asp-controller="Providers" asp-action="Create">Ingresar Proveedor</a></li>
+                                        <li><a asp-area="" asp-controller="Providers" asp-action="Index">Lista de Proveedores</a></li>
                                     </ul>
                                 </li>
                             </ul>
