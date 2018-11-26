@@ -205,6 +205,10 @@ namespace FactuCR.Models
                     .IsRequired()
                     .HasColumnType("varchar(20)");
 
+                entity.Property(e => e.neighborhood)
+                    .IsRequired()
+                    .HasColumnType("varchar(20)");
+
                 entity.Property(e => e.CompannyName)
                     .IsRequired()
                     .HasColumnName("Companny_Name")

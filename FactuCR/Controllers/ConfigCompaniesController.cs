@@ -220,32 +220,24 @@ namespace FactuCR.Controllers
             {
                 configCompannyInBD.Fax = model.configCompany.Fax;
             }
-
-
-            if (!configCompannyInBD.Province.Equals(model.configCompany.Province) | model.configCompany.Province != null)
+            if (model.configCompany.Province != null && model.configCompany.Canton != null && model.configCompany.District != null && model.configCompany.neighborhood != null)
             {
-                configCompannyInBD.Province = model.configCompany.Province;
+                string province = model.configCompany.Province;
+                string canton = model.configCompany.Canton;
+                string district = model.configCompany.District;
+                string neighborhood = model.configCompany.neighborhood;
+
+                MasterAddress master = _context.MasterAddress.Where(x => x.NombreProvincia == province && x.NombreCanton == canton && x.NombreDistrito == district && x.NombreBarrio == neighborhood).First();
+                configCompannyInBD.Province = master.IdProvincia;
+                configCompannyInBD.Canton = master.IdCanton;
+                configCompannyInBD.District = master.IdDistrito;
+                configCompannyInBD.neighborhood = master.IdBarrio;
             }
-
-
-            if (!configCompannyInBD.Canton.Equals(model.configCompany.Canton) | model.configCompany.Canton != null)
-            {
-                configCompannyInBD.Canton = model.configCompany.Canton;
-            }
-
-
-            if (!configCompannyInBD.District.Equals(model.configCompany.District) | model.configCompany != null)
-            {
-                configCompannyInBD.District = model.configCompany.District;
-            }
-
 
             if (!configCompannyInBD.OtherSigns.Equals(model.configCompany.OtherSigns) | model.configCompany.OtherSigns != null)
             {
                 configCompannyInBD.OtherSigns = model.configCompany.OtherSigns;
             }
-
-
 
             if (!configCompannyInBD.UserTax.Equals(model.configCompany.UserTax) | model.configCompany.UserTax != null)
             {
@@ -362,19 +354,20 @@ namespace FactuCR.Controllers
             return Json(new SelectList(district, "NameDistrict", "NameDistrict"));
         }
 
-        //public JsonResult getNeighborhood(string Province, string Canton, string district)
-        //{
-        //    List<Neighborhood> Neighborhood = new List<Neighborhood>();
 
-        //    List<string> neighborhoodList = _context.MasterAddress.Where(s => s.NombreProvincia == Province && s.NombreCanton == Canton && s.NombreDistrito == district).Select(x => x.NombreBarrio).Distinct().ToList();
+        public JsonResult getNeighborhood(string Province, string Canton, string District)
+        {
+            List<Neighborhood> Neighborhood = new List<Neighborhood>();
 
-        //    Neighborhood.Add(new Neighborhood("Seleccione un Barrio"));
-        //    foreach (string c in neighborhoodList)
-        //    {
-        //        Neighborhood.Add(new Neighborhood(c));
-        //    }
+            List<string> neighborhoodList = _context.MasterAddress.Where(s => s.NombreProvincia == Province && s.NombreCanton == Canton && s.NombreDistrito == District).Select(x => x.NombreBarrio).Distinct().ToList();
 
-        //    return Json(new SelectList(Neighborhood, "NameNeighborhood", "NameNeighborhood"));
-        //}
+            Neighborhood.Add(new Neighborhood("Seleccione un Barrio"));
+            foreach (string c in neighborhoodList)
+            {
+                Neighborhood.Add(new Neighborhood(c));
+            }
+
+            return Json(new SelectList(Neighborhood, "NameNeighborhood", "NameNeighborhood"));
+        }
     }
 }
