@@ -23,6 +23,7 @@
     <link href="~/css/dashboard/custom.min.css" rel="stylesheet" />
     <link href="~/css/dashboard/dashboard.css" rel="stylesheet" />
     <link href="~/css/general.css" rel="stylesheet" />
+    <link href="~/css/definition-lists.css" rel="stylesheet" />
 
     <script src="~/vendor/jquery/dist/jquery.min.js"></script>
 
@@ -40,7 +41,7 @@
             <div class="col-md-3 left_col">
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title">
-                        <a asp-area="" asp-controller="Products" asp-action="Index" class="site_title">
+                        <a asp-area="" asp-controller="Home" asp-action="Index" class="site_title">
                             <img src="~/images/FactuCR_Icon.png" class="profile_img" style="padding:0; margin-top:0; margin-bottom: 10px; margin-left:0; width: 40px; height: 40px;" />
                             <span style="color: white;">&nbsp; FactuCR</span>
                         </a>
@@ -81,13 +82,6 @@
                                         <li><a asp-area="" asp-controller="Families" asp-action="Index">Lista de Familias</a></li>
                                     </ul>
                                 </li>
-                                <li>
-                                    <a><i class="fa fa-shopping-cart"></i> Proveedores <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a asp-area="" asp-controller="Providers" asp-action="Create">Ingresar Proveedor</a></li>
-                                        <li><a asp-area="" asp-controller="Providers" asp-action="Index">Lista de Proveedores</a></li>
-                                    </ul>
-                                </li>
                             </ul>
                         </div>
                         <!-- /menu section for mantenimiento  -->
@@ -96,10 +90,17 @@
                             <h3>Facturaci&oacute;n</h3>
                             <ul id="sales-menu" class="nav side-menu">
                                 <li>
-                                    <a><i class="fa fa-shopping-cart"></i> Facturaci&oacute;n <span class="fa fa-chevron-down"></span></a>
+                                    <a><i class="fa fa-file-text-o"></i> Facturas / Tiquetes <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a asp-area="" asp-controller="Billing" asp-action="Create">Crear Factura</a></li>
-                                        <li></li>
+                                        <li><a asp-area="" asp-controller="Billing" asp-action="Create">Crear Factura o Tiquete Electr&oacute;nico</a></li>
+                                        <li><a asp-area="" asp-controller="Billing" asp-action="Index">Lista de Facturas y Tiquetes Electr&oacute;nicos</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a><i class="fa fa-file-text-o"></i>Cr&eacute;dito / D&eacute;bito <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a asp-area="" asp-controller="" asp-action="">Crear Nota de Cr&eacute;dito o D&eacute;bito</a></li>
+                                        <li><a asp-area="" asp-controller="" asp-action="">Lista de Notas de Cr&eacute;dito y D&eacute;bito</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -145,7 +146,7 @@
                                 <ul class="dropdown-menu dropdown-usermenu pull-right">
                                     <li><a asp-area="" asp-controller="Users" asp-action="Index"> Perfil</a></li>
                                     <li>
-                                        <a href="javascript:;">
+                                        <a asp-controller="ConfigCompanies" asp-action="Index">
                                             <span>Configuraci&oacute;n</span>
                                         </a>
                                     </li>

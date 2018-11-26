@@ -2,111 +2,106 @@
 
 @{
     ViewData["Title"] = "Delete";
+    ViewData["PanelTitle"] = "¿Seguro que desea eliminar este producto?";
+    ViewData["Annotation"] = "cuando los datos son borrados, no pueden ser recuperados";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-<h2>Delete</h2>
-
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Product</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.CodeProduct)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CodeProduct)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.NameProduct)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.NameProduct)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.SalePrice)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.SalePrice)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CostPrice)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CostPrice)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ProfitPercentage)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ProfitPercentage)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Quantity)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Quantity)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Barcode)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Barcode)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.IdCategoryNavigation)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IdCategoryNavigation.Description)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.IdCurrencyNavigation)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IdCurrencyNavigation.Code)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.IdDiscountNavigation)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IdDiscountNavigation.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.IdProviderNavigation)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IdProviderNavigation.Email)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.IdTaxNavigation)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IdTaxNavigation.Code)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.IdUnitNavigation)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IdUnitNavigation.Name)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="IdProduct" />
-        <input type="submit" value="Delete" class="btn btn-default" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
-</div>
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.CodeProduct)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.CodeProduct)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.NameProduct)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.NameProduct)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.Description)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Description)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.Status)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Status)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.SalePrice)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.SalePrice)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.CostPrice)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.CostPrice)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.ProfitPercentage)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.ProfitPercentage)
+    </dd>
+    <dt>
+        Cantidad en inventario
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Quantity)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.Barcode)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Barcode)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.IdCategoryNavigation)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.IdCategoryNavigation.Description)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.IdCurrencyNavigation)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.IdCurrencyNavigation.Code)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.IdDiscountNavigation)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.IdDiscountNavigation.Name)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.IdProviderNavigation)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.IdProviderNavigation.Email)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.IdTaxNavigation)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.IdTaxNavigation.Code)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.IdUnitNavigation)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.IdUnitNavigation.Name)
+    </dd>
+</dl>
+<div class="ln_solid"></div>
+<form asp-action="Delete">
+    <input type="hidden" asp-for="IdProduct" />
+    <button type="submit" class="btn btn-danger"><i class="fa fa-trash-o"></i> Eliminar</button>
+    <a asp-action="Index" class="btn btn-default"><i class="fa fa-caret-square-o-left"></i> Cancelar</a>
+</form>

@@ -2,14 +2,10 @@
 
 @{
     ViewData["Title"] = "Index";
+    ViewData["PanelTitle"] = "Lista de Facturas y Tiquetes Electrónicos";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-<h2>Index</h2>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table id="datatable" class="table table-bordered">
     <thead>
         <tr>
@@ -27,6 +23,15 @@
                 @Html.DisplayNameFor(model => model.Env)
             </th>
             -->
+            <th>
+                Tipo de documento
+            </th>
+            <th>
+                Identificaci&oacute;n del cliente
+            </th>
+            <th>
+                Nombre del cliente
+            </th>
             <th>
                 Pa&iacute;s
             </th>
@@ -60,6 +65,15 @@
             </td>
             -->
             <td>
+                @Html.DisplayFor(modelItem => item.IdKeyNavigation.IdConsecutiveNavigation.VoucherType)    
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MasterReceiver.IdentificationNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MasterReceiver.Fullname)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.IdKeyNavigation.Country)
             </td>
             <td>
@@ -77,9 +91,11 @@
                 @day/@month/@year
             </td>
             <td>
-                <a asp-action="Details" asp-route-id="@item.IdKey" class="label label-success">Detalles</a>
+                <a asp-action="Details" asp-route-id="@item.IdKey" class="label label-default">Detalles</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+<div class="ln_solid"></div>
+<a asp-action="Create" class="btn btn-success"><i class="fa fa-plus"></i> Ingresar nuevo documento</a>
