@@ -2,14 +2,10 @@
 
 @{
     ViewData["Title"] = "Index";
+    ViewData["PanelTitle"] = "Lista de Facturas y Tiquetes Electrónicos";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-<h2>Index</h2>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table id="datatable" class="table table-bordered">
     <thead>
         <tr>
@@ -95,9 +91,11 @@
                 @day/@month/@year
             </td>
             <td>
-                <a asp-action="Details" asp-route-id="@item.IdKey" class="label label-success">Detalles</a>
+                <a asp-action="Details" asp-route-id="@item.IdKey" class="label label-default">Detalles</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+<div class="ln_solid"></div>
+<a asp-action="Create" class="btn btn-success"><i class="fa fa-plus"></i> Ingresar nuevo documento</a>

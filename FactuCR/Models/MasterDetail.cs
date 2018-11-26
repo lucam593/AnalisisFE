@@ -11,7 +11,7 @@ namespace FactuCR.Models
         public string NameProduct { get; set; }
         public string MeasuredUnitSymbology { get; set; }
         public int Quantity { get; set; }
-        public double? DiscountAmount { get; set; }
+        public double DiscountAmount { get; set; }
         public double UnitPrice { get; set; }
         public double Subtotal { get; set; }
         public double TotalAmount { get; set; }

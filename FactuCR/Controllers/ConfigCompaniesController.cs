@@ -18,12 +18,12 @@ namespace FactuCR.Controllers
             _context = context;
         }
 
-        //GET: ConfigCompanies
+        /*GET: ConfigCompanies
         public async Task<IActionResult> Index()
         {
             var db_facturacionContext = _context.ConfigCompany.Include(c => c.IdTypeNavigation);
             return View(await db_facturacionContext.ToListAsync());
-        }
+        }*/
 
         public async Task<IActionResult> Details(int? id)
         {
@@ -130,7 +130,7 @@ namespace FactuCR.Controllers
         }
 
         // GET: ConfigCompanies/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Index(int? id = 1)
         {
             if (id == null)
             {
@@ -162,7 +162,7 @@ namespace FactuCR.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, ConfigCompaniesManagement model)
+        public async Task<IActionResult> Index(int id, ConfigCompaniesManagement model)
         {
 
 
