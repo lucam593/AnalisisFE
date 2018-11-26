@@ -7,16 +7,15 @@ namespace FactuCR.Models
     {
         public int IdDetail { get; set; }
         public int IdKey { get; set; }
-        public string TypeCode { get; set; }
         public string Code { get; set; }
-        public string Description { get; set; }
-        public string MeasuredUnit { get; set; }
+        public string NameProduct { get; set; }
+        public string MeasuredUnitSymbology { get; set; }
         public int Quantity { get; set; }
-        public double? Discount { get; set; }
-        public string TypeDiscount { get; set; }
-        public double InitialAmount { get; set; }
+        public double? DiscountAmount { get; set; }
+        public double UnitPrice { get; set; }
         public double Subtotal { get; set; }
         public double TotalAmount { get; set; }
+        public double TotalLineAmount { get; set; }
 
         public MasterInvoiceVoucher IdKeyNavigation { get; set; }
     }
