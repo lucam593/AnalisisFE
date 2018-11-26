@@ -36,7 +36,7 @@ namespace FactuCR.Controllers
 
                 if (ModelState.IsValid)
                 {
-
+                    var temp = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss%K");
 
                     var values = new Dictionary<string, string>
                 {
@@ -120,7 +120,12 @@ namespace FactuCR.Controllers
             ClaimsIdentity userIdentity = new ClaimsIdentity(claims, "login");
             ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
             Thread.CurrentPrincipal = principal;
-            await HttpContext.SignInAsync(principal);
+            await HttpContext.SignInAsync(
+                principal, 
+                properties: new AuthenticationProperties
+            {
+                ExpiresUtc = DateTime.UtcNow.AddMinutes(5)
+            });
             return principal;
         }
 

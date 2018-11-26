@@ -24,6 +24,7 @@ namespace FactuCR.Models
         public string Country { get; set; }
         public string Status { get; set; }
         public uint Timestamp { get; set; }
+        [DisplayName("Último acceso")]
         public uint LastAccess { get; set; }
         [Required(ErrorMessage = "Debe ingresar una contraseña")]
         [DisplayName("Contraseña")]
