@@ -13,10 +13,9 @@ namespace FactuCR.Models
         public string IdTrasmitter { get; set; }
         public int IdConsecutive { get; set; }
         public int IdSituation { get; set; }
-        public string NumberKey { get; set; }
+        public string SecurityCode { get; set; }
 
         public MasterConsecutive IdConsecutiveNavigation { get; set; }
-        public SituationDocument IdSituationNavigation { get; set; }
         public MasterInvoiceReference MasterInvoiceReference { get; set; }
         public MasterInvoiceVoucher MasterInvoiceVoucher { get; set; }
     }

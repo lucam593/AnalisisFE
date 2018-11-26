@@ -430,6 +430,10 @@ namespace FactuCR.Models
                     .IsRequired()
                     .HasColumnType("varchar(10)");
 
+                entity.Property(e => e.Symbology)
+                    .IsRequired()
+                    .HasColumnType("varchar(10)");
+
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnType("varchar(50)");
@@ -553,9 +557,6 @@ namespace FactuCR.Models
 
                 entity.ToTable("master_consecutive");
 
-                entity.HasIndex(e => e.VoucherType)
-                    .HasName("fk_MASTER_CONSECUTIVE_VOUCHER_TYPE1_idx");
-
                 entity.Property(e => e.IdConsecutive)
                     .HasColumnName("ID_Consecutive")
                     .HasColumnType("int(11)");
@@ -575,14 +576,8 @@ namespace FactuCR.Models
                     .HasColumnType("varchar(6)");
 
                 entity.Property(e => e.VoucherType)
-                    .HasColumnName("Voucher_type")
-                    .HasColumnType("int(11)");
-
-                entity.HasOne(d => d.VoucherTypeNavigation)
-                    .WithMany(p => p.MasterConsecutive)
-                    .HasForeignKey(d => d.VoucherType)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_MASTER_CONSECUTIVE_VOUCHER_TYPE1");
+                    .HasColumnName("Voucher_Type")
+                    .HasColumnType("varchar(2)");
             });
 
             modelBuilder.Entity<MasterDetail>(entity =>
@@ -602,33 +597,31 @@ namespace FactuCR.Models
                     .IsRequired()
                     .HasColumnType("varchar(20)");
 
-                entity.Property(e => e.Description)
+                entity.Property(e => e.NameProduct)
                     .IsRequired()
+                    .HasColumnName("Name_Product")
                     .HasColumnType("varchar(45)");
 
                 entity.Property(e => e.IdKey)
                     .HasColumnName("Id_Key")
                     .HasColumnType("int(11)");
 
-                entity.Property(e => e.InitialAmount).HasColumnName("Initial_Amount");
+                entity.Property(e => e.DiscountAmount).HasColumnName("Discount_Amount");
 
-                entity.Property(e => e.MeasuredUnit)
+                entity.Property(e => e.UnitPrice).HasColumnName("Unit_Price");
+
+                entity.Property(e => e.MeasuredUnitSymbology)
                     .IsRequired()
-                    .HasColumnName("Measured_Unit")
+                    .HasColumnName("Measured_Unit_Symbology")
                     .HasColumnType("varchar(25)");
 
                 entity.Property(e => e.Quantity).HasColumnType("int(11)");
 
                 entity.Property(e => e.TotalAmount).HasColumnName("Total_Amount");
 
-                entity.Property(e => e.TypeCode)
-                    .IsRequired()
-                    .HasColumnName("Type_Code")
-                    .HasColumnType("varchar(20)");
+                entity.Property(e => e.Subtotal);
 
-                entity.Property(e => e.TypeDiscount)
-                    .HasColumnName("Type_Discount")
-                    .HasColumnType("varchar(20)");
+                entity.Property(e => e.TotalLineAmount).HasColumnName("Total_Line_Amount");
 
                 entity.HasOne(d => d.IdKeyNavigation)
                     .WithMany(p => p.MasterDetail)
@@ -695,6 +688,14 @@ namespace FactuCR.Models
                     .HasColumnName("Id_Key")
                     .HasColumnType("int(11)");
 
+                entity.Property(e => e.ApiKey)
+                    .HasColumnName("Api_Key")
+                    .HasColumnType("varchar(100)");
+
+                entity.Property(e => e.ApiConsecutive)
+                    .HasColumnName("Api_Consecutive")
+                    .HasColumnType("varchar(50)");
+
                 entity.Property(e => e.Env)
                     .IsRequired()
                     .HasColumnName("env")
@@ -749,9 +750,6 @@ namespace FactuCR.Models
                 entity.HasIndex(e => e.IdConsecutive)
                     .HasName("fk_MASTER_KEY_MASTER_CONSECUTIVE1_idx");
 
-                entity.HasIndex(e => e.IdSituation)
-                    .HasName("fk_MASTER_KEY_SITUATION_DOCUMENT1_idx");
-
                 entity.Property(e => e.IdKey)
                     .HasColumnName("Id_Key")
                     .HasColumnType("int(11)");
@@ -770,7 +768,7 @@ namespace FactuCR.Models
 
                 entity.Property(e => e.IdSituation)
                     .HasColumnName("Id_Situation")
-                    .HasColumnType("int(11)");
+                    .HasColumnType("int");
 
                 entity.Property(e => e.IdTrasmitter)
                     .IsRequired()
@@ -781,9 +779,9 @@ namespace FactuCR.Models
                     .IsRequired()
                     .HasColumnType("varchar(2)");
 
-                entity.Property(e => e.NumberKey)
+                entity.Property(e => e.SecurityCode)
                     .IsRequired()
-                    .HasColumnName("Number_Key")
+                    .HasColumnName("Security_Code")
                     .HasColumnType("varchar(8)");
 
                 entity.Property(e => e.Year)
@@ -795,12 +793,6 @@ namespace FactuCR.Models
                     .HasForeignKey(d => d.IdConsecutive)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_MASTER_KEY_MASTER_CONSECUTIVE1");
-
-                entity.HasOne(d => d.IdSituationNavigation)
-                    .WithMany(p => p.MasterKey)
-                    .HasForeignKey(d => d.IdSituation)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_MASTER_KEY_SITUATION_DOCUMENT1");
             });
 
             modelBuilder.Entity<MasterLogs>(entity =>
@@ -924,9 +916,9 @@ namespace FactuCR.Models
                     .HasColumnName("Id_Canton")
                     .HasColumnType("varchar(10)");
 
-                entity.Property(e => e.IdCard)
-                    .HasColumnName("Id_Card")
-                    .HasColumnType("int(15)");
+                entity.Property(e => e.IdentificationNumber)
+                    .HasColumnName("Identification_Number")
+                    .HasColumnType("varchar(15)");
 
                 entity.Property(e => e.IdDistrict)
                     .IsRequired()
@@ -943,9 +935,9 @@ namespace FactuCR.Models
                     .HasColumnName("Id_Province")
                     .HasColumnType("varchar(10)");
 
-                entity.Property(e => e.IdType)
+                entity.Property(e => e.IdentificationType)
                     .IsRequired()
-                    .HasColumnName("Id_Type")
+                    .HasColumnName("Identification_Type")
                     .HasColumnType("varchar(2)");
 
                 entity.Property(e => e.OthersSigns)
@@ -1085,7 +1077,7 @@ namespace FactuCR.Models
                     .IsRequired()
                     .HasColumnType("varchar(50)");
 
-                entity.Property(e => e.Symboly)
+                entity.Property(e => e.Symbology)
                     .IsRequired()
                     .HasColumnType("varchar(5)");
             });
@@ -1557,6 +1549,10 @@ namespace FactuCR.Models
                 entity.Property(e => e.Code)
                     .IsRequired()
                     .HasColumnType("varchar(2)");
+
+                entity.Property(e => e.Symbology)
+                    .IsRequired()
+                    .HasColumnType("varchar(10)");
 
                 entity.Property(e => e.Name)
                     .IsRequired()

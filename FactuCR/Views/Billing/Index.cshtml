@@ -10,9 +10,10 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table id="datatable" class="table table-bordered">
     <thead>
         <tr>
+            <!--
             <th>
                 @Html.DisplayNameFor(model => model.Status)
             </th>
@@ -25,14 +26,18 @@
             <th>
                 @Html.DisplayNameFor(model => model.Env)
             </th>
+            -->
             <th>
-                @Html.DisplayNameFor(model => model.IdConditionNavigation)
+                Pa&iacute;s
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdKeyNavigation)
+                M&eacute;todo de pago
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdPaymentNavigation)
+                Condici&oacute;n
+            </th>
+            <th>
+                Fecha
             </th>
             <th></th>
         </tr>
@@ -40,6 +45,7 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <!--
             <td>
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
@@ -52,19 +58,26 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Env)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdConditionNavigation.Code)
-            </td>
+            -->
             <td>
                 @Html.DisplayFor(modelItem => item.IdKeyNavigation.Country)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdPaymentNavigation.Code)
+                @Html.DisplayFor(modelItem => item.IdPaymentNavigation.Name)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdKey">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdKey">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdKey">Delete</a>
+                @Html.DisplayFor(modelItem => item.IdConditionNavigation.Name)
+            </td>
+            <td>
+                @{ 
+                    var day = item.IdKeyNavigation.Day;
+                    var month = item.IdKeyNavigation.Month;
+                    var year = 20 + item.IdKeyNavigation.Year;
+                }
+                @day/@month/@year
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.IdKey" class="label label-success">Detalles</a>
             </td>
         </tr>
 }

@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using FactuCR.Models;
 using System.Configuration;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace FactuCR
 {
@@ -42,7 +43,6 @@ namespace FactuCR
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

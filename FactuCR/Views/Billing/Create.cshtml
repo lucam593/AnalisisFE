@@ -6,182 +6,394 @@
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-<h2>Informaci&oacute;n general</h2>
-<form asp-action="Create" class="form-horizontal">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <!--
-    <div class="form-group">
-        <label asp-for="MasterInvoiceVoucher.IdKey" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <select asp-for="MasterInvoiceVoucher.IdKey" class="form-control" asp-items="ViewBag.IdKey"></select>
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="MasterInvoiceVoucher.Status" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <input asp-for="MasterInvoiceVoucher.Status" class="form-control" />
-            <span asp-validation-for="MasterInvoiceVoucher.Status" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="MasterInvoiceVoucher.XmlEnviadoBase64" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <input asp-for="MasterInvoiceVoucher.XmlEnviadoBase64" class="form-control" />
-            <span asp-validation-for="MasterInvoiceVoucher.XmlEnviadoBase64" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="MasterInvoiceVoucher.RespuestaMhbase64" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <input asp-for="MasterInvoiceVoucher.RespuestaMhbase64" class="form-control" />
-            <span asp-validation-for="MasterInvoiceVoucher.RespuestaMhbase64" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="MasterInvoiceVoucher.Env" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <input asp-for="MasterInvoiceVoucher.Env" class="form-control" />
-            <span asp-validation-for="MasterInvoiceVoucher.Env" class="text-danger"></span>
-        </div>
-    </div>
-    -->
-    <div class="form-group">
-        <div class="col-md-4 col-sm-6 col-xs-12">
-            <label asp-for="MasterInvoiceVoucher.IdPayment" class="control-label">M&eacute;todo de pago</label>
-            <select asp-for="MasterInvoiceVoucher.IdPayment" class="form-control" asp-items="ViewBag.IdPayment">
-                <option selected disabled>- seleccione el m&eacute;todo de pago -</option>
-            </select>
-        </div>
-        <div class="col-md-4 col-sm-6 col-xs-12">
-            <label asp-for="MasterInvoiceVoucher.IdCondition" class="control-label">Codici&oacute;n de pago</label>
-            <select asp-for="MasterInvoiceVoucher.IdCondition" class="form-control" asp-items="ViewBag.IdCondition">
-                <option selected disabled>- seleccione la condici&oacute;n de pago -</option>
-            </select>
-        </div>
-        <div class="col-md-4 col-sm-12 col-xs-12">
-            <label class="control-label">Fecha actual</label>
-            <input class="form-control" value="@DateTime.Now.ToShortDateString()" />
-        </div>
-    </div>
-    <div class="form-group">
-        <div class=" col-md-4 col-sm-12 col-xs-12">
-            <label>Cliente</label>
-            <select class="form-control" asp-items="@ViewBag.ClientsList">
-                <option selected disabled>- seleccione un cliente -</option>
-            </select>
-        </div>
-    </div>
-    <div class="ln_solid"></div>
-    <div style="margin-bottom: 30px;">
-        <h2>L&iacute;neas de detalle</h2>
-    </div>
-    <div class="form-group">
-        <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 10px;">
-            <button id="btnAddProduct" class="btn btn-warning"><i class="fa fa-plus" aria-hidden="true"></i> Agregar Producto</button>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-            <table id="productsTable" class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Codigo</th>
-                        <th>Nombre</th>
-                        <th>Precio</th>
-                        <th>Cantidad</th>
-                        <th>Subtotal</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
+<link href="~/css/createBill.css" rel="stylesheet" />
 
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="ln_solid"></div>
-    <div class="form-group">
-        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3 col-sm-offset-3">
-            <button type="submit" class="btn btn-success"> Generar Factura</button>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-xs-12">
-            <a asp-action="Index" class="btn btn-default">Cancelar</a>
-        </div>
-    </div>
-</form>
+<div id="billFormContainer">
+    <h2>Informaci&oacute;n general</h2>
 
-    <div id="addProductModal" class="modal fade">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <label class="modal-title">Agregar un producto a factura</label>
-                    <button type="button" class="close" data-dismiss="modal">x</button>
-                </div>
-                <div class="modal-body" style="overflow: hidden;">
-                    <div class="col-md-6 col-sm-12 col-xs-12">
-                        <label class="control-label">Producto</label>
-                        <select id="addProduct-select" asp-for="IdProduct" class="form-control" asp-items="@ViewBag.ProductsList">
-                            <option selected disabled>- seleccione el producto -</option>
-                        </select>
+    <form asp-action="Create" class="form-horizontal" onkeypress="return event.keyCode != 13;">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <!--
+        <div class="form-group">
+            <label asp-for="MasterInvoiceVoucher.IdKey" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <select asp-for="MasterInvoiceVoucher.IdKey" class="form-control" asp-items="ViewBag.IdKey"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="MasterInvoiceVoucher.Status" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input asp-for="MasterInvoiceVoucher.Status" class="form-control" />
+                <span asp-validation-for="MasterInvoiceVoucher.Status" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="MasterInvoiceVoucher.XmlEnviadoBase64" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input asp-for="MasterInvoiceVoucher.XmlEnviadoBase64" class="form-control" />
+                <span asp-validation-for="MasterInvoiceVoucher.XmlEnviadoBase64" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="MasterInvoiceVoucher.RespuestaMhbase64" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input asp-for="MasterInvoiceVoucher.RespuestaMhbase64" class="form-control" />
+                <span asp-validation-for="MasterInvoiceVoucher.RespuestaMhbase64" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="MasterInvoiceVoucher.Env" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input asp-for="MasterInvoiceVoucher.Env" class="form-control" />
+                <span asp-validation-for="MasterInvoiceVoucher.Env" class="text-danger"></span>
+            </div>
+        </div>
+        -->
+        <div class="form-group">
+            <div class="col-md-4 col-sm-6 col-xs-12 col-md-offset-8">
+                <label class="control-label">Fecha actual</label>
+                <input class="form-control" value="@DateTime.Now.ToShortDateString()" readonly />
+            </div>
+            <div class="col-md-4 col-lg-4 col-xs-12 col-sm-6">
+                <label class="control-label">Tipo de documento</label>
+                <select id="voucherType-select" class="form-control">
+                    <option selected value="1">Factura Electr&oacute;nica</option>
+                    <option value="2">Tiquete Electr&oacute;nico</option>
+                </select>
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <label asp-for="MasterInvoiceVoucher.IdPayment" class="control-label">M&eacute;todo de pago</label>
+                <select id="payment-select" asp-for="MasterInvoiceVoucher.IdPayment" class="form-control" asp-items="ViewBag.IdPayment">
+                    <option selected disabled>- seleccione el m&eacute;todo de pago -</option>
+                </select>
+                <span asp-validation-for="MasterInvoiceVoucher.IdPayment" class="text-danger"></span>
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <label asp-for="MasterInvoiceVoucher.IdCondition" class="control-label">Codici&oacute;n de pago</label>
+                <select id="condition-select" asp-for="MasterInvoiceVoucher.IdCondition" class="form-control" asp-items="ViewBag.IdCondition">
+                    <option selected disabled>- seleccione la condici&oacute;n de pago -</option>
+                </select>
+                <span asp-validation-for="MasterInvoiceVoucher.IdCondition" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div id="clientSelectContainer" class="col-md-4 col-sm-6 col-xs-12">
+                <label class="control-label">Cliente</label>
+                <select id="clientId-select" class="form-control" asp-for="Client.IdClient" asp-items="@ViewBag.ClientsList">
+                    <option selected disabled value="0">- seleccione un cliente -</option>
+                </select>
+                <span asp-validation-for="Client.IdClient" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+        </div>
+        <div class="ln_solid"></div>
+        <div style="margin-bottom: 30px;">
+            <h2>L&iacute;neas de detalle</h2>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 10px;">
+                <button id="btnAddProduct" type="button" class="btn btn-warning"><i class="fa fa-plus" aria-hidden="true"></i> Agregar Producto</button>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <table id="productsTable" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Codigo</th>
+                            <th>Nombre</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
+                            <th>Monto Total</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-3 col-sm-4 col-xs-12 col-md-offset-9 col-sm-offset-8">
+                <label class="control-label">Total</label>
+                <input id="totalAmount" value="0" class="form-control" readonly />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-3 col-sm-4 col-xs-12 col-md-offset-9 col-sm-offset-8">
+                <label class="control-label">Monto Pagado</label>
+                <input class="form-control" value="0" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-3 col-sm-4 col-xs-12 col-md-offset-9 col-sm-offset-8">
+                <label class="control-label">Cambio</label>
+                <input class="form-control" value="0" readonly />
+            </div>
+        </div>
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <div class="col-md-3 col-sm-4 col-xs-12 col-md-offset-9 col-sm-offset-8">
+                <button type="button" class="btn btn-success col-md-12 col-sm-12 col-xs-12" onclick="postAllBillToController()"><i class="fa fa-check" aria-hidden="true"></i> Generar Factura</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div id="generatingBillContainer" class="center-block well hidden" style="width: 100%; text-align:center;">
+    <div class="loader center-block"></div>
+    <div style="height: 10px;"></div>
+    <label class="control-label">Generando la factura...</label>
+</div>
+
+<div id="formUploadedContainer" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 hidden">
+    <h2>Documento PDF de la Factura</h2>
+    <embed id="embeddedPDF" height="600" class="embedPDF" />
+    <button id="downloadPDF" type="button" class="btn btn-success">Descargar PDF</button>
+</div>
+
+<div id="addProductModal" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <label class="modal-title">Agregar un producto a factura</label>
+                <button type="button" class="close" data-dismiss="modal">x</button>
+            </div>
+            <div class="modal-body" style="overflow: hidden;">
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <label class="control-label">Producto</label>
+                    <div class="ui-widget">
+                        <input id="productsForSearch" class="form-control" />
+                        <input class="hidden" id="selectedProductId" type="hidden" />
+                        <span id="productSelectionValidate" class="text-danger">Debe seleccionar un producto</span>
                     </div>
-                    <div class="col-md-6 col-sm-12 col-xs-12">
-                        <label class="control-label">Cantidad</label>
-                        <input id="quantity-input" type="number" class="form-control" />
-                    </div>
+                    <!--
+                    <select id="addProduct-select" asp-for="IdProduct" class="form-control" asp-items="@ViewBag.ProductsList">
+                        <option selected disabled>- seleccione el producto -</option>
+                    </select>
+                    -->
                 </div>
-                <div class="modal-footer">
-                    <button id="btnAddProductDetail" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Agregar</button>
-                    <button id="btnHideModal" type="button" class="btn btn-default">Cancelar</button>
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <label class="control-label">Cantidad</label>
+                    <input id="quantity-input" type="number" class="form-control" />
+                    <span id="quantityValidate" class="text-danger">Debe ingresar una cantidad mayor a 0</span>
                 </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnAddProductDetail" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Agregar</button>
+                <button id="btnHideModal" type="button" class="btn btn-default"><i class="fa fa-caret-square-o-left" aria-hidden="true"></i> Cancelar</button>
             </div>
         </div>
     </div>
-
-
+</div>
+<!-- Init Script Tags -->
+<script src="~/vendor/jsPDF/jspdf.min.js"></script>
+<script src="~/vendor/jquery-json-master/dist/jquery.json.min.js"></script>
 <script>
+    var doc = new jsPDF('1', 'pt', 'letter');
+
     $(document).ready(function () {
+
+        $('#voucherType-select').change(function () {
+            if ($(this).val() == 1) {
+                $('#clientSelectContainer').show("slow");
+            } else {
+                $('#clientSelectContainer').hide();
+                $('#clientId-select').val(0);
+            }
+        });
+
+        $('#downloadPDF').click(function () {
+            doc.save('test.pdf');
+        });
+
+        $('#productSelectionValidate').hide();
+        $('#quantityValidate').hide();
+
         $('#btnAddProduct').click(function () {
             $('#addProductModal').modal('show');
         });
         $('#btnHideModal').click(function () {
             $('#addProductModal').modal('hide');
+            clearAddProductFields();
+        });
+
+        var productsList = @Html.Raw(ViewBag.Products);
+        var productsAvailable = [];
+
+        $.each(productsList, function (index, value) {
+            productsAvailable.push(
+                {
+                    value: value.CodeProduct + " - " + value.NameProduct,
+                    data: value.IdProduct
+                }
+            );
+
+        });
+        console.log("-------------------------------------------------");
+        console.log(productsAvailable);
+        console.log("-------------------------------------------------");
+        $('#productsForSearch').autocomplete({
+            lookup: productsAvailable,
+            onSelect: function (suggestion) {
+                $('#selectedProductId').val(suggestion.data);
+            }
+        });
+
+        $('#productsForSearch').keyup(function () {
+            if ($('#productsForSearch').val() == "") {
+                $('#productSelectionValidate').show();
+            } else {
+                $('#productSelectionValidate').hide();
+            }
+        });
+
+        $('#quantity-input').keyup(function () {
+            if ($('#quantity-input').val() == "" || $('#quantity-input').val() < 1) {
+                $('#quantityValidate').show();
+            } else {
+                $('#quantityValidate').hide();
+            }
+        });
+
+        $('#btnAddProductDetail').click(function () {
+            if ($('#productsForSearch').val() == "") {
+                $('#productSelectionValidate').show();
+            }
+            if ($('#quantity-input').val() == "" || $('#quantity-input').val() < 1) {
+                $('#quantityValidate').show();
+            } else {
+                var id = $('#selectedProductId').val();
+                console.log(id);
+                $.each(productsList, function (index, value) {
+
+                    if (id == value.IdProduct) {
+                        var productName = value.NameProduct;
+                        var productCode = value.CodeProduct;
+                        var productUnitPrice = value.SalePrice;
+                        var productQuantity = $('#quantity-input').val();
+                        var totalAmount = productUnitPrice * productQuantity;
+                        var idUnit = value.IdUnit;
+
+                        var tableRow = "<tr id=rowWithProductId" + value.IdProduct + ">"
+                            + "<td class='productId hidden'>" + value.IdProduct + "</td>"
+                            + "<td class='productCode'>" + productCode + "</td>"
+                            + "<td class='productName'>" + productName + "</td>"
+                            + "<td class='unitPrice'>" + productUnitPrice + "</td>"
+                            + "<td class='quantity'>" + productQuantity + "</td>"
+                            + "<td class='totalAmount'>" + totalAmount + "</td>"
+                            + "<td class='idUnit hidden'>" + idUnit + "</td>"
+                            + "<td><button class='btn btn-danger' onclick='removeTableRow(" + value.IdProduct + ")'>Eliminar</button></td>"
+                            + "</tr>";
+
+                        $('#productsTable tbody').append(tableRow);
+                        console.log(parseFloat($('#totalAmount').val()));
+                        $('#totalAmount').val(parseFloat($('#totalAmount').val()) + totalAmount);
+                    }
+                })
+
+                clearAddProductFields();
+            }
         });
     })
 
-    var productsList = @Html.Raw(ViewBag.Products);
-    
+    function postAllBillToController() {
+        $('#billFormContainer').addClass("hidden");
+        $('#generatingBillContainer').removeClass("hidden");
 
-    $('#btnAddProductDetail').click(function () {
-        var id = $('#addProduct-select').val();
-        console.log(id);
-        $.each(productsList, function (index, value) {
+        var allBill = {
+            voucherType: $('#voucherType-select').val(),
+            branchOffice: "002",
+            terminal: "00001",
+            consecutive: "0000000001",
+            country: "506",
+            day: @DateTime.Now.Day,
+            month: @DateTime.Now.Month,
+            year: @DateTime.Now.Year,
+            idTransmitter: "000000000001",
+            situation: 1,
+            idPayment: $('#payment-select').val(),
+            idCondition: $('#condition-select').val(),
+            clientId: $('#clientId-select').val(),
+            billProductDetails: transformProductDetails()
+        }
 
-            if (id == value.IdProduct) {
-                var productName = value.NameProduct;
-                var productCode = value.CodeProduct;
-                var productSalePrice = value.SalePrice;
-                var productQuantity = $('#quantity-input').val();
-                var subtotal = productSalePrice * productQuantity;
+        $.ajax({
+            contentType: 'application/json; charset=utf-8;',
+            dataType: 'json',
+            url: '@Url.Action("SaveAllBill", "Billing")',
+                type: 'POST',
+                data: JSON.stringify(allBill)
+            })
+            .done(function (data) {
+                if (data.state == 0) {
+                    $('#generatingBillContainer').addClass("hidden");
+                    $('#formUploadedContainer').removeClass("hidden");
 
-                var tableRow = "<tr id=rowWithProductId" + value.IdProduct + ">"
-                    + "<td>" + productCode + "</td>"
-                    + "<td>" + productName + "</td>"
-                    + "<td>" + productSalePrice + "</td>"
-                    + "<td>" + productQuantity + "</td>"
-                    + "<td>" + subtotal + "</td>"
-                    + "<td><button class='btn btn-danger' onclick='removeTableRow(" + value.IdProduct + ")'>Eliminar</button></td>"
-                    + "</tr>";
+                    //Embedded PDF data
+                    doc.setDrawColor(0);
+                    doc.setFillColor(255, 0, 0);
+                    doc.rect(120, 20, 10, 10, 'FD');
 
-                $('#productsTable tbody').append(tableRow);
-            }
-        })
+                    doc.text(20, 20, 'some text');
 
-    })
+                    setTimeout(function () {
+                        var data = doc.output('datauristring');
+                        $('#embeddedPDF').attr('src', data);
+                    }, 10)
+                    //Finish Embedded PDF data
+                }
+            })
+            .fail(function () {
+                console.log("ERROR");
+            })
+    }
+
+    function transformProductDetails() {
+        var billProductDetailsArray = new Array();
+
+        $('#productsTable tbody tr').each(function (rowIndex, row) {
+            var currentProductDetail = new Object();
+
+            $.each(this.cells, function (cellIndex, cell) {
+                if (cellIndex == 0) {
+                    currentProductDetail.IdProduct = cell.textContent;
+                }
+                if (cellIndex == 1) {
+                    currentProductDetail.CodeProduct = cell.textContent;
+                }
+                if (cellIndex == 2) {
+                    currentProductDetail.NameProduct = cell.textContent;
+                }
+                if (cellIndex == 3) {
+                    currentProductDetail.UnitPrice = cell.textContent;
+                }
+                if (cellIndex == 4) {
+                    currentProductDetail.Quantity = cell.textContent;
+                }
+                if (cellIndex == 5) {
+                    currentProductDetail.TotalAmount = cell.textContent;
+                }
+                if (cellIndex == 6) {
+                    currentProductDetail.IdUnit = cell.textContent;
+                }
+            })
+            billProductDetailsArray.push(currentProductDetail);
+        });
+
+        return billProductDetailsArray;
+    }
 
     function removeTableRow(productId) {
+        var removedSubtotal = $('#rowWithProductId' + productId).find('.subtotal').html();
+        $('#totalAmount').val(parseFloat($('#totalAmount').val()) - removedSubtotal)
         $('#rowWithProductId' + productId).remove();
     }
 
+    function clearAddProductFields() {
+        $('#productsForSearch').val("");
+        $('#quantity-input').val("");
+        $('#productSelectionValidate').hide();
+        $('#quantityValidate').hide();
+    }
 </script>

@@ -192,8 +192,6 @@ namespace FactuCR.Controllers
                 providerInDB.IdentificationNumber = model.IdentificationNumberDIMEX;
             }
 
-            Console.WriteLine("ESTO ES EL MALDITO ID: " + providerIdBeforeChanges);
-
             TelephoneContact telephoneContactInDB = _context.TelephoneContact.Where(tc => tc.IdOwner.Equals(providerIdBeforeChanges)).First();
             telephoneContactInDB.IdOwner = providerInDB.IdentificationNumber;
             telephoneContactInDB.CountryCode = model.TelephoneContact.CountryCode;
