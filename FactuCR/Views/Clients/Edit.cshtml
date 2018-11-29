@@ -102,7 +102,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label asp-for="Client.Status" class="control-label col-md-3 col-sm-3 col-xs-12">Estado <span class="required">*</span></label>
+        <label asp-for="Client.Status" class="control-label col-md-3 col-sm-3 col-xs-12">Estado <span ></span></label>
         <div class="col-md-6 col-sm-6 col-xs-12">
             <div id="status" class="btn-group" data-toggle="buttons">
                 <label class="btn btn-success active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
@@ -118,14 +118,17 @@
     </div>
     <div class="form-group">
         <label asp-for="Client.AdmissionDate" class="control-label col-md-3 col-sm-3 col-xs-12">Fecha de ingreso</label>
-        <input asp-for="Client.AdmissionDate" class="form-control" />
-        <span asp-validation-for="Client.AdmissionDate" class="text-danger"></span>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+
+            <input asp-for="Client.AdmissionDate" class="form-control" />
+            <span asp-validation-for="Client.AdmissionDate" class="text-danger"></span>
+        </div>
     </div>
-    <div class="ln_solid"></div>
-    <div class="form-group">
-        <input type="submit" value="Guardar cambios" class="btn btn-success" />
-        <a asp-action="Index" class="btn btn-default"><i class="fa fa-caret-square-o-left" aria-hidden="true"></i> Cancelar</a>
-    </div>
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <input type="submit" value="Guardar cambios" class="btn btn-success" />
+            <a asp-action="Index" class="btn btn-default"><i class="fa fa-caret-square-o-left" aria-hidden="true"></i> Cancelar</a>
+        </div>
 </form>
 
 
