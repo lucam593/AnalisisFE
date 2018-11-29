@@ -22,19 +22,22 @@ namespace FactuCR.Models
         public string IdUser { get; set; }
 
         [Required(ErrorMessage = "Debe ingresar un nombre")]
-        [Display(Name = "Nombre")]
+        [Display(Name = "Nombre Compañia")]
         public string CompannyName { get; set; }
 
         [Required(ErrorMessage = "Debe ingresar un correo")]
         [Display(Name = "Correo electrónico")]
         public string Email { get; set; }
-
-        [Required(ErrorMessage = "Debe ingresar un número telefónico")]
-        public int Telephone { get; set; }
+        [Display(Name = "Telefono")]
+        public string Telephone { get; set; }
         public string Fax { get; set; }
+        [Required(ErrorMessage = "Debe ingresar una provincia")]
         public string Province { get; set; }
+        [Required(ErrorMessage = "Debe ingresar un cantón")]
         public string Canton { get; set; }
+        [Required(ErrorMessage = "Debe ingresar un distrito")]
         public string District { get; set; }
+        public string neighborhood { get; set; }
         public string OtherSigns { get; set; }
         public string Country { get; set; }
         public string UserTax { get; set; }
@@ -42,6 +45,13 @@ namespace FactuCR.Models
         public string Currency { get; set; }
         public double CurrencyValue { get; set; }
 
+        [Required(ErrorMessage = "Debe ingresar un status")]
+        [Display(Name = "Estado")]
+        public string Status { get; set; }
+
+        [Required(ErrorMessage = "Debe ingresar un pin")]
+        [Display(Name = "Pin")]
+        public string pin { get; set; }
         public IdentificationType IdTypeNavigation { get; set; }
     }
 }

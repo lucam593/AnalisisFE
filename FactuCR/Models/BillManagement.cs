@@ -11,8 +11,12 @@ namespace FactuCR.Models
 
         public List<Product> SelectedProducts = new List<Product>();
 
-        public Product product { get; set; }
+        public Product Product { get; set; }
+
+        public Client Client { get; set; }
 
         public int IdProduct { get; set; }
+
+        public double TotalAmount { get; set; }
     }
 }

@@ -18,21 +18,19 @@ namespace FactuCR.Controllers
             _context = context;
         }
 
-        // GET: ConfigCompanies
+        /*GET: ConfigCompanies
         public async Task<IActionResult> Index()
         {
             var db_facturacionContext = _context.ConfigCompany.Include(c => c.IdTypeNavigation);
             return View(await db_facturacionContext.ToListAsync());
-        }
+        }*/
 
-        // GET: ConfigCompanies/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
             var configCompany = await _context.ConfigCompany
                 .Include(c => c.IdTypeNavigation)
                 .FirstOrDefaultAsync(m => m.IdConfig == id);
@@ -47,8 +45,19 @@ namespace FactuCR.Controllers
         // GET: ConfigCompanies/Create
         public IActionResult Create()
         {
-            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Code");
-            return View();
+            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Name");
+            ConfigCompaniesManagement conf = new ConfigCompaniesManagement();
+
+            List<Province> Provinces = new List<Province>();
+
+            List<string> provinceList = _context.MasterAddress.Select(x => x.NombreProvincia).Distinct().ToList();
+            Provinces.Add(new Province("Seleccione una provincia."));
+            foreach (string province in provinceList)
+            {
+                Provinces.Add(new Province(province));
+            }
+            ViewData["provinceList"] = Provinces;
+            return View(conf);
         }
 
         // POST: ConfigCompanies/Create
@@ -56,34 +65,95 @@ namespace FactuCR.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdConfig,FullName,IdType,IdUser,CompannyName,Email,Telephone,Fax,Province,Canton,District,OtherSigns,Country,UserTax,PasswordTax,Currency,CurrencyValue")] ConfigCompany configCompany)
+        public async Task<IActionResult> Create(ConfigCompaniesManagement model)
         {
-            if (ModelState.IsValid)
+            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Name");
+            ConfigCompany configCompannyInBD = new ConfigCompany();
+            configCompannyInBD.IdType = model.configCompany.IdType;
+            configCompannyInBD.FullName = model.configCompany.FullName;
+            configCompannyInBD.Email = model.configCompany.Email;
+            configCompannyInBD.CompannyName = model.configCompany.CompannyName;
+            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Name", model.configCompany.IdType);
+
+
+            switch (model.configCompany.IdType)
             {
-                _context.Add(configCompany);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                case 1:
+                    configCompannyInBD.IdUser = model.IdentificationNumberCedFisica;
+                    break;
+                case 2:
+                    configCompannyInBD.IdUser = model.IdentificationNumberCedJuridica;
+                    break;
+                case 3:
+                    configCompannyInBD.IdUser = model.IdentificationNumberNITE;
+                    break;
+                default:
+                    configCompannyInBD.IdUser = model.IdentificationNumberDIMEX;
+                    break;
             }
-            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Code", configCompany.IdType);
-            return View(configCompany);
+            configCompannyInBD.Telephone = model.configCompany.Telephone;
+            configCompannyInBD.Fax = model.configCompany.Fax;
+            configCompannyInBD.Province = model.configCompany.Province;
+            configCompannyInBD.Canton = model.configCompany.Canton;
+            configCompannyInBD.District = model.configCompany.District;
+            configCompannyInBD.OtherSigns = model.configCompany.OtherSigns;
+
+            configCompannyInBD.UserTax = model.configCompany.UserTax;
+            configCompannyInBD.PasswordTax = model.configCompany.PasswordTax;
+            configCompannyInBD.Country = model.configCompany.Country;
+            configCompannyInBD.Currency = model.configCompany.Currency;
+            configCompannyInBD.CurrencyValue = model.configCompany.CurrencyValue;
+
+
+            List<ConfigCompany> list = _context.ConfigCompany.Where(x => x.Status == "Activa").ToList();
+
+            if (list == null)
+            {
+                configCompannyInBD.Status = "Activa";
+            }
+            else
+            {
+                foreach (ConfigCompany conf in list)
+                {
+                    conf.Status = "Inactiva";
+                    _context.Update(conf);
+                }
+                configCompannyInBD.Status = "Activa";
+            }
+
+
+
+            _context.Add(configCompannyInBD);
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: ConfigCompanies/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Index(int? id = 1)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
             var configCompany = await _context.ConfigCompany.FindAsync(id);
             if (configCompany == null)
             {
                 return NotFound();
             }
-            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Code", configCompany.IdType);
+            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Name", configCompany.IdType);
             ConfigCompaniesManagement conf = new ConfigCompaniesManagement();
             conf.configCompany = configCompany;
+
+            List<Province> Provinces = new List<Province>();
+
+            List<string> provinceList = _context.MasterAddress.Select(x => x.NombreProvincia).Distinct().ToList();
+            Provinces.Add(new Province("Seleccione una provincia."));
+            foreach (string province in provinceList)
+            {
+                Provinces.Add(new Province(province));
+            }
+            ViewData["provinceList"] = Provinces;
             return View(conf);
         }
 
@@ -92,37 +162,133 @@ namespace FactuCR.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdConfig,FullName,IdType,IdUser,CompannyName,Email,Telephone,Fax,Province,Canton,District,OtherSigns,Country,UserTax,PasswordTax,Currency,CurrencyValue")] ConfigCompany configCompany)
+        public async Task<IActionResult> Index(int id, ConfigCompaniesManagement model)
         {
-            if (id != configCompany.IdConfig)
+
+
+
+            ConfigCompany configCompannyInBD = _context.ConfigCompany.Find(model.configCompany.IdConfig);
+            if (!configCompannyInBD.IdType.Equals(model.configCompany.IdType))
             {
-                return NotFound();
+                configCompannyInBD.IdType = model.configCompany.IdType;
             }
 
-            if (ModelState.IsValid)
+            if (!configCompannyInBD.FullName.Equals(model.configCompany.FullName) | model.configCompany != null)
             {
-                try
-                {
-                    _context.Update(configCompany);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ConfigCompanyExists(configCompany.IdConfig))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                configCompannyInBD.FullName = model.configCompany.FullName;
             }
-            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Code", configCompany.IdType);
-            ConfigCompaniesManagement conf = new ConfigCompaniesManagement();
-            conf.configCompany = configCompany;
-            return View(conf);
+
+            if (!configCompannyInBD.Email.Equals(model.configCompany.Email) | model.configCompany != null)
+            {
+                configCompannyInBD.Email = model.configCompany.Email;
+            }
+
+            if (!configCompannyInBD.CompannyName.Equals(model.configCompany.CompannyName) | model.configCompany.CompannyName != null)
+            {
+                configCompannyInBD.CompannyName = model.configCompany.CompannyName;
+            }
+
+            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Name", model.configCompany.IdType);
+
+
+            if (model.IdentificationNumberCedFisica != null | model.IdentificationNumberCedJuridica != null |
+                model.IdentificationNumberNITE != null | model.IdentificationNumberDIMEX != null
+                )
+            {
+                switch (model.configCompany.IdType)
+                {
+                    case 1:
+                        configCompannyInBD.IdUser = model.IdentificationNumberCedFisica;
+                        break;
+                    case 2:
+                        configCompannyInBD.IdUser = model.IdentificationNumberCedJuridica;
+                        break;
+                    case 3:
+                        configCompannyInBD.IdUser = model.IdentificationNumberNITE;
+                        break;
+                    default:
+                        configCompannyInBD.IdUser = model.IdentificationNumberDIMEX;
+                        break;
+                }
+            }
+            if (!configCompannyInBD.Telephone.Equals(model.configCompany.Telephone) | model.configCompany.Telephone != null)
+            {
+                configCompannyInBD.Telephone = model.configCompany.Telephone;
+            }
+
+            if (!configCompannyInBD.Fax.Equals(model.configCompany.Fax) | model.configCompany.Fax != null)
+            {
+                configCompannyInBD.Fax = model.configCompany.Fax;
+            }
+            if (model.configCompany.Province != null && model.configCompany.Canton != null && model.configCompany.District != null && model.configCompany.neighborhood != null)
+            {
+                string province = model.configCompany.Province;
+                string canton = model.configCompany.Canton;
+                string district = model.configCompany.District;
+                string neighborhood = model.configCompany.neighborhood;
+
+                MasterAddress master = _context.MasterAddress.Where(x => x.NombreProvincia == province && x.NombreCanton == canton && x.NombreDistrito == district && x.NombreBarrio == neighborhood).First();
+                configCompannyInBD.Province = master.IdProvincia;
+                configCompannyInBD.Canton = master.IdCanton;
+                configCompannyInBD.District = master.IdDistrito;
+                configCompannyInBD.neighborhood = master.IdBarrio;
+            }
+
+            if (!configCompannyInBD.OtherSigns.Equals(model.configCompany.OtherSigns) | model.configCompany.OtherSigns != null)
+            {
+                configCompannyInBD.OtherSigns = model.configCompany.OtherSigns;
+            }
+
+            if (!configCompannyInBD.UserTax.Equals(model.configCompany.UserTax) | model.configCompany.UserTax != null)
+            {
+                configCompannyInBD.UserTax = model.configCompany.UserTax;
+            }
+
+
+            if (!configCompannyInBD.PasswordTax.Equals(model.configCompany.PasswordTax) | model.configCompany.PasswordTax != null)
+            {
+                configCompannyInBD.PasswordTax = model.configCompany.PasswordTax;
+            }
+
+
+            if (!configCompannyInBD.Country.Equals(model.configCompany.Country) | model.configCompany.Country != null)
+            {
+                configCompannyInBD.Country = model.configCompany.Country;
+            }
+
+
+            if (!configCompannyInBD.Currency.Equals(model.configCompany.Currency) | model.configCompany.Currency != null)
+            {
+                configCompannyInBD.Currency = model.configCompany.Currency;
+            }
+
+            if (!configCompannyInBD.CurrencyValue.Equals(model.configCompany.CurrencyValue) | model.configCompany.CurrencyValue != null)
+            {
+                configCompannyInBD.CurrencyValue = model.configCompany.CurrencyValue;
+            }
+
+            if (!configCompannyInBD.Status.Equals(model.configCompany.Status))
+            {
+                if (model.configCompany.Status.Equals("Activa"))
+                {
+                    List<ConfigCompany> list = _context.ConfigCompany.Where(x => x.Status == "Activa").ToList();
+                    foreach (ConfigCompany conf in list)
+                    {
+                        conf.Status = "Inactiva";
+                        _context.Update(conf);
+                    }
+                }
+                configCompannyInBD.Status = model.configCompany.Status;
+            }
+
+            if (!configCompannyInBD.pin.Equals(model.configCompany.pin) | model.configCompany.pin != null)
+            {
+                configCompannyInBD.pin = model.configCompany.pin;
+            }
+
+            _context.Update(configCompannyInBD);
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: ConfigCompanies/Delete/5
@@ -158,6 +324,50 @@ namespace FactuCR.Controllers
         private bool ConfigCompanyExists(int id)
         {
             return _context.ConfigCompany.Any(e => e.IdConfig == id);
+        }
+
+        public JsonResult getCanton(string Province)
+        {
+            List<Canton> canton = new List<Canton>();
+
+            List<string> CantonList = _context.MasterAddress.Where(p => p.NombreProvincia == Province).Select(p => p.NombreCanton).Distinct().ToList();
+            canton.Add(new Canton("Seleccione un Canton."));
+            foreach (string c in CantonList)
+            {
+                canton.Add(new Canton(c));
+            }
+            return Json(new SelectList(canton, "NameCanton", "NameCanton"));
+        }
+
+        public JsonResult getDistrict(string Province, string Canton)
+        {
+            List<District> district = new List<District>();
+
+            List<string> districtList = _context.MasterAddress.Where(s => s.NombreProvincia == Province && s.NombreCanton == Canton).Select(x => x.NombreDistrito).Distinct().ToList();
+
+            district.Add(new District("Seleccione un distrito."));
+            foreach (string c in districtList)
+            {
+                district.Add(new District(c));
+            }
+
+            return Json(new SelectList(district, "NameDistrict", "NameDistrict"));
+        }
+
+
+        public JsonResult getNeighborhood(string Province, string Canton, string District)
+        {
+            List<Neighborhood> Neighborhood = new List<Neighborhood>();
+
+            List<string> neighborhoodList = _context.MasterAddress.Where(s => s.NombreProvincia == Province && s.NombreCanton == Canton && s.NombreDistrito == District).Select(x => x.NombreBarrio).Distinct().ToList();
+
+            Neighborhood.Add(new Neighborhood("Seleccione un Barrio"));
+            foreach (string c in neighborhoodList)
+            {
+                Neighborhood.Add(new Neighborhood(c));
+            }
+
+            return Json(new SelectList(Neighborhood, "NameNeighborhood", "NameNeighborhood"));
         }
     }
 }

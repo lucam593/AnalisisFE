@@ -2,17 +2,14 @@
 
 @{
     ViewData["Title"] = "Index";
+    ViewData["PanelTitle"] = "Lista de Facturas y Tiquetes Electrónicos";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-<h2>Index</h2>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<table id="datatable" class="table table-bordered">
     <thead>
         <tr>
+            <!--
             <th>
                 @Html.DisplayNameFor(model => model.Status)
             </th>
@@ -25,14 +22,27 @@
             <th>
                 @Html.DisplayNameFor(model => model.Env)
             </th>
+            -->
             <th>
-                @Html.DisplayNameFor(model => model.IdConditionNavigation)
+                Tipo de documento
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdKeyNavigation)
+                Identificaci&oacute;n del cliente
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdPaymentNavigation)
+                Nombre del cliente
+            </th>
+            <th>
+                Pa&iacute;s
+            </th>
+            <th>
+                M&eacute;todo de pago
+            </th>
+            <th>
+                Condici&oacute;n
+            </th>
+            <th>
+                Fecha
             </th>
             <th></th>
         </tr>
@@ -40,6 +50,7 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <!--
             <td>
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
@@ -52,21 +63,39 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Env)
             </td>
+            -->
             <td>
-                @Html.DisplayFor(modelItem => item.IdConditionNavigation.Code)
+                @Html.DisplayFor(modelItem => item.IdKeyNavigation.IdConsecutiveNavigation.VoucherType)    
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MasterReceiver.IdentificationNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MasterReceiver.Fullname)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IdKeyNavigation.Country)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdPaymentNavigation.Code)
+                @Html.DisplayFor(modelItem => item.IdPaymentNavigation.Name)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdKey">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdKey">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdKey">Delete</a>
+                @Html.DisplayFor(modelItem => item.IdConditionNavigation.Name)
+            </td>
+            <td>
+                @{ 
+                    var day = item.IdKeyNavigation.Day;
+                    var month = item.IdKeyNavigation.Month;
+                    var year = 20 + item.IdKeyNavigation.Year;
+                }
+                @day/@month/@year
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.IdKey" class="label label-default">Detalles</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+<div class="ln_solid"></div>
+<a asp-action="Create" class="btn btn-success"><i class="fa fa-plus"></i> Ingresar nuevo documento</a>

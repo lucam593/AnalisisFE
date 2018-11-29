@@ -2,60 +2,96 @@
 
 @{
     ViewData["Title"] = "Details";
+    ViewData["PanelTitle"] = "Detalles de una Factura";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-<h2>Details</h2>
+<style>
+    dl {
+        color: black;
+    }
 
+    table {
+        color: black;
+    }
+</style>
+
+<label>Encabezado de la Factura</label>
 <div>
-    <h4>MasterInvoiceVoucher</h4>
-    <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Status)
+            Fecha de la Factura
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Status)
+            @{string year = 20 + Model.IdKeyNavigation.Year;}
+            @Model.IdKeyNavigation.Day/@Model.IdKeyNavigation.Month/@year
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.XmlEnviadoBase64)
+            Tipo de documento
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.XmlEnviadoBase64)
+            @Html.DisplayFor(model => model.IdKeyNavigation.IdConsecutiveNavigation.VoucherType)
+        </dd>
+        @if ((Model.IdKeyNavigation.IdConsecutiveNavigation.VoucherType) == "FE")
+        {
+            <dt>
+                C&eacute;dula del cliente
+            </dt>
+            <dd>
+                @Model.MasterReceiver.IdentificationNumber
+            </dd>
+            <dt>
+                Nombre del cliente
+            </dt>
+            <dd>
+                @Model.MasterReceiver.Fullname
+            </dd>
+        }
+        <dt>
+            Condici&oacute;n de venta
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdConditionNavigation.Name)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.RespuestaMhbase64)
+            M&eacute;todo de pago
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.RespuestaMhbase64)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Env)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Env)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.IdConditionNavigation)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IdConditionNavigation.Code)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.IdKeyNavigation)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IdKeyNavigation.Country)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.IdPaymentNavigation)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IdPaymentNavigation.Code)
+            @Html.DisplayFor(model => model.IdPaymentNavigation.Name)
         </dd>
     </dl>
 </div>
+<label>Lineas de detalle de la Factura</label>
+<table id="datatable" class="table">
+    <thead>
+        <tr>
+            <th>Codigo</th>
+            <th>Nombre</th>
+            <th>Unidad</th>
+            <th>Precio Unitario</th>
+            <th>Monto Total</th>
+            <th>Monto de descuento</th>
+            <th>Subtotal</th>
+            <th>Monto total de linea</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var md in Model.MasterDetail)
+        {
+            <tr>
+                <td>@md.Code</td>
+                <td>@md.NameProduct</td>
+                <td>@md.MeasuredUnitSymbology</td>
+                <td>@md.UnitPrice</td>
+                <td>@md.TotalAmount</td>
+                <td>@md.DiscountAmount</td>
+                <td>@md.Subtotal</td>
+                <td>@md.TotalLineAmount</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="ln_solid"></div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.IdKey">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-default"><i class="fa fa-caret-square-o-left" aria-hidden="true"></i> Regresar a la lista</a>
 </div>

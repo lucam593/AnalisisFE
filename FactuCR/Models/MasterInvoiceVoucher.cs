@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace FactuCR.Models
 {
@@ -11,7 +12,13 @@ namespace FactuCR.Models
         }
 
         public int IdKey { get; set; }
+        public string ApiKey { get; set; }
+        public string ApiConsecutive { get; set; }
+
+        [Required(ErrorMessage = "Debe seleccionar un método de pago")]
         public int IdPayment { get; set; }
+
+        [Required(ErrorMessage = "Debe seleccionar la condición del pago")]
         public int IdCondition { get; set; }
         public string Status { get; set; }
         public string XmlEnviadoBase64 { get; set; }

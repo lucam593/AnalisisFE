@@ -23,6 +23,7 @@ namespace FactuCR.Controllers
         // GET: Categories
         public async Task<IActionResult> Index()
         {
+            var db_facturacionContext = _context.Category.Include(c => c.IdCategory);
             return View(await _context.Category.ToListAsync());
         }
 
