@@ -7,69 +7,166 @@
 }
 
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Client.IdClient" />
-            <div class="form-group">
-                <label asp-for="Client.IdType" class="control-label"></label>
-                <select asp-for="Client.IdType" class="form-control" asp-items="ViewBag.IdType"></select>
-                <span asp-validation-for="Client.IdType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Client.IdentificationNumber" class="control-label"></label>
-                <input asp-for="Client.IdentificationNumber" class="form-control" />
-                <span asp-validation-for="Client.IdentificationNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Client.Name" class="control-label"></label>
-                <input asp-for="Client.Name" class="form-control" />
-                <span asp-validation-for="Client.Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Client.LastName" class="control-label"></label>
-                <input asp-for="Client.LastName" class="form-control" />
-                <span asp-validation-for="Client.LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Client.Email" class="control-label"></label>
-                <input asp-for="Client.Email" class="form-control" />
-                <span asp-validation-for="Client.Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Client.Country" class="control-label"></label>
-                <input asp-for="Client.Country" class="form-control" />
-                <span asp-validation-for="Client.Country" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Client.Status" class="control-label col-md-3 col-sm-3 col-xs-12">Estado <span class="required">*</span></label>
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div id="status" class="btn-group" data-toggle="buttons">
-                        <label class="btn btn-success active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                            <input type="radio" name="status" value="1" asp-for="Client.Status" checked /> &nbsp; Activo &nbsp;
-                            <span asp-validation-for="Client.Status" class="text-danger"></span>
-                        </label>
-                        <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                            <input type="radio" name="status" value="0" asp-for="Client.Status" /> Inactivo
-                            <span asp-validation-for="Client.Status" class="text-danger"></span>
-                        </label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Client.AdmissionDate" class="control-label"></label>
-                    <input asp-for="Client.AdmissionDate" class="form-control" />
-                    <span asp-validation-for="Client.AdmissionDate" class="text-danger"></span>
-                </div>
-                <div class="ln_solid"></div>
-                <div class="form-group">
-                    <button type="submit" value="Guardar" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar</button>
-                </div>
-        </form>
+
+<form asp-action="Edit" class="form-horizontal">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Client.IdClient" />
+    <div class="form-group">
+        <label asp-for="Client.IdType" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <select asp-for="Client.IdType" class="form-control" asp-items="ViewBag.IdType">
+                <option selected disabled>- Seleccione una opcion -</option>
+            </select>
+            <span asp-validation-for="Client.IdType" class="text-danger"></span>
+        </div>
     </div>
-</div>
+    <div class="form-group">
+        <label id="idnum-label" asp-for="IdentificationNumberCedJuridica" class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <input id="cedfisica-input" asp-for="IdentificationNumberCedFisica" class="form-control" data-inputmask="'mask': '9-9999-9999'" />
+            <span asp-validation-for="IdentificationNumberCedFisica" class="text-danger"></span>
 
-<div>
-    <a asp-action="Index">Cancelar</a>
-</div>
+            <input id="cedjuridica-input" asp-for="IdentificationNumberCedJuridica" class="form-control" data-inputmask="'mask': '9-999-999999'" />
+            <span asp-validation-for="IdentificationNumberCedJuridica" class="text-danger"></span>
 
+            <input id="nite-input" asp-for="IdentificationNumberNITE" class="form-control" />
+            <span asp-validation-for="IdentificationNumberNITE" class="text-danger"></span>
+
+            <input id="dimex-input" asp-for="IdentificationNumberDIMEX" class="form-control" />
+            <span asp-validation-for="IdentificationNumberDIMEX" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Client.Name" class="control-label col-md-3 col-sm-3 col-xs-12">Nombre</label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <input asp-for="Client.Name" class="form-control" />
+            <span asp-validation-for="Client.Name" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Client.LastName" class="control-label col-md-3 col-sm-3 col-xs-12">Apellido</label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <input asp-for="Client.LastName" class="form-control" />
+            <span asp-validation-for="Client.LastName" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="TelephoneContact.CountryCode" class="control-label col-md-3 col-sm-3 col-xs-12">Informaci&oacute;n de contacto</label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="well" style="overflow: hidden;">
+                <label asp-for="TelephoneContact.CountryCode" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;">C&oacute;digo de pa&iacute;s</label>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <select asp-for="TelephoneContact.CountryCode" asp-items="ViewBag.IdCountry" class="form-control">
+                        <option selected disabled>- Seleccione el c&oacute;digo de pa&iacute;s</option>
+
+                        @foreach (var country in ViewBag.CountriesList)
+                        {
+                            <option value="@country.CountryCode">@country.CountryName (@country.CountryCode)</option>
+                        }
+                    </select>
+                    <span asp-validation-for="TelephoneContact.CountryCode" class="text-danger"></span>
+                </div>
+                <label asp-for="TelephoneContact.TelephoneNumber" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;">N&uacute;mero telef&oacute;nico</label>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <input asp-for="TelephoneContact.TelephoneNumber" class="form-control" />
+                    <span asp-validation-for="TelephoneContact.TelephoneNumber" class="text-danger"></span>
+                </div>
+                <label asp-for="TelephoneContact.Type" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;">Tipo de tel&eacute;fono</label>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <input asp-for="TelephoneContact.Type" class="form-control" />
+                    <span asp-validation-for="TelephoneContact.Type" class="text-danger"></span>
+                </div>
+                <label asp-for="TelephoneContact.Description" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;">Descripci&oacute;n del tel&eacute;fono</label>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <input asp-for="TelephoneContact.Description" class="form-control" />
+                    <span asp-validation-for="TelephoneContact.Description" class="text-danger"></span>
+                </div>
+                <label asp-for="TelephoneContact.Extension" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;">Extensi&oacute;n del tel&eacute;fono</label>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <input asp-for="TelephoneContact.Extension" class="form-control" />
+                    <span asp-validation-for="TelephoneContact.Extension" class="text-danger"></span>
+                </div>
+                <label asp-for="Client.Email" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;"></label>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <input asp-for="Client.Email" class="form-control" />
+                    <span asp-validation-for="Client.Email" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Client.Country" class="control-label col-md-3 col-sm-3 col-xs-12">Pais</label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <input asp-for="Client.Country" class="form-control" />
+            <span asp-validation-for="Client.Country" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Client.Status" class="control-label col-md-3 col-sm-3 col-xs-12">Estado <span ></span></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <div id="status" class="btn-group" data-toggle="buttons">
+                <label class="btn btn-success active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                    <input type="radio" name="status" value="1" asp-for="Client.Status" checked /> &nbsp; Activo &nbsp;
+                    <span asp-validation-for="Client.Status" class="text-danger"></span>
+                </label>
+                <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                    <input type="radio" name="status" value="0" asp-for="Client.Status" /> Inactivo
+                    <span asp-validation-for="Client.Status" class="text-danger"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Client.AdmissionDate" class="control-label col-md-3 col-sm-3 col-xs-12">Fecha de ingreso</label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+
+            <input asp-for="Client.AdmissionDate" class="form-control" />
+            <span asp-validation-for="Client.AdmissionDate" class="text-danger"></span>
+        </div>
+    </div>
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <input type="submit" value="Guardar cambios" class="btn btn-success" />
+            <a asp-action="Index" class="btn btn-default"><i class="fa fa-caret-square-o-left" aria-hidden="true"></i> Cancelar</a>
+        </div>
+</form>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#idnum-label').hide();
+        $('#cedfisica-input').hide();
+        $('#cedjuridica-input').hide();
+        $('#nite-input').hide();
+        $('#dimex-input').hide();
+
+        $('select').change(function () {
+            $('#idnum-label').hide();
+            $('#cedfisica-input').hide();
+            $('#cedjuridica-input').hide();
+            $('#nite-input').hide();
+            $('#dimex-input').hide();
+
+            if ($(this).val() === "1") {
+                $('#idnum-label').show("slow");
+                $('#cedfisica-input').show("slow");
+            }
+
+            if ($(this).val() === "2") {
+                $('#idnum-label').show("slow");
+                $('#cedjuridica-input').show("slow");
+            }
+
+            if ($(this).val() === "3") {
+                $('#idnum-label').show("slow");
+                $('#nite-input').show("slow");
+            }
+
+            if ($(this).val() === "4") {
+                $('#idnum-label').show("slow");
+                $('#dimex-input').show("slow");
+            }
+        })
+    });
+</script>
