@@ -1,61 +1,61 @@
-﻿@model FactuCR.Models.Client
+﻿@model FactuCR.Models.ClientManagement
 
 @{
-    ViewData["Title"] = "Delete";
-    ViewData["PanelTitle"] = "¿Seguro que desea eliminar esta categoria?";
+    ViewData["Title"] = "Eliminar";
+    ViewData["PanelTitle"] = "¿Seguro que desea eliminar este Cliente?";
     ViewData["Annotation"] = "cuando los datos son borrados, no pueden ser recuperados";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
 
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.IdentificationNumber)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IdentificationNumber)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Country)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Country)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AdmissionDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AdmissionDate)
-        </dd>
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.Client.IdentificationNumber)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Client.IdentificationNumber)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.Client.Name)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Client.Name)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.Client.LastName)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Client.LastName)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.Client.Email)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Client.Email)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.Client.Country)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Client.Country)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.Client.Status)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Client.Status)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.Client.AdmissionDate)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Client.AdmissionDate)
+    </dd>
 
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="IdClient" />
-        <button type="submit" value="Eliminar" class="btn btn-danger"><i class="fa fa-trash-o"></i> Eliminar</button>
-        <a asp-action="Index"><i class="fa fa-caret-square-o-left" aria-hidden="true"></i> Cancelar</a>
-    </form>
+</dl>
+<div class="ln_solid"></div>
+<form asp-action="Delete">
+    <input type="hidden" asp-for="Client.IdClient" />
+    <button type="submit" value="Eliminar" class="btn btn-danger"><i class="fa fa-trash-o"></i> Eliminar</button>
+    <a asp-action="Index" class="btn btn-default"><i class="fa fa-caret-square-o-left" aria-hidden="true"></i> Cancelar</a>
+</form>

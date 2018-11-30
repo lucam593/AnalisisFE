@@ -1,67 +1,77 @@
 ﻿@model FactuCR.Models.Client
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detlles";
+    ViewData["PanelTitle"] = "Detalles de un Cliente";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-<h2>Details</h2>
 
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.IdentificationNumber)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.IdentificationNumber)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.Name)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Name)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.LastName)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.LastName)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.Email)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Email)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.Country)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Country)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.Status)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Status)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.AdmissionDate)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.AdmissionDate)
+    </dd>
+   
+    <dt>
+        Informaci&oacute;n de contacto
+    </dt>
+    <dd>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Email)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Html.DisplayFor(model => model.Email)</td>
+                </tr>
+            </tbody>
+        </table>
+    </dd>
+</dl>
+
+<div class="ln_solid"></div>
 <div>
-    <h4>Client</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.IdentificationNumber)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IdentificationNumber)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Country)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Country)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AdmissionDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AdmissionDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.IdTypeNavigation)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IdTypeNavigation.Code)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.IdClient">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.IdClient" class="btn btn-success"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar Cliente</a>
+    <a asp-action="Index" class="btn btn-default"><i class="fa fa-caret-square-o-left" aria-hidden="true"></i> Regresar a la lista</a>
 </div>
