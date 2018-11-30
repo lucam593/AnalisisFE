@@ -1,0 +1,38 @@
+﻿@model FactuCR.Models.Terminal
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h2>Eliminar Terminal</h2>
+
+<h3>¿Seguro desea eliminar la terminal?</h3>
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            Nombre Terminal
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+           Número Terminal
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TerminalNumber)
+        </dd>
+        <dt>
+           Sucursal
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdOfficeNavigation.Name)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="IdTerminal" />
+        <input type="submit" value="Eliminar" class="btn btn-default" /> |
+        <a asp-action="Index">Regresar a lista</a>
+    </form>
+</div>

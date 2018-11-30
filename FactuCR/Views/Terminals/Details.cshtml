@@ -1,0 +1,35 @@
+﻿@model FactuCR.Models.Terminal
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h2>Detalles</h2>
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            Nombre Terminal
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            Número Terminal
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TerminalNumber)
+        </dd>
+        <dt>
+            Sucursal
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdOfficeNavigation.Name)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.IdTerminal">Modificar</a> |
+    <a asp-action="Index">Regresar a lista</a>
+</div>
