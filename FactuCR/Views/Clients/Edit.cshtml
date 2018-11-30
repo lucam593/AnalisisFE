@@ -11,18 +11,20 @@
 <form asp-action="Edit" class="form-horizontal">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="Client.IdClient" />
+
     <div class="form-group">
         <label asp-for="Client.IdType" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
         <div class="col-md-6 col-sm-6 col-xs-12">
-            <select asp-for="Client.IdType" class="form-control" asp-items="ViewBag.IdType">
+            <select id="idtype-select" asp-for="Client.IdType" class="form-control" asp-items="ViewBag.IdType">
                 <option selected disabled>- Seleccione una opcion -</option>
             </select>
             <span asp-validation-for="Client.IdType" class="text-danger"></span>
         </div>
     </div>
+
     <div class="form-group">
-        <label id="idnum-label" asp-for="IdentificationNumberCedJuridica" class="control-label col-md-4 col-sm-4 col-xs-12"></label>
-        <div class="col-md-4 col-sm-4 col-xs-12">
+        <label id="idnum-label" asp-for="IdentificationNumberCedJuridica" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <input id="cedfisica-input" asp-for="IdentificationNumberCedFisica" class="form-control" data-inputmask="'mask': '9-9999-9999'" />
             <span asp-validation-for="IdentificationNumberCedFisica" class="text-danger"></span>
 
@@ -36,6 +38,7 @@
             <span asp-validation-for="IdentificationNumberDIMEX" class="text-danger"></span>
         </div>
     </div>
+
     <div class="form-group">
         <label asp-for="Client.Name" class="control-label col-md-3 col-sm-3 col-xs-12">Nombre</label>
         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -102,7 +105,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label asp-for="Client.Status" class="control-label col-md-3 col-sm-3 col-xs-12">Estado <span ></span></label>
+        <label asp-for="Client.Status" class="control-label col-md-3 col-sm-3 col-xs-12">Estado <span></span></label>
         <div class="col-md-6 col-sm-6 col-xs-12">
             <div id="status" class="btn-group" data-toggle="buttons">
                 <label class="btn btn-success active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
@@ -124,13 +127,12 @@
             <span asp-validation-for="Client.AdmissionDate" class="text-danger"></span>
         </div>
     </div>
-        <div class="ln_solid"></div>
-        <div class="form-group">
-            <input type="submit" value="Guardar cambios" class="btn btn-success" />
-            <a asp-action="Index" class="btn btn-default"><i class="fa fa-caret-square-o-left" aria-hidden="true"></i> Cancelar</a>
-        </div>
+    <div class="ln_solid"></div>
+    <div class="form-group">
+        <input type="submit" value="Guardar cambios" class="btn btn-success" />
+        <a asp-action="Index" class="btn btn-default"><i class="fa fa-caret-square-o-left" aria-hidden="true"></i> Cancelar</a>
+    </div>
 </form>
-
 
 
 <script>
@@ -141,7 +143,24 @@
         $('#nite-input').hide();
         $('#dimex-input').hide();
 
-        $('select').change(function () {
+        if ($('#idtype-select option:selected').val() === "1") {
+            $('#idnum-label').show("slow");
+            $('#cedfisica-input').show("slow");
+        }
+        else if ($('#idtype-select option:selected').val() === "2") {
+            $('#idnum-label').show("slow");
+            $('#cedjuridica-input').show("slow");
+        }
+        else if ($('#idtype-select option:selected').val() === "3") {
+            $('#idnum-label').show("slow");
+            $('#nite-input').show("slow");
+        }
+        else {
+            $('#idnum-label').show("slow");
+            $('#dimex-input').show("slow");
+        }
+
+        $('#idtype-select').change(function () {
             $('#idnum-label').hide();
             $('#cedfisica-input').hide();
             $('#cedjuridica-input').hide();
@@ -152,18 +171,15 @@
                 $('#idnum-label').show("slow");
                 $('#cedfisica-input').show("slow");
             }
-
-            if ($(this).val() === "2") {
+            else if ($(this).val() === "2") {
                 $('#idnum-label').show("slow");
                 $('#cedjuridica-input').show("slow");
             }
-
-            if ($(this).val() === "3") {
+            else if ($(this).val() === "3") {
                 $('#idnum-label').show("slow");
                 $('#nite-input').show("slow");
             }
-
-            if ($(this).val() === "4") {
+            else {
                 $('#idnum-label').show("slow");
                 $('#dimex-input').show("slow");
             }
