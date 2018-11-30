@@ -79,10 +79,16 @@
         <div class="form-group">
             <div id="clientSelectContainer" class="col-md-4 col-sm-6 col-xs-12">
                 <label class="control-label">Cliente</label>
+                <div class="ui-widget">
+                    <input id="clientsForSearch" class="form-control" />
+                    <input id="selectedClientId" class="hidden" type="hidden" />
+                    <span id="clientSelectionValidate" class="text-danger"></span>
+                </div>
+                <!--
                 <select id="clientId-select" class="form-control" asp-for="Client.IdClient" asp-items="@ViewBag.ClientsList">
                     <option selected disabled value="0">- seleccione un cliente -</option>
                 </select>
-                <span asp-validation-for="Client.IdClient" class="text-danger"></span>
+                -->
             </div>
         </div>
         <div class="form-group">
@@ -175,7 +181,7 @@
                 </div>
                 <div class="col-md-6 col-sm-12 col-xs-12">
                     <label class="control-label">Cantidad</label>
-                    <input id="quantity-input" type="number" class="form-control" />
+                    <input id="quantity-input" type="number" class="form-control" value="1" />
                     <span id="quantityValidate" class="text-danger">Debe ingresar una cantidad mayor a 0</span>
                 </div>
             </div>
@@ -218,6 +224,7 @@
             clearAddProductFields();
         });
 
+        //------------------- Make Products List Input -------------------
         var productsList = @Html.Raw(ViewBag.Products);
         var productsAvailable = [];
 
@@ -230,9 +237,7 @@
             );
 
         });
-        console.log("-------------------------------------------------");
-        console.log(productsAvailable);
-        console.log("-------------------------------------------------");
+
         $('#productsForSearch').autocomplete({
             lookup: productsAvailable,
             onSelect: function (suggestion) {
@@ -245,6 +250,27 @@
                 $('#productSelectionValidate').show();
             } else {
                 $('#productSelectionValidate').hide();
+            }
+        });
+
+        //------------------ Make Clients List Input --------------------
+        
+        var clientsList = @Html.Raw(ViewBag.Clients);
+        var clientsAvailable = [];
+
+        $.each(clientsList, function (index, value) {
+            clientsAvailable.push(
+                {
+                    value: value.IdentificationNumber + " - " + value.Name + " " + value.LastName,
+                    data: value.IdClient
+                }
+            );
+        });
+
+        $('#clientsForSearch').autocomplete({
+            lookup: clientsAvailable,
+            onSelect: function (suggestion) {
+                $('#selectedClientId').val(suggestion.data);
             }
         });
 
@@ -425,7 +451,7 @@
 
     function clearAddProductFields() {
         $('#productsForSearch').val("");
-        $('#quantity-input').val("");
+        $('#quantity-input').val(1);
         $('#productSelectionValidate').hide();
         $('#quantityValidate').hide();
     }

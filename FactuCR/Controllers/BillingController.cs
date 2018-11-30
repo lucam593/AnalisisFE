@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace FactuCR.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class BillingController : Controller
     {
         private readonly db_facturacionContext _context;
@@ -63,7 +63,7 @@ namespace FactuCR.Controllers
         }
 
         // GET: Billing/Create
-        public IActionResult Create()
+        public IActionResult CreateBill()
         {
             ViewData["IdCondition"] = new SelectList(_context.MasterSaleCondition, "IdCondition", "Name");
             ViewData["IdKey"] = new SelectList(_context.MasterKey, "IdKey", "Country");
@@ -74,6 +74,9 @@ namespace FactuCR.Controllers
             List<Product> products = _context.Product.ToList();
             ViewBag.Products = JsonConvert.SerializeObject(products);
 
+            List<Client> clients = _context.Client.ToList();
+            ViewBag.Clients = JsonConvert.SerializeObject(clients);
+
             //return View(new BillManagement());
             return View();
         }
@@ -83,7 +86,7 @@ namespace FactuCR.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdKey,IdPayment,IdCondition,Status,XmlEnviadoBase64,RespuestaMhbase64,Env")] BillManagement model)
+        public async Task<IActionResult> CreateBill([Bind("IdKey,IdPayment,IdCondition,Status,XmlEnviadoBase64,RespuestaMhbase64,Env")] BillManagement model)
         {
             if (ModelState.IsValid)
             {
