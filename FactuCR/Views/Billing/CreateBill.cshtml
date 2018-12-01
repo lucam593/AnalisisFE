@@ -52,7 +52,7 @@
         <div class="form-group">
             <div class="col-md-4 col-sm-6 col-xs-12 col-md-offset-8">
                 <label class="control-label">Fecha actual</label>
-                <input class="form-control" value="@DateTime.Now.ToShortDateString()" readonly />
+                <input id="dateInput" class="form-control" value="@DateTime.Now.ToShortDateString()" readonly />
             </div>
             <div class="col-md-4 col-lg-4 col-xs-12 col-sm-6">
                 <label class="control-label">Tipo de documento</label>
@@ -79,10 +79,16 @@
         <div class="form-group">
             <div id="clientSelectContainer" class="col-md-4 col-sm-6 col-xs-12">
                 <label class="control-label">Cliente</label>
+                <div class="ui-widget">
+                    <input id="clientsForSearch" class="form-control" placeholder="Buscar cliente..." />
+                    <input id="selectedClientId" class="hidden" type="hidden" />
+                    <span id="clientSelectionValidate" class="text-danger"></span>
+                </div>
+                <!--
                 <select id="clientId-select" class="form-control" asp-for="Client.IdClient" asp-items="@ViewBag.ClientsList">
                     <option selected disabled value="0">- seleccione un cliente -</option>
                 </select>
-                <span asp-validation-for="Client.IdClient" class="text-danger"></span>
+                -->
             </div>
         </div>
         <div class="form-group">
@@ -106,6 +112,7 @@
                             <th>Precio</th>
                             <th>Cantidad</th>
                             <th>Monto Total</th>
+                            <th></th>
                             <th></th>
                         </tr>
                     </thead>
@@ -163,7 +170,7 @@
                 <div class="col-md-6 col-sm-12 col-xs-12">
                     <label class="control-label">Producto</label>
                     <div class="ui-widget">
-                        <input id="productsForSearch" class="form-control" />
+                        <input id="productsForSearch" class="form-control" placeholder="Buscar producto..." />
                         <input class="hidden" id="selectedProductId" type="hidden" />
                         <span id="productSelectionValidate" class="text-danger">Debe seleccionar un producto</span>
                     </div>
@@ -175,7 +182,7 @@
                 </div>
                 <div class="col-md-6 col-sm-12 col-xs-12">
                     <label class="control-label">Cantidad</label>
-                    <input id="quantity-input" type="number" class="form-control" />
+                    <input id="quantity-input" type="number" class="form-control" value="1" />
                     <span id="quantityValidate" class="text-danger">Debe ingresar una cantidad mayor a 0</span>
                 </div>
             </div>
@@ -186,11 +193,16 @@
         </div>
     </div>
 </div>
+
+<img id="testImg" src="~/images/fullBrandBlack.jpg" class="hidden" />
 <!-- Init Script Tags -->
 <script src="~/vendor/jsPDF/jspdf.min.js"></script>
 <script src="~/vendor/jquery-json-master/dist/jquery.json.min.js"></script>
 <script>
     var doc = new jsPDF('1', 'pt', 'letter');
+    var productsList = @Html.Raw(ViewBag.Products);
+    var clientsList = @Html.Raw(ViewBag.Clients);
+    var taxesList = @Html.Raw(ViewBag.Taxes);
 
     $(document).ready(function () {
 
@@ -218,7 +230,7 @@
             clearAddProductFields();
         });
 
-        var productsList = @Html.Raw(ViewBag.Products);
+        //------------------- Make Products List Input -------------------        
         var productsAvailable = [];
 
         $.each(productsList, function (index, value) {
@@ -230,9 +242,7 @@
             );
 
         });
-        console.log("-------------------------------------------------");
-        console.log(productsAvailable);
-        console.log("-------------------------------------------------");
+
         $('#productsForSearch').autocomplete({
             lookup: productsAvailable,
             onSelect: function (suggestion) {
@@ -245,6 +255,25 @@
                 $('#productSelectionValidate').show();
             } else {
                 $('#productSelectionValidate').hide();
+            }
+        });
+
+        //------------------ Make Clients List Input --------------------
+        var clientsAvailable = [];
+
+        $.each(clientsList, function (index, value) {
+            clientsAvailable.push(
+                {
+                    value: value.IdentificationNumber + " - " + value.Name + " " + value.LastName,
+                    data: value.IdClient
+                }
+            );
+        });
+
+        $('#clientsForSearch').autocomplete({
+            lookup: clientsAvailable,
+            onSelect: function (suggestion) {
+                $('#selectedClientId').val(suggestion.data);
             }
         });
 
@@ -264,7 +293,7 @@
                 $('#quantityValidate').show();
             } else {
                 var id = $('#selectedProductId').val();
-                console.log(id);
+
                 $.each(productsList, function (index, value) {
 
                     if (id == value.IdProduct) {
@@ -274,6 +303,7 @@
                         var productQuantity = $('#quantity-input').val();
                         var totalAmount = productUnitPrice * productQuantity;
                         var idUnit = value.IdUnit;
+                        var idTax = value.IdTax;
 
                         var tableRow = "<tr id=rowWithProductId" + value.IdProduct + ">"
                             + "<td class='productId hidden'>" + value.IdProduct + "</td>"
@@ -283,11 +313,11 @@
                             + "<td class='quantity'>" + productQuantity + "</td>"
                             + "<td class='totalAmount'>" + totalAmount + "</td>"
                             + "<td class='idUnit hidden'>" + idUnit + "</td>"
+                            + "<td class='idTax hidden'>" + idTax + "</td>"
                             + "<td><button class='btn btn-danger' onclick='removeTableRow(" + value.IdProduct + ")'>Eliminar</button></td>"
                             + "</tr>";
 
                         $('#productsTable tbody').append(tableRow);
-                        console.log(parseFloat($('#totalAmount').val()));
                         $('#totalAmount').val(parseFloat($('#totalAmount').val()) + totalAmount);
                     }
                 })
@@ -313,7 +343,7 @@
             situation: 1,
             idPayment: $('#payment-select').val(),
             idCondition: $('#condition-select').val(),
-            clientId: $('#clientId-select').val(),
+            clientId: $('#selectedClientId').val(),
             billProductDetails: transformProductDetails()
         }
 
@@ -329,20 +359,188 @@
                     $('#generatingBillContainer').addClass("hidden");
                     $('#formUploadedContainer').removeClass("hidden");
 
-                    //Embedded PDF data
+                    //------------------------------- Embedded PDF data ----------------------------------
                     doc.setDrawColor(0);
-                    doc.setFillColor(255, 0, 0);
-                    doc.rect(120, 20, 10, 10, 'FD');
+                    doc.setFillColor(0, 0, 0);
+                    doc.rect(0, 0, 612, 100, 'F');
 
-                    doc.text(20, 20, 'some text');
+                    //------------------------------- Bill Date ----------------------------
+                    doc.setFontSize(12);
+
+                    doc.setDrawColor(0);
+                    doc.setFillColor(255, 255, 255);
+                    doc.rect(400, 120, 80, 20, 'FD');
+                    doc.setDrawColor(0);
+                    doc.setFillColor(255, 255, 255);
+                    doc.rect(480, 120, 120, 20, 'FD');
+                    doc.setDrawColor(0);
+                    doc.setFillColor(255, 255, 255);
+                    doc.rect(400, 140, 80, 20, 'FD');
+                    doc.setDrawColor(0);
+                    doc.setFillColor(255, 255, 255);
+                    doc.rect(480, 140, 120, 20, 'FD');
+
+                    var date = $('#dateInput').val();
+
+                    doc.text(410, 135, "Fecha:");
+                    doc.text(510, 135, date);
+                    doc.text(410, 155, "Vence:");
+                    doc.text(510, 155, date);
+
+                    //---------------------------- Finish Bill Date ------------------------
+
+                    var base64Icon = getBase64Image(document.getElementById("testImg"));
+
+                    var imgData = 'data:image/png;base64,' + base64Icon;
+                    
+                    doc.addImage(imgData, 'PNG', 5, 0, 200, 60);
+
+                    //---------------------------- Client Data -----------------------------
+
+
+                    doc.setFillColor(255, 255, 255);
+                    doc.rect(10, 120, 65, 20, 'FD');
+                    doc.rect(75, 120, 300, 20, 'FD');
+                    doc.rect(10, 140, 65, 20, 'FD');
+                    doc.rect(75, 140, 300, 20, 'FD');
+                    doc.rect(10, 160, 65, 20, 'FD');
+                    doc.rect(75, 160, 300, 20, 'FD');
+                    doc.rect(270, 160, 30, 20, 'FD');
+
+                    doc.text(15, 135, "Cliente:");
+                    doc.text(15, 155, "Dirección:");
+                    doc.text(15, 175, "Correo:");
+                    doc.text(275, 175, "Tel:");
+                    var clientEmail;
+                    var clientName;
+                    var clientPhone;
+
+                    $.each(clientsList, function (index, value) {
+                        if ($('#selectedClientId').val() == value.IdClient) {
+                            clientEmail = value.Email;
+                            clientName = value.Name + " " + value.LastName;
+                            clientPhone = "61829671";
+                        }
+                    });
+
+                    doc.text(80, 135, clientName);
+                    doc.text(80, 175, clientEmail);
+                    doc.text(310, 175, clientPhone);
+
+                    //-------------------- Bill Details -------------------------
+
+                    doc.setFillColor(255, 255, 255);
+                    doc.rect(10, 200, 590, 30, 'FD');
+
+                    doc.setFontSize(12);
+                    doc.text(20, 220, "Código");
+                    doc.text(80, 220, "Nombre");
+                    doc.text(265, 220, "Precio");
+                    doc.text(320, 220, "Cant.");
+                    doc.text(380, 220, "Subtotal");
+                    doc.text(450, 220, "Desc.");
+                    doc.text(500, 220, "I.V.");
+                    doc.text(545, 220, "Total");
+                    doc.setFontSize(10);
+
+                    var pdfRow = 250;
+                    var bIVA = 0;
+                    var bTotal = 0;
+
+                    $('#productsTable tbody tr').each(function (rowIndex, row) {
+                        var pdTotalPrice = 0;
+                        var pdIVA = 0;
+
+                        $.each(this.cells, function (cellIndex, cell) {
+                            if (cellIndex == 1) {
+                                doc.text(20, pdfRow, cell.textContent);
+                            }
+                            if (cellIndex == 2) {
+                                doc.text(80, pdfRow, cell.textContent);
+                            }
+                            if (cellIndex == 3) {
+                                doc.text(265, pdfRow, "¢" + cell.textContent);
+                            }
+                            if (cellIndex == 4) {
+                                doc.text(330, pdfRow, cell.textContent);
+                            }
+
+                            doc.text(460, pdfRow, '0%');
+
+                            if (cellIndex == 5) {
+                                doc.text(385, pdfRow, "¢" + cell.textContent);
+                                bTotal = bTotal + parseFloat(cell.textContent);
+                                pdTotalPrice = parseFloat(cell.textContent);
+                            }
+                            if (cellIndex == 7) {
+                                $.each(taxesList, function (index, value) {
+                                    if (cell.textContent == value.IdTax) {
+                                        console.log(pdTotalPrice);
+                                        doc.text(500, pdfRow, value.Percentage + "%");
+                                        pdIVA = (pdTotalPrice * value.Percentage) / 100;
+                                        doc.text(540, pdfRow, "¢" + (pdTotalPrice + pdIVA));
+                                        bIVA = bIVA + pdIVA;
+                                    }
+                                });
+                            }
+                        })
+
+                        pdfRow = pdfRow + 20;
+                    });
+
+                    doc.text(250, pdfRow, "***** ULTIMA LINEA *****");
+
+                    //-------------------------- Bill Totals ------------------------------
+
+                    doc.setLineWidth(1);
+                    doc.line(10, 700, 600, 700);
+
+                    doc.setFillColor(255, 255, 255);
+                    doc.rect(400, 700, 90, 20, 'FD');
+                    doc.rect(490, 700, 110, 20, 'FD');
+                    doc.rect(400, 720, 90, 20, 'FD');
+                    doc.rect(490, 720, 110, 20, 'FD');
+                    doc.rect(400, 740, 90, 20, 'FD');
+                    doc.rect(490, 740, 110, 20, 'FD');
+                    doc.rect(400, 760, 90, 20, 'FD');
+                    doc.rect(490, 760, 110, 20, 'FD');
+
+                    doc.setFontSize(12);
+                    doc.text(405, 715, "Subtotal:");
+                    doc.text(405, 735, "Descuento:");
+                    doc.text(405, 755, "Impuestos:");
+                    doc.text(405, 775, "Total:");
+                    doc.text(495, 715, "¢" + bTotal);
+                    doc.text(495, 735, "¢" + 0);
+                    doc.text(495, 755, "¢" + bIVA);
+                    doc.text(495, 775, "¢" + (bTotal + bIVA));
+
+                    //----------------------- Generate and Send PDF ------------------------
 
                     setTimeout(function () {
                         var data = doc.output('datauristring');
+                        var billPDF = {
+                            base64PDF: data,
+                            clientEmail: clientEmail
+                        };
+
+                        $.ajax({
+                            contentType: 'application/json; charset=utf-8',
+                            dataType: 'json',
+                            url: '@Url.Action("SendMailToClient", "Billing")',
+                                type: 'POST',
+                                data: JSON.stringify(billPDF)
+                        })
+                        .done(function (data) {
+                            console.log("Factura Enviada");
+                        })
+                        .fail(function () {
+                            console.log("Factura No Enviada");
+                        })
+
                         $('#embeddedPDF').attr('src', data);
                     }, 10)
-                    //Finish Embedded PDF data
-
-                    sendDocumentsToClient();
+                    //--------------------------------- Finish Embedded PDF data ------------------------------
                 }
             })
             .fail(function () {
@@ -350,36 +548,26 @@
             })
     }
 
-    function sendDocumentsToClient() {
-        var emailData = {
-            "text": "Example Text",
-            "subject": "FactuCR - Documentos Electronicos",
-            "from": {
-                "name": "Sandy Valdez",
-                "email": "sandy.ovg@gmail.com"
-            },
-            "to": [
-                {
-                    "name": "SandyVG",
-                    "email": "sandy.valdez@ucrso.info"
-                }
-            ],
-            "attachments": {
-                "text.txt": "SIMPLE TXT"
-            }
-        };
+    function imageToBase64(img) {
+        var canvas, ctx, dataURL, base64;
+        canvas = document.createElement("canvas");
+        ctx = canvas.getContext("2d");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+        dataURL = canvas.toDataURL("image/png");
+        base64 = dataURL.replace(/^data:image\/png;base64,/, "");
+        return base64;
+    }
 
-        $.ajax({
-            url: "https://api.sendpulse.com/smtp/emails",
-            type: 'POST',
-            data: emailData
-        })
-        .done(function () {
-            console.log("EMAIL SEND");
-        })
-        .fail(function () {
-            console.log("EMAIL FAIL");
-        })
+    function getBase64Image(img) {
+        var canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+        var dataURL = canvas.toDataURL("image/png");
+        return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
     }
 
     function transformProductDetails() {
@@ -425,7 +613,7 @@
 
     function clearAddProductFields() {
         $('#productsForSearch').val("");
-        $('#quantity-input').val("");
+        $('#quantity-input').val(1);
         $('#productSelectionValidate').hide();
         $('#quantityValidate').hide();
     }

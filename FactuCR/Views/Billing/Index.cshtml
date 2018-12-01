@@ -68,10 +68,28 @@
                 @Html.DisplayFor(modelItem => item.IdKeyNavigation.IdConsecutiveNavigation.VoucherType)    
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.MasterReceiver.IdentificationNumber)
+                @{ 
+                    if (item.MasterReceiver == null)
+                    {
+                        <text>No aplica</text>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.MasterReceiver.IdentificationNumber)
+                    }
+                }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.MasterReceiver.Fullname)
+                @{
+                    if (item.MasterReceiver == null)
+                    {
+                        <text>No aplica</text>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.MasterReceiver.Fullname)
+                    }
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IdKeyNavigation.Country)
