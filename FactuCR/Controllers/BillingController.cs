@@ -10,6 +10,8 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Authorization;
+using FactuCR.Models.Email;
+using Microsoft.AspNetCore.Hosting;
 
 namespace FactuCR.Controllers
 {
@@ -17,10 +19,12 @@ namespace FactuCR.Controllers
     public class BillingController : Controller
     {
         private readonly db_facturacionContext _context;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public BillingController(db_facturacionContext context)
+        public BillingController(db_facturacionContext context, IHostingEnvironment hostingEnvironment)
         {
             _context = context;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         // GET: Billing
@@ -77,6 +81,9 @@ namespace FactuCR.Controllers
             List<Client> clients = _context.Client.ToList();
             ViewBag.Clients = JsonConvert.SerializeObject(clients);
 
+            List<Tax> taxes = _context.Tax.ToList();
+            ViewBag.Taxes = JsonConvert.SerializeObject(taxes);
+
             //return View(new BillManagement());
             return View();
         }
@@ -111,6 +118,7 @@ namespace FactuCR.Controllers
         [HttpPost]
         public JsonResult SaveAllBill([FromBody] JObject allBill)
         {
+            /*
             dynamic dynamicAllBill = allBill;
 
             //------------ CONSECUTIVE RECORD -----------------
@@ -248,6 +256,7 @@ namespace FactuCR.Controllers
             //------------------ Send to Ministerio Hacienda ------------------
             //CreateKey(lastMasterKey, voucherTypeSymbology, "fisico", "112070714", "normal", consecutive, number, terminal, branchOffice);
             //CreateXML(mdList, lastMasterKey, voucherTypeSymbology);
+            //sendMailToClient();*/
 
             return Json(new { state = 0, message = string.Empty });
         }
@@ -580,6 +589,38 @@ namespace FactuCR.Controllers
             string[] vals = { access_token, refresh_token, expires_in };
 
             return vals;
+        }
+
+        [HttpPost]
+        public JsonResult SendMailToClient([FromBody] JObject billPDF)
+        {
+            dynamic dynamicBillPDF = billPDF;
+
+            string clientEmail = dynamicBillPDF.clientEmail;
+            string base64PDF = dynamicBillPDF.base64PDF;
+            int size = base64PDF.Length - 1;
+
+            Debug.WriteLine(base64PDF);
+            Debug.WriteLine(size);
+
+            string onlyBase64 = base64PDF.Substring(28);
+
+            Debug.WriteLine(onlyBase64);
+
+            byte[] decodedPDF = Convert.FromBase64String(onlyBase64);
+
+            Email email = new Email(clientEmail, decodedPDF);
+
+            if (email.sendEmail())
+            {
+                Debug.WriteLine("---------------------------EMAIL SEND");
+            }
+            else
+            {
+                Debug.WriteLine("--------------------------- EMAIL SEND FAILED: " + email.error);
+            }
+
+            return Json(new { state = 0, message = string.Empty });
         }
     }
 }
