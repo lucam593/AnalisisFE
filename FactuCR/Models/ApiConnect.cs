@@ -11,7 +11,7 @@ namespace FactuCR.Models
     public class ApiConnect
     {
         private static readonly HttpClient client = new HttpClient();
-        Uri url = new Uri("http://localhost/apiCRLibre/www/api.php");
+        Uri url = new Uri("https://apicrlibre.000webhostapp.com/apiCRLibre/www/api.php");
         public JToken PostApi(Dictionary<string, string> values, string module, string action)
         {
             values.Add("w", module);

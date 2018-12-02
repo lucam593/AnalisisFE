@@ -9,22 +9,34 @@ using FactuCR.Models;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Authorization;
+using FactuCR.Models.Email;
+using Microsoft.AspNetCore.Hosting;
 
 namespace FactuCR.Controllers
 {
+    //[Authorize]
     public class BillingController : Controller
     {
         private readonly db_facturacionContext _context;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public BillingController(db_facturacionContext context)
+        public BillingController(db_facturacionContext context, IHostingEnvironment hostingEnvironment)
         {
             _context = context;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         // GET: Billing
         public async Task<IActionResult> Index()
         {
-            var db_facturacionContext = _context.MasterInvoiceVoucher.Include(m => m.IdConditionNavigation).Include(m => m.IdKeyNavigation).Include(m => m.IdPaymentNavigation);
+            var db_facturacionContext = _context.MasterInvoiceVoucher
+                .Include(m => m.IdConditionNavigation)
+                .Include(m => m.IdKeyNavigation)
+                .Include(m => m.IdPaymentNavigation)
+                .Include(m => m.IdKeyNavigation.IdConsecutiveNavigation)
+                .Include(m => m.MasterReceiver);
+
             ViewData["Bills"] = _context.MasterInvoiceVoucher.ToList<MasterInvoiceVoucher>();
 
             return View(await db_facturacionContext.ToListAsync());
@@ -42,6 +54,9 @@ namespace FactuCR.Controllers
                 .Include(m => m.IdConditionNavigation)
                 .Include(m => m.IdKeyNavigation)
                 .Include(m => m.IdPaymentNavigation)
+                .Include(m => m.IdKeyNavigation.IdConsecutiveNavigation)
+                .Include(m => m.MasterReceiver)
+                .Include(m => m.MasterDetail)
                 .FirstOrDefaultAsync(m => m.IdKey == id);
             if (masterInvoiceVoucher == null)
             {
@@ -52,7 +67,7 @@ namespace FactuCR.Controllers
         }
 
         // GET: Billing/Create
-        public IActionResult Create()
+        public IActionResult CreateBill()
         {
             ViewData["IdCondition"] = new SelectList(_context.MasterSaleCondition, "IdCondition", "Name");
             ViewData["IdKey"] = new SelectList(_context.MasterKey, "IdKey", "Country");
@@ -63,6 +78,12 @@ namespace FactuCR.Controllers
             List<Product> products = _context.Product.ToList();
             ViewBag.Products = JsonConvert.SerializeObject(products);
 
+            List<Client> clients = _context.Client.ToList();
+            ViewBag.Clients = JsonConvert.SerializeObject(clients);
+
+            List<Tax> taxes = _context.Tax.ToList();
+            ViewBag.Taxes = JsonConvert.SerializeObject(taxes);
+
             //return View(new BillManagement());
             return View();
         }
@@ -72,7 +93,7 @@ namespace FactuCR.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdKey,IdPayment,IdCondition,Status,XmlEnviadoBase64,RespuestaMhbase64,Env")] BillManagement model)
+        public async Task<IActionResult> CreateBill([Bind("IdKey,IdPayment,IdCondition,Status,XmlEnviadoBase64,RespuestaMhbase64,Env")] BillManagement model)
         {
             if (ModelState.IsValid)
             {
@@ -97,6 +118,7 @@ namespace FactuCR.Controllers
         [HttpPost]
         public JsonResult SaveAllBill([FromBody] JObject allBill)
         {
+            /*
             dynamic dynamicAllBill = allBill;
 
             //------------ CONSECUTIVE RECORD -----------------
@@ -114,16 +136,16 @@ namespace FactuCR.Controllers
             else {
                 voucherTypeSymbology = "TE";
             }
-
-            string consecutive = dynamicAllBill.consecutive;
-
+            
             masterConsecutive.BranchOffice = branchOffice;
             masterConsecutive.Terminal = terminal;
             masterConsecutive.VoucherType = voucherTypeSymbology;
 
             int lastConsecutiveByBranchAndTerminal = _context.MasterConsecutive.Where(mc => mc.BranchOffice.Equals(branchOffice) & mc.Terminal.Equals(terminal)).Count();
 
-            masterConsecutive.NumberConsecutive = getNumber(lastConsecutiveByBranchAndTerminal, "consecutive");
+            string consecutive = getNumber(lastConsecutiveByBranchAndTerminal, "consecutive");
+
+            masterConsecutive.NumberConsecutive = consecutive;
 
             _context.MasterConsecutive.Add(masterConsecutive);
             _context.SaveChanges();
@@ -189,7 +211,7 @@ namespace FactuCR.Controllers
             _context.MasterInvoiceVoucher.Add(masterInvoiceVoucher);
             _context.SaveChanges();
 
-            //------------- FINISH INVOICE VOUCHER RECORD -------
+            //---------- FINISH INVOICE VOUCHER RECORD ----------
 
             //------------- CLIENT RECEIVER RECORD --------------
 
@@ -212,10 +234,8 @@ namespace FactuCR.Controllers
                 _context.SaveChanges();
             }
 
-            //------------- FINISH CLIENT RECEIVER RECORD -------
-
-            int IdClient = dynamicAllBill.clientId;
-
+            //----------- FINISH CLIENT RECEIVER RECORD ---------
+            
             List<ProductDetail> productDetailsList = new List<ProductDetail>();
 
             foreach (dynamic dynamicbpd in dynamicAllBill.billProductDetails)
@@ -231,15 +251,19 @@ namespace FactuCR.Controllers
                 productDetailsList.Add(pd);
             }
 
-            SaveProductDetails(productDetailsList, lastMasterKey);
+            List<MasterDetail> mdList = SaveProductDetails(productDetailsList, lastMasterKey);
 
-            CreateKey(lastMasterKey, voucherTypeSymbology, "fisico", "112070714", "normal", consecutive, number, terminal, branchOffice);
+            //------------------ Send to Ministerio Hacienda ------------------
+            //CreateKey(lastMasterKey, voucherTypeSymbology, "fisico", "112070714", "normal", consecutive, number, terminal, branchOffice);
+            //CreateXML(mdList, lastMasterKey, voucherTypeSymbology);
+            //sendMailToClient();*/
 
             return Json(new { state = 0, message = string.Empty });
         }
 
-        public void SaveProductDetails(List<ProductDetail> billDetails, int key)
+        public List<MasterDetail> SaveProductDetails(List<ProductDetail> billDetails, int key)
         {
+            List<MasterDetail> mdList = new List<MasterDetail>();
             MasterInvoiceVoucher miv = _context.MasterInvoiceVoucher.Find(key);
 
             foreach (ProductDetail pd in billDetails)
@@ -264,7 +288,11 @@ namespace FactuCR.Controllers
 
                 _context.MasterDetail.Add(masterDetail);
                 _context.SaveChanges();
+
+                mdList.Add(masterDetail);
             }
+
+            return mdList;
         }
 
         public string getNumber(int lastNumber, string type)
@@ -344,63 +372,31 @@ namespace FactuCR.Controllers
             return strNewNumber;
         }
 
-        private string[] CreateXML(int idKey)
+        private void CreateXML(List<MasterDetail> mdList, int idKey, string voucherType)
         {
             MasterInvoiceVoucher miv = _context.MasterInvoiceVoucher.Find(idKey);
-            ConfigCompany configC = _context.ConfigCompany.Find(1);
-            var values = new Dictionary<string, string>
-                {
-                   { "clave",  miv.ApiKey},
-                   { "consecutivo", miv.ApiConsecutive },
-                   { "fecha_emision",  DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss%K") },
-                   { "emisor_nombre", configC.FullName },
-                   { "emisor_tipo_indetif", Convert.ToString( configC.IdType) },
-                   { "emisor_num_identif", Convert.ToString( configC.IdUser).Replace("-","") },
-                   { "emisor_nombre", configC.CompannyName },
-                   { "emisor_provincia", configC.Province },
-                   { "emisor_canton", configC.Canton },
-                   { "emisor_distrito", configC.District },
-                   { "emisor_barrio", configC.Province }, //arreglar a barrio
-                   { "emisor_otras_senas", configC.OtherSigns },
-                   { "emisor_cod_pais_tel", configC.Country },
-                   { "emisor_tel", configC.Telephone },
-                   { "emisor_cod_pais_fax", configC.Country },
-                   { "emisor_fax", configC.Fax },
-                   { "emisor_email", configC.Email },
-                   { "receptor_nombre", "NOMBRECLIENTE" }, //TODO REFERENTE A CLIENTE
-                   { "receptor_tipo_identif", "TIPOCEDCLIENTE" },
-                   { "receptor_num_identif", "CEDULACLIENTE" },
-                   { "receptor_provincia", "PROVINCIA CLIENTE" },
-                   { "receptor_canton", "CANTONCLIENTE" },
-                   { "receptor_distrito", "DISTRITOCLIENTE" },
-                   { "receptor_barrio", "BARRIOCLIENTE" },
-                   { "receptor_cod_pais_tel", "CLIENTECODPAIS" },
-                   { "receptor_tel", "CLIENTETELEFONO" },
-                   { "receptor_cod_pais_fax", "CLIENTEFAXCOD" }, //eje: 506
-                   { "receptor_fax", "CLIENTEFAX" },
-                   { "receptor_email", "CLIENTEEMAIL" },
-                   { "condicion_venta", "" }, // eje: 01
-                   { "plazo_credito", "0" }, // 
-                   { "medio_pago", "" }, // medio pago 01
-                   { "cod_moneda", "" }, //eje CRC
-                   { "tipo_cambio", Convert.ToString(configC.CurrencyValue) },
-                   { "total_serv_gravados", "" },
-                   { "total_serv_exentos", "" },
-                   { "total_merc_gravada", "" },
-                   { "total_merc_exenta", "" },
-                   { "total_gravados", "" },
-                   { "total_exentos", "" },
-                   { "total_ventas", "" },
-                   { "total_descuentos", "" },
-                   { "total_ventas_neta", "" },
-                   { "total_impuestos", "" },
-                   { "total_comprobante", "" },
-                   { "otros", "" },
-                   { "otrosType", "" }
-                };
+            ConfigCompany configC = _context.ConfigCompany.Find(6);
+            MasterKey mk = _context.MasterKey.Find(idKey);
+            MasterConsecutive mc = _context.MasterConsecutive.Find(idKey);
+            MasterReceiver mr = _context.MasterReceiver.Find(idKey);
+            List<MasterDetail> listaDetalle = mdList; // DEBE SER LA LISTA DE DETALLE
+
+            String payment = _context.MasterPayment.Find(miv.IdPayment).Code;
+            string condition = _context.MasterSaleCondition.Find(miv.IdCondition).Code;
+
+            double total_serv_gravados = 0;
+            double total_serv_exentos = 0;
+            double total_merc_gravada = 0;
+            double total_merc_exenta = 0;
+            double total_gravados = 0;
+            double total_exentos = 0;
+            double total_ventas = 0;
+            double total_descuentos = 0;
+            double total_ventas_neta = 0;
+            double total_impuestos = 0;
+            double total_comprobante = 0;
 
             string detalle = "{";
-            List<MasterDetail> listaDetalle = new List<MasterDetail>(); // DEBE SER LA LISTA DE DETALLE
             int count = 0;
             foreach (var item in listaDetalle)
             {
@@ -419,8 +415,77 @@ namespace FactuCR.Controllers
                                                 "\"montoTotalLinea\":\"" + item.TotalLineAmount + "\"," +
                                                 "\"montoDescuento\":\"" + item.DiscountAmount + "\"," +
                                                 "\"naturalezaDescuento\":\"Oferta\"}";
+
+                //------------- Total Amounts Calculation -----------------
+                total_descuentos += item.DiscountAmount;
+                if (item.MeasuredUnitSymbology.Equals("Sp"))
+                {
+                    total_serv_exentos += item.TotalLineAmount;
+                }
+                else
+                {
+                    total_merc_exenta += item.TotalLineAmount;
+                }
             }
             detalle += "}";
+
+            //------------- Total Amounts Calculation -----------------
+            total_gravados = total_serv_gravados + total_merc_gravada;
+            total_exentos = total_serv_exentos + total_merc_exenta;
+            total_ventas = total_gravados + total_exentos;
+            total_ventas_neta = total_ventas - total_descuentos;
+            total_comprobante = total_ventas_neta + total_impuestos;
+
+            var values = new Dictionary<string, string>
+                {
+                   { "clave",  miv.ApiKey.ToString()},
+                   { "consecutivo", miv.ApiConsecutive.ToString() },
+                   { "fecha_emision",  DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss%K") },
+                   { "emisor_nombre", configC.FullName },
+                   { "emisor_tipo_indetif", Convert.ToString( configC.IdType) },
+                   { "emisor_num_identif", Convert.ToString( configC.IdUser).Replace("-","") },
+                   { "nombre_comercial", configC.CompannyName },
+                   { "emisor_provincia", configC.Province },
+                   { "emisor_canton", configC.Canton },
+                   { "emisor_distrito", configC.District },
+                   { "emisor_barrio", configC.Province }, //arreglar a barrio
+                   { "emisor_otras_senas", configC.OtherSigns },
+                   { "emisor_cod_pais_tel", configC.Country },
+                   { "emisor_tel", configC.Telephone },
+                   { "emisor_cod_pais_fax", configC.Country },
+                   { "emisor_fax", configC.Fax },
+                   { "emisor_email", configC.Email },
+                   { "receptor_nombre", mr.Fullname }, //TODO REFERENTE A CLIENTE
+                   { "receptor_tipo_identif", mr.IdentificationType },
+                   { "receptor_num_identif", mr.IdentificationNumber },
+                   { "receptor_provincia", "1" },
+                   { "receptor_canton", "01" },
+                   { "receptor_distrito", "03" },
+                   { "receptor_barrio", "01" },
+                   { "receptor_cod_pais_tel",  mk.Country },
+                   { "receptor_tel", mr.Telephone },
+                   { "receptor_cod_pais_fax", mk.Country }, //eje: 506
+                   { "receptor_fax", mr.Telephone },
+                   { "receptor_email", mr.Email },
+                   { "condicion_venta", condition }, // eje: 01
+                   { "plazo_credito", "0" }, // 
+                   { "medio_pago", payment }, // medio pago 01
+                   { "cod_moneda", "CRC" }, //eje CRC
+                   { "tipo_cambio", Convert.ToString(configC.CurrencyValue) },
+                   { "total_serv_gravados", total_serv_gravados.ToString() },
+                   { "total_serv_exentos", total_serv_exentos.ToString() },
+                   { "total_merc_gravada", total_merc_gravada.ToString() },
+                   { "total_merc_exenta", total_merc_exenta.ToString() },
+                   { "total_gravados", total_gravados.ToString() },
+                   { "total_exentos", total_exentos.ToString() },
+                   { "total_ventas", total_ventas.ToString() },
+                   { "total_descuentos", total_descuentos.ToString() },
+                   { "total_ventas_neta", total_ventas_neta.ToString() },
+                   { "total_impuestos", total_impuestos.ToString() },
+                   { "total_comprobante", total_comprobante.ToString() },
+                   { "otros", "" },
+                   { "otrosType", "" }
+                };
 
             values.Add("detalles", detalle);
 
@@ -428,14 +493,19 @@ namespace FactuCR.Controllers
             JToken jObjet = api.PostApi(values, "genXML", "gen_xml_fe");
             var clave = (string)jObjet["clave"];
             var xml = (string)jObjet["xml"];
-            string[] vals = { clave, xml, "FE" };
-            return vals;
+
+            Debug.WriteLine("-------------------------------------------------------------------------------");
+            Debug.WriteLine(xml);
+
+            string[] vals = { clave, xml, mc.VoucherType };
+
+            //CreateSignXML(vals);
         }
 
         private string CreateSignXML(string[] vals)
         {
-            ConfigCompany configC = _context.ConfigCompany.Find(1);
-            var file = _context.Files.Find(1);
+            ConfigCompany configC = _context.ConfigCompany.Find(6);
+            var file = _context.Files.Find(UInt32.Parse("1"));
             var values = new Dictionary<string, string>
                 {
                    { "p12Url", file.DownloadCode },
@@ -519,6 +589,38 @@ namespace FactuCR.Controllers
             string[] vals = { access_token, refresh_token, expires_in };
 
             return vals;
+        }
+
+        [HttpPost]
+        public JsonResult SendMailToClient([FromBody] JObject billPDF)
+        {
+            dynamic dynamicBillPDF = billPDF;
+
+            string clientEmail = dynamicBillPDF.clientEmail;
+            string base64PDF = dynamicBillPDF.base64PDF;
+            int size = base64PDF.Length - 1;
+
+            Debug.WriteLine(base64PDF);
+            Debug.WriteLine(size);
+
+            string onlyBase64 = base64PDF.Substring(28);
+
+            Debug.WriteLine(onlyBase64);
+
+            byte[] decodedPDF = Convert.FromBase64String(onlyBase64);
+
+            Email email = new Email(clientEmail, decodedPDF);
+
+            if (email.sendEmail())
+            {
+                Debug.WriteLine("---------------------------EMAIL SEND");
+            }
+            else
+            {
+                Debug.WriteLine("--------------------------- EMAIL SEND FAILED: " + email.error);
+            }
+
+            return Json(new { state = 0, message = string.Empty });
         }
     }
 }

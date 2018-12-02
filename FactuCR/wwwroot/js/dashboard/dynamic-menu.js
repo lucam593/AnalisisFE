@@ -8,13 +8,15 @@
     if (checkStringInURL("Products") ||
         checkStringInURL("Categories") ||
         checkStringInURL("Families") ||
-        checkStringInURL("Providers")) {
+        checkStringInURL("Providers") ||
+        checkStringInURL("Clients")) {
         $('#mantenimiento-menu-container').show("slow");
     } else {
         $('#mantenimiento-menu-container').hide();
     }
 
-    if (checkStringInURL("Billing")) {
+    if (checkStringInURL("Billing") ||
+        checkStringInURL("Billing")) {
         $('#facturacion-menu-container').show("slow");
     } else {
         $('#facturacion-menu-container').hide();

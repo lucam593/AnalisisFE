@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace FactuCR.Models
 {
@@ -11,7 +12,11 @@ namespace FactuCR.Models
         }
 
         public int IdCategory { get; set; }
+
+        [Display(Name = "Nombre")]
         public string Name { get; set; }
+
+        [Display(Name = "Descripcion de la categoria")]
         public string Description { get; set; }
 
         public ICollection<Product> Product { get; set; }

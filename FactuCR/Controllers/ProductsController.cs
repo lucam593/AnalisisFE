@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FactuCR.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FactuCR.Controllers
 {
+  //  [Authorize]
     public class ProductsController : Controller
     {
         private readonly db_facturacionContext _context;
