@@ -356,7 +356,7 @@ namespace FactuCR.Controllers
                    { "emisor_nombre", configC.FullName },
                    { "emisor_tipo_indetif", Convert.ToString( configC.IdType) },
                    { "emisor_num_identif", Convert.ToString( configC.IdUser).Replace("-","") },
-                   { "emisor_nombre", configC.CompannyName },
+                   { "nombre_comercial", configC.CompannyName },
                    { "emisor_provincia", configC.Province },
                    { "emisor_canton", configC.Canton },
                    { "emisor_distrito", configC.District },

@@ -8,6 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Authentication;
 using System.Threading;
+using MailKit.Net.Smtp;
+using MailKit;
+using MimeKit;
+using System.Net.Mail;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FactuCR.Controllers
 {
@@ -32,8 +37,7 @@ namespace FactuCR.Controllers
         {
             try
             {
-
-
+               
                 if (ModelState.IsValid)
                 {
                     var temp = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss%K");
@@ -129,7 +133,43 @@ namespace FactuCR.Controllers
             return principal;
         }
 
-    }
+
+        private async System.Threading.Tasks.Task enviarmailpruebaAsync()
+        {
+            using (var smtpClient = HttpContext.RequestServices.GetRequiredService<System.Net.Mail.SmtpClient>())
+            {
+                await smtpClient.SendMailAsync(new MailMessage(
+                       "luis.castro@ucrso.info",
+                       "sandy.ovg@gmail.com",
+                       "Test message body",
+                       "sirva pendejada"
+                       ));
+
+            }
+
+                //var mail = new MimeMessage();
+                //mail.From.Add(new MailboxAddress("FactuCR", "luis.castro@ucrso.info"));
+                //mail.To.Add(new MailboxAddress("Mr Sandy", "sandy.ovg@gmail.com"));
+
+                //mail.Subject = "PROBANDO CORREO DESDE C#";
+                //mail.Body =  new TextPart("plain")
+                //{
+                //    Text = "nananana esta mierda sirve?"
+                //};
+
+                //using (var client = new SmtpClient())
+                //{
+                //    client.Connect("smtp-pulse.com", 465, true);
+                //    client.Authenticate("lucam5993@gmail.com", "YP2g3Ab7jgYt");
+                //    client.Send(mail);
+                //    client.Disconnect(true);
+                //}
+
+
+                //srive??
+
+            }
+        }
 
 
 
