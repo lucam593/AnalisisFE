@@ -22,7 +22,7 @@ namespace FactuCR.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return Redirect("/Categories");
+                return Redirect("/Billing");
             }
             else
             {
@@ -56,7 +56,7 @@ namespace FactuCR.Controllers
                     await genClaimsAsync(user, sessionKey, idUser);
                    
                     
-                    return RedirectToAction("Index", "Billing");
+                    return RedirectToAction("Index", "Home");
                 }
 
 

@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FactuCR.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FactuCR.Controllers
 {
+ //   [Authorize]
     public class ClientsController : Controller
     {
         private readonly db_facturacionContext _context;
@@ -25,9 +27,11 @@ namespace FactuCR.Controllers
             return View(await db_facturacionContext.ToListAsync());
         }
 
+
         // GET: Clients/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+
             if (id == null)
             {
                 return NotFound();
@@ -36,6 +40,7 @@ namespace FactuCR.Controllers
             var client = await _context.Client
                 .Include(c => c.IdTypeNavigation)
                 .FirstOrDefaultAsync(m => m.IdClient == id);
+
             if (client == null)
             {
                 return NotFound();
@@ -43,6 +48,8 @@ namespace FactuCR.Controllers
 
             return View(client);
         }
+
+
 
         // GET: Clients/Create
         public IActionResult Create()
@@ -54,9 +61,6 @@ namespace FactuCR.Controllers
             return View(new ClientManagement());
         }
 
-        // POST: Clients/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
 
 
         [HttpPost]  
@@ -90,7 +94,7 @@ namespace FactuCR.Controllers
             }
             if (model.Client.IdType == 4)
             {
-                client.IdentificationNumber = model.IdentificationNumberNITE;
+                client.IdentificationNumber = model.IdentificationNumberDIMEX;
             }
             TelephoneContact telephoneContact = new TelephoneContact();
             telephoneContact.IdOwner = client.IdentificationNumber;
@@ -99,10 +103,6 @@ namespace FactuCR.Controllers
             telephoneContact.Type = model.TelephoneContact.Type;
             telephoneContact.Description = model.TelephoneContact.Description;
             telephoneContact.Extension = model.TelephoneContact.Extension;
-
-           
-
-
 
             _context.TelephoneContact.Add(telephoneContact);
             _context.Client.Add(client);
@@ -119,14 +119,39 @@ namespace FactuCR.Controllers
             }
 
             var client = await _context.Client.FindAsync(id);
+            var telephoneContact = _context.TelephoneContact.Where(tc => tc.IdOwner.Equals(client.IdentificationNumber)).First();
+
+            ClientManagement model = new ClientManagement();
+            model.Client = client;
+            model.TelephoneContact = telephoneContact;
+
+            if (client.IdType == 1)
+            {
+            model.IdentificationNumberCedFisica  = client.IdentificationNumber;
+            }
+            else if (model.Client.IdType == 2)
+            {
+                model.IdentificationNumberCedJuridica = client.IdentificationNumber ;
+            }
+          else  if (model.Client.IdType == 3)
+            {
+                model.IdentificationNumberNITE = client.IdentificationNumber  ;
+            }
+        else   
+            {
+                model.IdentificationNumberDIMEX = client.IdentificationNumber  ;
+            }
+
+
             if (client == null)
             {
                 return NotFound();
             }
             ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Name", client.IdType);
-            ClientManagement clientManagement = new ClientManagement();
-            clientManagement.Client = client;
-            return View(clientManagement);
+            List<Country> countriesList = _context.Country.ToList();
+            ViewData["CountriesList"] = countriesList;
+
+            return View(model);
         }
 
         // POST: Clients/Edit/5
@@ -134,38 +159,56 @@ namespace FactuCR.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdClient,IdType,IdentificationNumber,Name,LastName,Email,Country,Status,AdmissionDate")] Client client)
+        public IActionResult Edit(int id, ClientManagement model)
         {
-            if (id != client.IdClient)
-            {
-                return NotFound();
-            }
+            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Name", model.Client.IdType);
+            List<Country> countriesList = _context.Country.ToList();
+            ViewData["CountriesList"] = countriesList;
 
-            if (ModelState.IsValid)
+            Client client = _context.Client.Find(model.Client.IdClient);
+            client.IdType = model.Client.IdType;
+            client.IdentificationNumber = model.Client.IdentificationNumber;
+            client.Name = model.Client.Name;
+            client.LastName = model.Client.LastName;
+            client.Email = model.Client.Email;
+            client.Country = model.Client.Country;
+            client.Status = model.Client.Status;
+            client.AdmissionDate = model.Client.AdmissionDate;
+
+
+            if (client.IdType == 1)
             {
-                try
-                {
-                    _context.Update(client);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ClientExists(client.IdClient))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+              client.IdentificationNumber = model.IdentificationNumberCedFisica;
             }
-            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Name", client.IdType);
-            ClientManagement clientManagement = new ClientManagement();
-            clientManagement.Client = client;
-            return View(clientManagement);
+            else if (model.Client.IdType == 2)
+            {
+               client.IdentificationNumber = model.IdentificationNumberCedJuridica ;
+            }
+            else if (model.Client.IdType == 3)
+            {
+                client.IdentificationNumber = model.IdentificationNumberNITE;
+            }
+            else
+            {
+                client.IdentificationNumber = model.IdentificationNumberDIMEX;
+            
+            }
+            TelephoneContact telephoneContact = new TelephoneContact();
+            telephoneContact.IdOwner = client.IdentificationNumber;
+            telephoneContact.CountryCode = model.TelephoneContact.CountryCode;
+            telephoneContact.TelephoneNumber = model.TelephoneContact.TelephoneNumber;
+            telephoneContact.Type = model.TelephoneContact.Type;
+            telephoneContact.Description = model.TelephoneContact.Description;
+            telephoneContact.Extension = model.TelephoneContact.Extension;
+
+            _context.Update(telephoneContact);
+            _context.Update(client);
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
         }
+        
+        
 
         // GET: Clients/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -174,16 +217,18 @@ namespace FactuCR.Controllers
             {
                 return NotFound();
             }
-
             var client = await _context.Client
                 .Include(c => c.IdTypeNavigation)
                 .FirstOrDefaultAsync(m => m.IdClient == id);
-            if (client == null)
+
+            ClientManagement model = new ClientManagement();
+            model.Client = client;
+
+            if (model == null)
             {
                 return NotFound();
             }
-
-            return View(client);
+            return View(model);
         }
 
         // POST: Clients/Delete/5
@@ -195,6 +240,7 @@ namespace FactuCR.Controllers
             _context.Client.Remove(client);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+            
         }
 
         private bool ClientExists(int id)

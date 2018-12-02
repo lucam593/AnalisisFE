@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-<table class="table">
+<table id="datatable" class="table table-bordered">
     <thead>
         <tr>
             <th>
@@ -61,12 +61,13 @@
                 </td>
 
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.IdClient">Editar</a> |
-                    <a asp-action="Delete" asp-route-id="@item.IdClient">Eliminar</a>
+                    <a asp-action="Edit" asp-route-id="@item.IdClient" class="label label-success"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.IdClient" class="label label-info"><i class="fa fa-list-alt" aria-hidden="true"></i> Detalles</a>
+                    <a asp-action="Delete" asp-route-id="@item.IdClient" class="label label-danger"><i class="fa fa-trash-o"></i> Eliminar</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
 <div class="ln_solid"></div>
-<a asp-action="Create" class="btn btn-success">Ingresar Cliente</a>
+<a asp-action="Create" class="btn btn-success"><i class="fa fa-plus-square" aria-hidden="true"></i> Ingresar Cliente</a>
