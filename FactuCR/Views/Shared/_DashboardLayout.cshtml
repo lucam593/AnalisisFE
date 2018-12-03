@@ -35,6 +35,18 @@
     <script src="~/vendor/jquery-validation-1.17.0/dist/jquery.validate.min.js"></script>
     <script src="~/vendor/jquery-validation-1.17.0/dist/localization/messages_es.js"></script>-->
 
+    <!-- Smartsupp Live Chat script -->
+    <script type="text/javascript">
+        var _smartsupp = _smartsupp || {};
+        _smartsupp.key = '167027d7c12ef538456c669ff340fc77d6d0e0a6';
+        window.smartsupp || (function (d) {
+            var s, c, o = smartsupp = function () { o._.push(arguments) }; o._ = [];
+            s = d.getElementsByTagName('script')[0]; c = d.createElement('script');
+            c.type = 'text/javascript'; c.charset = 'utf-8'; c.async = true;
+            c.src = 'https://www.smartsuppchat.com/loader.js?'; s.parentNode.insertBefore(c, s);
+        })(document);
+    </script>
+
     @RenderSection("styles", required: false)
     @RenderSection("scripts", required: false)
 </head>
@@ -65,7 +77,7 @@
                             <h3>Mantenimiento</h3>
                             <ul id="sales-menu" class="nav side-menu">
                                 <li>
-                                    <a><i class="fa fa-user"></i> Socios <span class="fa fa-arrow-down"></span></a>
+                                    <a><i class="fa fa-user"></i> Socios <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
                                         <li><a asp-area="" asp-controller="Clients" asp-action="Create">Agregar Cliente</a></li>
                                         <li><a asp-area="" asp-controller="Clients" asp-action="Index">Lista de Clientes</a></li>
@@ -90,6 +102,15 @@
                                     <ul class="nav child_menu">
                                         <li><a asp-area="" asp-controller="Discounts" asp-action="Create">Agregar Descuento</a></li>
                                         <li><a asp-area="" asp-controller="Discounts" asp-action="Index">Lista de Descuentos</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a><i class="fa fa-compass"></i> Empresa <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a asp-area="" asp-controller="BranchOffices" asp-action="Create">Agregar Oficina</a></li>
+                                        <li><a asp-area="" asp-controller="BranchOffices" asp-action="Index">Lista de Oficinas</a></li>
+                                        <li><a asp-area="" asp-controller="Terminals" asp-action="Create">Agregar Terminal</a></li>
+                                        <li><a asp-area="" asp-controller="Terminals" asp-action="Index">Lista de Terminales</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -121,7 +142,7 @@
                     <!-- /sidebar menu -->
                     <!-- /menu footer buttons -->
                     <div class="sidebar-footer hidden-small">
-                        <a data-toggle="tooltip" data-placement="top" title="Settings">
+                        <a data-toggle="tooltip" data-placement="top" title="Settings" asp-controller="ConfigCompanies" asp-action="Index">
                             <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                         </a>
                         <a data-toggle="tooltip" data-placement="top" title="FullScreen">
@@ -130,7 +151,7 @@
                         <a data-toggle="tooltip" data-placement="top" title="Lock">
                             <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
                         </a>
-                        <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
+                        <a data-toggle="tooltip" data-placement="top" title="Logout" asp-controller="Users" asp-action="Logout">
                             <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
                         </a>
                     </div>
@@ -186,12 +207,14 @@
                                 <!-- Init Panel Title -->
                                 <div class="x_title">
                                     <h2>@ViewBag.PanelTitle<small>@ViewBag.Annotation</small></h2>
-                                  
+
                                     <div class="clearfix"></div>
                                 </div>
                                 <!-- Finish Panel Title -->
                                 <!-- Init Panel Content -->
                                 <div class="x_content">
+                                    <span class="go-up fa fa-chevron-up"></span>
+
                                     @RenderBody()
                                 </div>
                                 <!-- Finish Panel Content -->
@@ -202,9 +225,10 @@
             </div>
             <!-- /page content -->
             <!-- footer content -->
-            <footer class="">
-                <div class="pull-right">
-                    © 2018 - FactuCR
+            <div class="clearfix"></div>
+            <footer id="myFooter">
+                <div class="footer-copyright">
+                    <p>© 2018 Factu CR - Todos los derechos reservados </p>
                 </div>
                 <div class="clearfix"></div>
             </footer>
@@ -267,5 +291,6 @@
     <!-- dashboard-custom -->
     <script src="~/js/dashboard/custom.js"></script>
     <script src="~/js/dashboard/dynamic-menu.js"></script>
+    <script src="~/js/dashboard/general.js"></script>
 </body>
 </html>

@@ -1,35 +1,34 @@
 ﻿@model FactuCR.Models.BranchOffice
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "FCR - Nueva Sucursal";
+    ViewData["PanelTitle"] = "Nueva Sucursal";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
-
-<h2>Crear Nueva Sucursal</h2>
 
 <form asp-action="Create" class="form-horizontal">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
     <div class="form-group">
-        <label asp-for="Name" class="control-label col-md-4 col-sm-4 col-xs-12">Nombre</label>
-        <div class="control-label col-md-4 col-sm-4 col-xs-12">
+        <label asp-for="Name" class="control-label col-md-3 col-sm-3 col-xs-12">Nombre de Sucursal</label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <input asp-for="Name" class="form-control" />
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group">
-        <label asp-for="OfficeNumber" class="control-label col-md-4 col-sm-4 col-xs-12">Número Oficina</label>
-        <div class="control-label col-md-4 col-sm-4 col-xs-12">
+        <label asp-for="OfficeNumber" class="control-label col-md-3 col-sm-3 col-xs-12">Número de Sucursal</label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <input asp-for="OfficeNumber" class="form-control"  data-inputmask="'mask':'999'" />
             <span asp-validation-for="OfficeNumber" class="text-danger"></span>
         </div>
     </div>
+    <div class="ln_solid"></div>
     <div class="form-group">
-        <input type="submit" value="Crear Nuevo" class="btn btn-default" />
+        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3 col-sm-offset-3">
+            <button type="submit" class="btn btn-success"><i class="fa fa-floppy-o"></i> Guardar Sucursal</button>
+            <a asp-action="Index" class="btn btn-default"><i class="fa fa-caret-square-o-left"></i> Regresar</a>
+        </div>
     </div>
 </form>
-
-<div>
-    <a asp-action="Index">Regresar</a>
-</div>
 
