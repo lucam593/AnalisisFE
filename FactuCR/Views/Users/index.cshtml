@@ -11,7 +11,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Index">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="IdUser" />
             <div class="form-group">
@@ -30,28 +30,8 @@
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-               
-                <input asp-for="About" type="hidden" />
-                
-            </div>
-            <div class="form-group">
-                <label asp-for="Country" class="control-label"></label>
-                <input asp-for="Country" class="form-control" />
-                <span asp-validation-for="Country" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <input asp-for="Status" class="form-control" />
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Timestamp" class="control-label"></label>
-                <input asp-for="Timestamp" class="form-control" />
-                <span asp-validation-for="Timestamp" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="LastAccess" class="control-label"></label>
-                <input placeholder="@ultAcceso"  class="form-control" readonly />
+                <input placeholder="@ultAcceso" class="form-control" readonly />
                 <span asp-validation-for="LastAccess" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -60,14 +40,9 @@
                 <span asp-validation-for="Pwd" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Avatar" class="control-label"></label>
-                <input asp-for="Avatar" class="form-control" />
-                <span asp-validation-for="Avatar" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Settings" class="control-label"></label>
-                <input asp-for="Settings" class="form-control" />
-                <span asp-validation-for="Settings" class="text-danger"></span>
+                <label asp-for="ConfirmPassword" class="control-label"></label>
+                <input asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-success" />
@@ -77,6 +52,6 @@
 </div>
 
 <div>
-    <a asp-controller="Billing" asp-action="Index">Regresar</a>
+    <a asp-controller="Home" asp-action="Index">Regresar</a>
 </div>
 

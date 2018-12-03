@@ -1,13 +1,13 @@
 ﻿@model FactuCR.Models.ConfigCompaniesManagement
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Configuración";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
 <h4>Modificar Configuración</h4>
 
-<form asp-action="Edit" class="form-horizontal">
+<form asp-action="Index" class="form-horizontal">
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="configCompany.IdConfig" />
@@ -86,7 +86,8 @@
     <div class="form-group">
         <label asp-for="configCompany.Province" class="control-label col-md-3 col-sm-3 col-xs-12">Provincia</label>
         <div class="col-md-4 col-sm-4 col-xs-12">
-            <select id="ProvinceName" asp-for="configCompany.Province" asp-items="@(new SelectList(ViewBag.provinceList,"NameProvince", "NameProvince"))" class="form-control"></select>
+            <select id="ProvinceName" asp-for="configCompany.Province"  asp-items="@(new SelectList(ViewBag.provinceList,"NameProvince", "NameProvince"))" class="form-control">
+            </select>
             <span asp-validation-for="configCompany.Province" class="text-danger"></span>
         </div>
     </div>
@@ -131,7 +132,7 @@
     <div class="form-group">
         <label asp-for="configCompany.PasswordTax" class="control-label col-md-3 col-sm-3 col-xs-12">Contraseña Tributación</label>
         <div class="col-md-4 col-sm-4 col-xs-12">
-            <input asp-for="configCompany.PasswordTax" type="password" class="form-control" />
+            <input asp-for="configCompany.PasswordTax"  class="form-control" />
             <span asp-validation-for="configCompany.PasswordTax" class="text-danger"></span>
         </div>
     </div>
@@ -175,8 +176,8 @@
     </div>
 
     <div class="form-group">
-        <input type="submit" id="Guardar" value="Guardar Configuración" class="btn btn-default" />|
-        <a asp-action="Index">Regresar</a>
+        <input type="submit" id="Guardar" value="Guardar Configuración" class="btn btn-success" />|
+        <a asp-action="Index" asp-controller="Home">Regresar</a>
     </div>
 </form>
 
@@ -188,6 +189,28 @@
         $('#cedjuridica-input').hide();
         $('#nite-input').hide();
         $('#dimex-input').hide();
+     
+        if (@ViewBag.conf.configCompany.IdType === 1) {
+            $('#idnum-label').show();
+            $('#cedfisica-input').show();
+            $('#cedfisica-input').val(@ViewBag.idUser);
+        }
+
+        if (@ViewBag.conf.configCompany.IdType === 2) {
+            $('#idnum-label').show();
+            $('#cedjuridica-input').show();
+             $('#cedfisica-input').val(@ViewBag.idUser);
+        }
+        if (@ViewBag.conf.configCompany.IdType === 3) {
+            $('#idnum-label').show();
+            $('#nite-input').show();
+             $('#cedfisica-input').val(@ViewBag.idUser);
+        }
+        if (@ViewBag.conf.configCompany.IdType === 4) {
+            $('#idnum-label').show();
+            $('#dimex-input').show();
+             $('#cedfisica-input').val(@ViewBag.idUser);
+        }
 
         $('select').change(function () {
             $('#idnum-label').hide();
