@@ -30,6 +30,10 @@ namespace FactuCR.Models
         [DisplayName("Contraseña")]
         [DataType(DataType.Password)]
         public string Pwd { get; set; }
+        [DisplayName("Confirmación de contraseña")]
+        [Compare("Pwd", ErrorMessage = "Contraseñas no coinciden, intenta de nuevo.")]
+        [DataType(DataType.Password)]
+        public string ConfirmPassword { get; set; }
         public string Avatar { get; set; }
         public string Settings { get; set; }
     }

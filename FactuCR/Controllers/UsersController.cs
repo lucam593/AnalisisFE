@@ -67,7 +67,7 @@ namespace FactuCR.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(uint id, [Bind("IdUser,FullName,UserName,Email,About,Country,Status,Timestamp,LastAccess,Pwd,Avatar,Settings")] Users users)
+        public async Task<IActionResult> Index(uint id, [Bind("IdUser,FullName,UserName,Email,LastAccess,Pwd,ConfirmPassword")] Users users)
         {
             if (id != users.IdUser)
             {
@@ -78,8 +78,7 @@ namespace FactuCR.Controllers
             {
                 try
                 {
-                    _context.Update(users);
-                    await _context.SaveChangesAsync();
+                    Ok();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
