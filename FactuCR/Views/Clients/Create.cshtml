@@ -9,8 +9,8 @@
 
 <form id="new-client-form" asp-action="Create" class="form-horizontal">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="form-group ">
-        <i class="fa fa-question-circle-o " data-toggle="tooltip" title="debe ingresar un tipo de identificación para poder ingresar la identificación correspondiente" data-placement="right" aria-hidden="true"></i><label asp-for="Client.IdType" class="control-label col-md-3 col-sm-3 col-xs-12">Tipo de indentificaci&oacute;n *</label>
+    <div class="form-group">
+        <label asp-for="Client.IdType" class="control-label col-md-3 col-sm-3 col-xs-12">Tipo de indentificaci&oacute;n *</label>
         <div class="col-md-6 col-sm-6 col-xs-12">
             <select id="idtype-select" asp-for="Client.IdType" class="form-control" asp-items="ViewBag.IdType">
                 <option selected disabled>- Seleccione el tipo de identificaci&oacute;n -</option>
@@ -51,7 +51,7 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="TelephoneContact.CountryCode"  class="control-label col-md-3 col-sm-3 col-xs-12">Informaci&oacute;n de contacto</label>
+        <label asp-for="TelephoneContact.CountryCode" class="control-label col-md-3 col-sm-3 col-xs-12">Informaci&oacute;n de contacto</label>
         <div class="col-md-6 col-sm-6 col-xs-12">
             <div class="well" style="overflow: hidden;">
                 <label asp-for="TelephoneContact.CountryCode" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;">C&oacute;digo de pa&iacute;s</label>
@@ -75,7 +75,8 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <select asp-for="TelephoneContact.Type" class="form-control">
                         <option selected disabled>- seleccione el tipo de tel&eacute;fono -</option>
-                        <option value="Personal">Personal</option>
+                        <option value="Casa">Personal</option>
+                        <option value="Movil">Movil</option>
                         <option value="Oficina">Oficina</option>
                     </select>
                 </div>
@@ -97,10 +98,40 @@
             </div>
         </div>
     </div>
-
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12">Datos sobre direcci&oacute;n</label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="well" style="overflow: hidden;">
+                <label asp-for="Province" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;">Provincia</label>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <select id="ProvinceName" asp-for="Province" asp-items="@(new SelectList(ViewBag.provinceList,"NameProvince", "NameProvince"))" class="form-control"></select>
+                    <span asp-validation-for="Province" class="text-danger"></span>
+                </div>
+                <label asp-for="Canton" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;">Cantón</label>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <select id="CantonName" asp-for="Canton" asp-items="@(new SelectList(string.Empty,"NameCanton", "NameCanton"))" class="form-control"></select>
+                    <span asp-validation-for="Canton" class="text-danger"></span>
+                </div>
+                <label asp-for="District" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;">Distrito</label>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <select id="DistrictName" asp-for="District" asp-items="@(new SelectList(string.Empty,"NameDistrict", "NameDistrict"))" class="form-control"></select>
+                    <span asp-validation-for="District" class="text-danger"></span>
+                </div>
+                <label asp-for="neighborhood" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;">Barrio</label>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <select id="NeighborhoodName" asp-for="neighborhood" asp-items="@(new SelectList(string.Empty,"NameNeighborhood", "NameNeighborhood"))" class="form-control"></select>
+                    <span asp-validation-for="neighborhood" class="text-danger"></span>
+                </div>
+                <label asp-for="address.OtherSigns" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;">Otras Señas</label>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <input asp-for="address.OtherSigns" class="form-control" />
+                    <span asp-validation-for="address.OtherSigns" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="form-group">
-
         <label asp-for="Client.Country" class="control-label col-md-3 col-sm-3 col-xs-12"> Pais <span class="required">*</span></label>
         <div class="col-md-6 col-sm-6 col-xs-12">
             <select asp-for="Client.Country" asp-items="ViewBag.IdCountry" class="form-control">
@@ -116,21 +147,16 @@
     </div>
 
     <div class="form-group">
-         <label asp-for="Client.Status" class="control-label col-md-3 col-sm-3 col-xs-12">Estado <span class="required">*</span></label>
+        <label asp-for="Client.Status" class="control-label col-md-3 col-sm-3 col-xs-12">Estado <span class="required">*</span></label>
         <div class="col-md-6 col-sm-6 col-xs-12">
-            <div id="status" class="btn-group" data-toggle="buttons">
-                <label class="btn btn-success active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                    <input type="radio" name="status" value="1" asp-for="Client.Status" checked /> &nbsp; Activo &nbsp;
-                    <span asp-validation-for="Client.Status" class="text-danger"></span>
-                </label>
-                <i class="fa fa-question-circle-o " data-toggle="tooltip" title="un cliente inactivo no dispone del servicio, activo si dispone del servicio " data-placement="right" aria-hidden="true"></i><label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                    <input type="radio" name="status" value="0" asp-for="Client.Status" /> Inactivo
-                    <span asp-validation-for="Client.Status" class="text-danger"></span>
-                </label>
-            </div>
+            <select asp-for="Client.Status" class="form-control">
+                <option selected disabled>- seleccione el tipo de tel&eacute;fono -</option>
+                <option value="1">Activo</option>
+                <option value="0">Inactivo</option>
+            </select>
         </div>
-
     </div>
+
     <div class="form-group">
         <label asp-for="Client.AdmissionDate" class="control-label col-md-3 col-sm-3 col-xs-12">Fecha de Ingreso <span class="required">*</span></label>
         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -147,10 +173,7 @@
     </div>
 </form>
 
-
-
 <script>
-   
     $(document).ready(function () {
         $('#idnum-label').hide();
         $('#cedfisica-input').hide();
@@ -186,4 +209,53 @@
             }
         })
     });
+     $(function () {
+        $("#ProvinceName").change(function () {
+            var url = '@Url.Content("~/")' + "ConfigCompanies/getCanton";
+            var ddlsource = "#ProvinceName";
+            $.getJSON(url, { Province: $(ddlsource).val() }, function (data) {
+                var items = '';
+                $("#CantonName").empty();
+                $.each(data, function (i, row) {
+                    items += "<option value= '" + row.value + "'>" + row.text + "</option>";
+                });
+                $("#CantonName").html(items);
+            })
+        });
+    });
+
+
+     $(function () {
+         $("#CantonName").change(function () {
+             var url = '@Url.Content("~/")' + "ConfigCompanies/getDistrict";
+             var ddlsource = "#ProvinceName";
+             var ddlsource2 = "#CantonName";
+             $.getJSON(url, { Province: $(ddlsource).val(), Canton: $(ddlsource2).val() }, function (data) {
+                var items = '';
+                 $("#DistrictName").empty();
+                $.each(data, function (i, row) {
+                    items += "<option value= '" + row.value + "'>" + row.text + "</option>";
+                });
+                 $("#DistrictName").html(items);
+            })
+        });
+    });
+
+    $(function () {
+        $("#DistrictName").change(function () {
+            var url = '@Url.Content("~/")' + "ConfigCompanies/getNeighborhood";
+             var ddlsource = "#ProvinceName";
+            var ddlsource2 = "#CantonName";
+            var ddlsource3 = "#DistrictName";
+            $.getJSON(url, { Province: $(ddlsource).val(), Canton: $(ddlsource2).val(), District: $(ddlsource3).val()}, function (data) {
+                var items = '';
+                 $("#NeighborhoodName").empty();
+                $.each(data, function (i, row) {
+                    items += "<option value= '" + row.value + "'>" + row.text + "</option>";
+                });
+                $("#NeighborhoodName").html(items);
+            })
+        });
+    });
+
 </script>

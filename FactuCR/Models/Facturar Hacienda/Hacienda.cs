@@ -48,6 +48,9 @@ namespace FactuCR.Models.Facturar_Hacienda
             if (status.Equals("202"))
             {
                 consultarF(valToken[0], clave);
+            } else
+            {
+                // error 403 que algo salio mal
             }
         }
 
@@ -65,6 +68,12 @@ namespace FactuCR.Models.Facturar_Hacienda
             JToken jObjet = api.PostApi(values, "consultar", "consultarCom");
             var status = (string)jObjet["ind-estado"];
             var xmlRe = (string)jObjet["respuesta-xml"];
+
+            if (status.Equals("procesando"))
+            {
+                // Volver a consultar
+                consultarF(valToken, clave);
+            }
 
             var xmlDecode = Encoding.UTF8.GetString(Convert.FromBase64String(xmlRe));
 

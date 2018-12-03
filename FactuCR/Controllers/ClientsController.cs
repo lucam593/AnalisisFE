@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace FactuCR.Controllers
 {
- //   [Authorize]
+    //   [Authorize]
     public class ClientsController : Controller
     {
         private readonly db_facturacionContext _context;
@@ -37,18 +37,44 @@ namespace FactuCR.Controllers
                 return NotFound();
             }
 
-            var client = await _context.Client
-                .Include(c => c.IdTypeNavigation)
-                .FirstOrDefaultAsync(m => m.IdClient == id);
+            var client = await _context.Client.FindAsync(id);
+            var telephoneContact = _context.TelephoneContact.Where(tc => tc.IdOwner.Equals(client.IdentificationNumber)).First();
+            var address = _context.Address.Where(x => x.IdUser == (uint)client.IdClient).First();
 
+            ClientManagement model = new ClientManagement();
+            model.Client = client;
+            model.TelephoneContact = telephoneContact;
+            model.address = address;
+            if (client.IdType == 1)
+            {
+                model.IdentificationNumberCedFisica = client.IdentificationNumber;
+            }
+            else if (client.IdType == 2)
+            {
+                model.IdentificationNumberCedJuridica = client.IdentificationNumber;
+            }
+            else if (client.IdType == 3)
+            {
+                model.IdentificationNumberNITE = client.IdentificationNumber;
+            }
+            else
+            {
+                model.IdentificationNumberDIMEX = client.IdentificationNumber;
+            }
+            
             if (client == null)
             {
                 return NotFound();
             }
 
+            MasterAddress masterA = _context.MasterAddress.Find(address.idCodificacion);
+            model.Province = masterA.NombreProvincia;
+            model.Canton = masterA.NombreCanton;
+            model.District = masterA.NombreDistrito;
+            model.neighborhood = masterA.NombreBarrio;
             ViewData["TelephoneContact"] = await _context.TelephoneContact.Where(tc => tc.IdOwner.Equals(client.IdentificationNumber)).FirstAsync();
 
-            return View(client);
+            return View(model);
         }
 
 
@@ -60,12 +86,22 @@ namespace FactuCR.Controllers
             List<Country> countriesList = _context.Country.ToList();
             ViewData["CountriesList"] = countriesList;
 
+            List<Province> Provinces = new List<Province>();
+
+            List<string> provinceList = _context.MasterAddress.Select(x => x.NombreProvincia).Distinct().ToList();
+            Provinces.Add(new Province("Seleccione una provincia."));
+            foreach (string province in provinceList)
+            {
+                Provinces.Add(new Province(province));
+            }
+            ViewData["provinceList"] = Provinces;
+
             return View(new ClientManagement());
         }
 
 
 
-        [HttpPost]  
+        [HttpPost]
         public IActionResult Create(ClientManagement model)
         {
             ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Name");
@@ -79,7 +115,7 @@ namespace FactuCR.Controllers
             client.LastName = model.Client.LastName;
             client.Email = model.Client.Email;
             client.Country = model.Client.Country;
-            client.Status = model.Client.Status;
+            client.Status = 1;
             client.AdmissionDate = model.Client.AdmissionDate;
 
             if (model.Client.IdType == 1)
@@ -105,9 +141,20 @@ namespace FactuCR.Controllers
             telephoneContact.Type = model.TelephoneContact.Type;
             telephoneContact.Description = model.TelephoneContact.Description;
             telephoneContact.Extension = model.TelephoneContact.Extension;
-
+            
             _context.TelephoneContact.Add(telephoneContact);
             _context.Client.Add(client);
+            _context.SaveChanges();
+
+            MasterAddress master = _context.MasterAddress.Where(x => x.NombreProvincia == model.Province && x.NombreCanton == model.Canton && x.NombreDistrito == model.District && x.NombreBarrio == model.neighborhood).First();
+            client = _context.Client.Last();
+
+            Address address = model.address;
+            address.IdUser = (uint)client.IdClient;
+            address.idCodificacion = master.IdCodificacion;
+            address.OtherSigns = model.address.OtherSigns;
+
+            _context.Address.Add(address);
             _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
@@ -122,24 +169,25 @@ namespace FactuCR.Controllers
 
             var client = await _context.Client.FindAsync(id);
             var telephoneContact = _context.TelephoneContact.Where(tc => tc.IdOwner.Equals(client.IdentificationNumber)).First();
+            var address = _context.Address.Where(x => x.IdUser == (uint)client.IdClient).First();
 
             ClientManagement model = new ClientManagement();
             model.Client = client;
             model.TelephoneContact = telephoneContact;
-
+            model.address = address;
             if (client.IdType == 1)
             {
-                model.IdentificationNumberCedFisica  = client.IdentificationNumber;
+                model.IdentificationNumberCedFisica = client.IdentificationNumber;
             }
             else if (client.IdType == 2)
             {
                 model.IdentificationNumberCedJuridica = client.IdentificationNumber;
             }
-            else  if (client.IdType == 3)
+            else if (client.IdType == 3)
             {
                 model.IdentificationNumberNITE = client.IdentificationNumber;
             }
-            else   
+            else
             {
                 model.IdentificationNumberDIMEX = client.IdentificationNumber;
             }
@@ -153,6 +201,15 @@ namespace FactuCR.Controllers
             List<Country> countriesList = _context.Country.ToList();
             ViewData["CountriesList"] = countriesList;
 
+            List<Province> Provinces = new List<Province>();
+
+            List<string> provinceList = _context.MasterAddress.Select(x => x.NombreProvincia).Distinct().ToList();
+            Provinces.Add(new Province("Seleccione una provincia."));
+            foreach (string province in provinceList)
+            {
+                Provinces.Add(new Province(province));
+            }
+            ViewData["provinceList"] = Provinces;
             return View(model);
         }
 
@@ -184,7 +241,7 @@ namespace FactuCR.Controllers
             }
             else if (model.Client.IdType == 2)
             {
-                clientInDB.IdentificationNumber = model.IdentificationNumberCedJuridica ;
+                clientInDB.IdentificationNumber = model.IdentificationNumberCedJuridica;
             }
             else if (model.Client.IdType == 3)
             {
@@ -203,12 +260,25 @@ namespace FactuCR.Controllers
             telephoneContactInDB.Description = model.TelephoneContact.Description;
             telephoneContactInDB.Extension = model.TelephoneContact.Extension;
 
+            if (model.Province != null && model.Canton != null && model.District != null && model.neighborhood != null)
+            {
+
+                MasterAddress master = _context.MasterAddress.Where(x => x.NombreProvincia == model.Province && x.NombreCanton == model.Canton && x.NombreDistrito == model.District && x.NombreBarrio == model.neighborhood).First();
+                Address addressOriginal = _context.Address.Where(x => x.IdUser == (uint)clientInDB.IdClient).First();
+                if (master.IdCodificacion != addressOriginal.idCodificacion)
+                {
+                    addressOriginal.idCodificacion = master.IdCodificacion;
+                    addressOriginal.OtherSigns = model.address.OtherSigns;
+                    _context.Update(addressOriginal);
+                }
+            }
+
             _context.Update(telephoneContactInDB);
             _context.Update(clientInDB);
             _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
-        }        
+        }
 
         // GET: Clients/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -217,12 +287,15 @@ namespace FactuCR.Controllers
             {
                 return NotFound();
             }
-            ClientManagement model = new ClientManagement();
+            var client = await _context.Client.FindAsync(id);
+            var telephoneContact = _context.TelephoneContact.Where(tc => tc.IdOwner.Equals(client.IdentificationNumber)).First();
+            var address = _context.Address.Where(x => x.IdUser == (uint)client.IdClient).First();
 
-            var client = await _context.Client
-                .Include(c => c.IdTypeNavigation)
-                .FirstOrDefaultAsync(m => m.IdClient == id);
-            
+            ClientManagement model = new ClientManagement();
+            model.Client = client;
+            model.TelephoneContact = telephoneContact;
+            model.address = address;
+
             if (client == null)
             {
                 return NotFound();
@@ -241,18 +314,65 @@ namespace FactuCR.Controllers
         {
             var client = await _context.Client.FindAsync(id);
             var telephone_contact = await _context.TelephoneContact.Where(tc => tc.IdOwner.Equals(client.IdentificationNumber)).FirstAsync();
+            var address = _context.Address.Where(x => x.IdUser == (uint)client.IdClient).First();
 
             _context.Client.Remove(client);
             _context.TelephoneContact.Remove(telephone_contact);
+            _context.Address.Remove(address);
+
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
-            
+
         }
 
         private bool ClientExists(int id)
         {
             return _context.Client.Any(e => e.IdClient == id);
+        }
+
+        public JsonResult getCanton(string Province)
+        {
+            List<Canton> canton = new List<Canton>();
+
+            List<string> CantonList = _context.MasterAddress.Where(p => p.NombreProvincia == Province).Select(p => p.NombreCanton).Distinct().ToList();
+            canton.Add(new Canton("Seleccione un Canton."));
+            foreach (string c in CantonList)
+            {
+                canton.Add(new Canton(c));
+            }
+            return Json(new SelectList(canton, "NameCanton", "NameCanton"));
+        }
+
+        public JsonResult getDistrict(string Province, string Canton)
+        {
+            List<District> district = new List<District>();
+
+            List<string> districtList = _context.MasterAddress.Where(s => s.NombreProvincia == Province && s.NombreCanton == Canton).Select(x => x.NombreDistrito).Distinct().ToList();
+
+            district.Add(new District("Seleccione un distrito."));
+            foreach (string c in districtList)
+            {
+                district.Add(new District(c));
+            }
+
+            return Json(new SelectList(district, "NameDistrict", "NameDistrict"));
+        }
+
+
+        public JsonResult getNeighborhood(string Province, string Canton, string District)
+        {
+            List<Neighborhood> Neighborhood = new List<Neighborhood>();
+
+            List<string> neighborhoodList = _context.MasterAddress.Where(s => s.NombreProvincia == Province && s.NombreCanton == Canton && s.NombreDistrito == District).Select(x => x.NombreBarrio).Distinct().ToList();
+
+            Neighborhood.Add(new Neighborhood("Seleccione un Barrio"));
+            foreach (string c in neighborhoodList)
+            {
+                Neighborhood.Add(new Neighborhood(c));
+            }
+
+            return Json(new SelectList(Neighborhood, "NameNeighborhood", "NameNeighborhood"));
         }
     }
 }

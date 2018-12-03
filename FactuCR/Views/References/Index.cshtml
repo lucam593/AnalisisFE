@@ -1,0 +1,42 @@
+﻿@model IEnumerable<FactuCR.Models.MasterInvoiceReference>
+
+@{
+    ViewData["Title"] = "Index";
+    ViewData["PanelTitle"] = "Lista de Notas de Crédito y Débito";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<table id="datatable" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                Tipo de Nota
+            </th>
+            <th>
+                Tipo de Documento Referenciado
+            </th>
+            <th>
+                Fecha de emision
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type_Reference)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Document_Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdKeyNavigation.Day)/ @Html.DisplayFor(modelItem => item.IdKeyNavigation.Month)/ @Html.DisplayFor(modelItem => item.IdKeyNavigation.Year)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.IdKey">Details</a> 
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
