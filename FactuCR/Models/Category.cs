@@ -13,6 +13,7 @@ namespace FactuCR.Models
 
         public int IdCategory { get; set; }
 
+        [Required(ErrorMessage = "Debe ingregar el nombre de la categoría")]
         [Display(Name = "Nombre")]
         public string Name { get; set; }
 

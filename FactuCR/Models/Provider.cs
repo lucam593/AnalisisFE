@@ -28,6 +28,7 @@ namespace FactuCR.Models
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Debe ingresar un correo")]
+        [EmailAddress(ErrorMessage = "Debe ingresar un correo válido (usuario@correo.com)")]
         [Display(Name = "Correo electrónico")]
         public string Email { get; set; }
         public string Description { get; set; }

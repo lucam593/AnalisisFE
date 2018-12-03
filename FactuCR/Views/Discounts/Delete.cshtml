@@ -1,0 +1,31 @@
+﻿@model FactuCR.Models.Discount
+
+@{
+    ViewData["Title"] = "Delete";
+    ViewData["PanelTitle"] = "¿Seguro que desea eliminar este Descuento?";
+    ViewData["Annotation"] = "Cuando los datos son borrados, no pueden ser recuperados";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.Name)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Name)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.Percentage)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Percentage)%
+    </dd>
+</dl>
+<div class="ln_solid"></div>
+<form asp-action="Delete">
+    <input type="hidden" asp-for="IdDiscount" />
+    <button type="submit" class="btn btn-danger"><i class="fa fa-trash-o"></i> Eliminar</button>
+    <a asp-action="Index" class="btn btn-default"><i class="fa fa-caret-square-o-left"></i> Cancelar</a>
+</form>
+

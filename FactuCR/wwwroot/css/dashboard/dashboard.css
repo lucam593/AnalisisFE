@@ -12,3 +12,17 @@ body {
 .label-success {
     background-color: #1ABB9C !important;
 }
+
+.label-success:hover {
+    background-color: #169F85 !important;
+}
+
+.label-default {
+    color: black !important;
+    border: 0.5px solid #ADADAD;
+    background-color: white;
+}
+
+.label-default:hover {
+    background-color: #E6E6E6 !important;
+}

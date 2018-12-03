@@ -57,9 +57,33 @@ namespace FactuCR.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(branchOffice);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                int number = Int32.Parse(branchOffice.OfficeNumber.Replace('_', ' ').Trim());
+                string officeNumber = "";
+
+                if (number <= 9 && number > 0)
+                {
+                    officeNumber = "00" + number;
+                }
+                else
+                {
+                    if (number >= 10 && number <= 99)
+                    {
+                        officeNumber = "0" + number;
+                    }
+                    else
+                    {
+                        officeNumber = number.ToString();
+                    }
+
+                }
+                branchOffice.OfficeNumber = officeNumber;
+                List<BranchOffice> office = _context.BranchOffice.Where(x => x.OfficeNumber == officeNumber).ToList();
+                if (office.Count == 0)
+                {
+                    _context.Add(branchOffice);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
             }
             return View(branchOffice);
         }
@@ -96,8 +120,33 @@ namespace FactuCR.Controllers
             {
                 try
                 {
-                    _context.Update(branchOffice);
-                    await _context.SaveChangesAsync();
+                    int number = Int32.Parse(branchOffice.OfficeNumber.Replace('_', ' ').Trim());
+                    string officeNumber = "";
+
+                    if (number <= 9 && number > 0)
+                    {
+                        officeNumber = "00" + number;
+                    }
+                    else
+                    {
+                        if (number >= 10 && number <= 99)
+                        {
+                            officeNumber = "0" + number;
+                        }
+                        else
+                        {
+                            officeNumber = number.ToString();
+                        }
+
+                    }
+                    branchOffice.OfficeNumber = officeNumber;
+                    List<BranchOffice> office = _context.BranchOffice.Where(x => x.OfficeNumber == officeNumber).ToList();
+                    if (office.Count == 0)
+                    {
+                        _context.Update(branchOffice);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(Index));
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {

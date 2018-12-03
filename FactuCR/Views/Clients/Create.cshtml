@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Create";
-    ViewData["PanelTitle"] = "Ingresar Cliente";
+    ViewData["PanelTitle"] = "Nuevo Cliente";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
@@ -10,17 +10,17 @@
 <form id="new-client-form" asp-action="Create" class="form-horizontal">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group">
-        <label asp-for="Client.IdType" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+        <label asp-for="Client.IdType" class="control-label col-md-3 col-sm-3 col-xs-12">Tipo de indentificaci&oacute;n *</label>
         <div class="col-md-6 col-sm-6 col-xs-12">
             <select id="idtype-select" asp-for="Client.IdType" class="form-control" asp-items="ViewBag.IdType">
-                <option selected disabled>- Seleccione una opcion -</option>
+                <option selected disabled>- Seleccione el tipo de identificaci&oacute;n -</option>
             </select>
             <span asp-validation-for="Client.IdType" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group">
-        <label id="idnum-label" asp-for="IdentificationNumberCedJuridica" class="control-label col-md-4 col-sm-4 col-xs-12"></label>
-        <div class="col-md-4 col-sm-4 col-xs-12">
+        <label id="idnum-label" asp-for="IdentificationNumberCedJuridica" class="control-label col-md-3 col-sm-3 col-xs-12">N&uacute;mero de identificaci&oacute;n *</label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <input id="cedfisica-input" asp-for="IdentificationNumberCedFisica" class="form-control" data-inputmask="'mask': '9-9999-9999'" />
             <span asp-validation-for="IdentificationNumberCedFisica" class="text-danger"></span>
 
@@ -68,13 +68,16 @@
                 </div>
                 <label asp-for="TelephoneContact.TelephoneNumber" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;">N&uacute;mero telef&oacute;nico</label>
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <input asp-for="TelephoneContact.TelephoneNumber" class="form-control" />
+                    <input asp-for="TelephoneContact.TelephoneNumber" class="form-control" data-inputmask="'mask': '99999999'" />
                     <span asp-validation-for="TelephoneContact.TelephoneNumber" class="text-danger"></span>
                 </div>
                 <label asp-for="TelephoneContact.Type" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;">Tipo de tel&eacute;fono</label>
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <input asp-for="TelephoneContact.Type" class="form-control" />
-                    <span asp-validation-for="TelephoneContact.Type" class="text-danger"></span>
+                    <select asp-for="TelephoneContact.Type" class="form-control">
+                        <option selected disabled>- seleccione el tipo de tel&eacute;fono -</option>
+                        <option value="Personal">Personal</option>
+                        <option value="Oficina">Oficina</option>
+                    </select>
                 </div>
                 <label asp-for="TelephoneContact.Description" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;">Descripci&oacute;n del tel&eacute;fono</label>
                 <div class="col-md-12 col-sm-12 col-xs-12">
@@ -100,8 +103,15 @@
 
         <label asp-for="Client.Country" class="control-label col-md-3 col-sm-3 col-xs-12"> Pais <span class="required">*</span></label>
         <div class="col-md-6 col-sm-6 col-xs-12">
-            <input asp-for="Client.Country" class="form-control" />
-            <span asp-validation-for="Client.Country" class="text-danger"></span>
+            <select asp-for="Client.Country" asp-items="ViewBag.IdCountry" class="form-control">
+                <option selected disabled>- Seleccione el pa&iacute;s</option>
+
+                @foreach (var country in ViewBag.CountriesList)
+                {
+                    <option value="@country.CountryName">@country.CountryName</option>
+                }
+            </select>
+            <span asp-validation-for="TelephoneContact.CountryCode" class="text-danger"></span>
         </div>
     </div>
 
@@ -124,15 +134,15 @@
     <div class="form-group">
         <label asp-for="Client.AdmissionDate" class="control-label col-md-3 col-sm-3 col-xs-12">Fecha de Ingreso <span class="required">*</span></label>
         <div class="col-md-6 col-sm-6 col-xs-12">
-            <input asp-for="Client.AdmissionDate" class="form-control" />
+            <input asp-for="Client.AdmissionDate" type="text" class="form-control" value="@DateTime.Now.ToShortDateString()" readonly />
             <span asp-validation-for="Client.AdmissionDate" class="text-danger"></span>
         </div>
     </div>
     <div class="ln_solid"></div>
     <div class="form-group">
-        <div class="col-md-6 col-md-6 col-xs-12 col-md-offset-3">
-            <button type="submit" value="Guardar" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar</button>
-            <a asp-action="Index" class="btn btn-default">Lista de Clientes</a>
+        <div class="col-md-6 col-md-6 col-xs-12 col-md-offset-3 col-sm-offset-3">
+            <button type="submit" value="Guardar" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar Cliente</button>
+            <a asp-action="Index" class="btn btn-default"><i class="fa fa-caret-square-o-left"></i> Cancelar</a>
         </div>
     </div>
 </form>

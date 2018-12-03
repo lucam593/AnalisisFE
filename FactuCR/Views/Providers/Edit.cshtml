@@ -11,7 +11,7 @@
     <input type="hidden" asp-for="Provider.IdProvider" />
 
     <div class="form-group">
-        <label asp-for="Provider.IdType" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+        <label asp-for="Provider.IdType" class="control-label col-md-3 col-sm-3 col-xs-12">Tipo de identificaci&oacute;n *</label>
         <div class="col-md-6 col-sm-6 col-xs-12">
             <select id="idtype-select" asp-for="Provider.IdType" class="form-control" asp-items="ViewBag.IdType">
                 <option selected disabled>- Seleccione una opcion -</option>
@@ -21,7 +21,7 @@
     </div>
 
     <div class="form-group">
-        <label id="idnum-label" asp-for="IdentificationNumberCedJuridica" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+        <label id="idnum-label" class="control-label col-md-3 col-sm-3 col-xs-12">N&uacute;mero de identificaci&oacute;n *</label>
         <div class="col-md-6 col-sm-6 col-xs-12">
             <input id="cedfisica-input" asp-for="IdentificationNumberCedFisica" class="form-control" data-inputmask="'mask': '9-9999-9999'" />
             <span asp-validation-for="IdentificationNumberCedFisica" class="text-danger"></span>
@@ -38,7 +38,7 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="Provider.Name" class="control-label col-md-3 col-sm-3 col-xs-12">Nombre del proveedor</label>
+        <label asp-for="Provider.Name" class="control-label col-md-3 col-sm-3 col-xs-12">Nombre del proveedor *</label>
         <div class="col-md-6 col-sm-6 col-xs-12">
             <input asp-for="Provider.Name" type="text" class="form-control" />
             <span asp-validation-for="Provider.Name" class="text-danger"></span>
@@ -48,7 +48,7 @@
         <label asp-for="TelephoneContact.CountryCode" class="control-label col-md-3 col-sm-3 col-xs-12">Informaci&oacute;n de contacto</label>
         <div class="col-md-6 col-sm-6 col-xs-12">
             <div class="well" style="overflow: hidden;">
-                <label asp-for="TelephoneContact.CountryCode" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;">C&oacute;digo de pa&iacute;s</label>
+                <label asp-for="TelephoneContact.CountryCode" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;">C&oacute;digo de pa&iacute;s *</label>
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <select asp-for="TelephoneContact.CountryCode" asp-items="ViewBag.IdCountry" class="form-control">
                         <option selected disabled>- Seleccione el c&oacute;digo de pa&iacute;s</option>
@@ -60,14 +60,18 @@
                     </select>
                     <span asp-validation-for="TelephoneContact.CountryCode" class="text-danger"></span>
                 </div>
-                <label asp-for="TelephoneContact.TelephoneNumber" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;">N&uacute;mero telef&oacute;nico</label>
+                <label asp-for="TelephoneContact.TelephoneNumber" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;">N&uacute;mero telef&oacute;nico *</label>
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <input asp-for="TelephoneContact.TelephoneNumber" class="form-control" />
+                    <input asp-for="TelephoneContact.TelephoneNumber" class="form-control" data-inputmask="'mask': '99999999'" />
                     <span asp-validation-for="TelephoneContact.TelephoneNumber" class="text-danger"></span>
                 </div>
-                <label asp-for="TelephoneContact.Type" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;">Tipo de tel&eacute;fono</label>
+                <label asp-for="TelephoneContact.Type" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;">Tipo de tel&eacute;fono *</label>
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <input asp-for="TelephoneContact.Type" class="form-control" />
+                    <select asp-for="TelephoneContact.Type" class="form-control">
+                        <option selected disabled>- seleccione el tipo de tel&eacute;fono -</option>
+                        <option value="Personal">Personal</option>
+                        <option value="Oficina">Oficina</option>
+                    </select>
                     <span asp-validation-for="TelephoneContact.Type" class="text-danger"></span>
                 </div>
                 <label asp-for="TelephoneContact.Description" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;">Descripci&oacute;n del tel&eacute;fono</label>
@@ -80,7 +84,7 @@
                     <input asp-for="TelephoneContact.Extension" class="form-control" />
                     <span asp-validation-for="TelephoneContact.Extension" class="text-danger"></span>
                 </div>
-                <label asp-for="Provider.Email" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;"></label>
+                <label asp-for="Provider.Email" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;">Correo electr&oacute;nico *</label>
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <input asp-for="Provider.Email" class="form-control" />
                     <span asp-validation-for="Provider.Email" class="text-danger"></span>
@@ -97,8 +101,10 @@
     </div>
     <div class="ln_solid"></div>
     <div class="form-group">
-        <input type="submit" value="Guardar cambios" class="btn btn-success" />
-        <a asp-action="Index" class="btn btn-default"><i class="fa fa-caret-square-o-left" aria-hidden="true"></i> Cancelar</a>
+        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3 col-sm-offset-3">
+            <input type="submit" value="Guardar cambios" class="btn btn-success" />
+            <a asp-action="Index" class="btn btn-default"><i class="fa fa-caret-square-o-left" aria-hidden="true"></i> Cancelar</a>
+        </div>
     </div>
 </form>
 

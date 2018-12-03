@@ -64,16 +64,16 @@
             <div class="col-md-4 col-sm-6 col-xs-12">
                 <label asp-for="MasterInvoiceVoucher.IdPayment" class="control-label">M&eacute;todo de pago</label>
                 <select id="payment-select" asp-for="MasterInvoiceVoucher.IdPayment" class="form-control" asp-items="ViewBag.IdPayment">
-                    <option selected disabled>- seleccione el m&eacute;todo de pago -</option>
+                    <option selected disabled value="0">- seleccione el m&eacute;todo de pago -</option>
                 </select>
-                <span asp-validation-for="MasterInvoiceVoucher.IdPayment" class="text-danger"></span>
+                <span id="paymentMethodValidation" class="text-danger hidden">Debe seleccionar el m&eacute;todo de pago</span>
             </div>
             <div class="col-md-4 col-sm-6 col-xs-12">
                 <label asp-for="MasterInvoiceVoucher.IdCondition" class="control-label">Codici&oacute;n de pago</label>
                 <select id="condition-select" asp-for="MasterInvoiceVoucher.IdCondition" class="form-control" asp-items="ViewBag.IdCondition">
-                    <option selected disabled>- seleccione la condici&oacute;n de pago -</option>
+                    <option selected disabled value="0">- seleccione la condici&oacute;n de pago -</option>
                 </select>
-                <span asp-validation-for="MasterInvoiceVoucher.IdCondition" class="text-danger"></span>
+                <span id="conditionValidation" class="text-danger hidden">Debe seleccionar la condici&oacute;n de pago</span>
             </div>
         </div>
         <div class="form-group">
@@ -82,7 +82,7 @@
                 <div class="ui-widget">
                     <input id="clientsForSearch" class="form-control" placeholder="Buscar cliente..." />
                     <input id="selectedClientId" class="hidden" type="hidden" />
-                    <span id="clientSelectionValidate" class="text-danger"></span>
+                    <span id="clientSelectionValidation" class="text-danger hidden">Debe seleccionar un cliente</span>
                 </div>
                 <!--
                 <select id="clientId-select" class="form-control" asp-for="Client.IdClient" asp-items="@ViewBag.ClientsList">
@@ -113,11 +113,11 @@
                             <th>Cantidad</th>
                             <th>Monto Total</th>
                             <th></th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody></tbody>
                 </table>
+                <span id="noLineDetailValidation" class="text-danger hidden">Debe tener al menos una l&iacute;nea de detalle</span>
             </div>
         </div>
         <div class="form-group">
@@ -141,7 +141,7 @@
         <div class="ln_solid"></div>
         <div class="form-group">
             <div class="col-md-3 col-sm-4 col-xs-12 col-md-offset-9 col-sm-offset-8">
-                <button type="button" class="btn btn-success col-md-12 col-sm-12 col-xs-12" onclick="postAllBillToController()"><i class="fa fa-check" aria-hidden="true"></i> Generar Factura</button>
+                <button type="button" class="btn btn-success col-md-12 col-sm-12 col-xs-12" onclick="postAllBillToController()"><i class="fa fa-check" aria-hidden="true"></i> Emitir Factura</button>
             </div>
         </div>
     </form>
@@ -205,6 +205,10 @@
     var taxesList = @Html.Raw(ViewBag.Taxes);
 
     $(document).ready(function () {
+        //----------------------- Hide validations ---------------------
+        $('#productSelectionValidate').hide();
+        $('#quantityValidate').hide();
+        //--------------------------------------------------------------
 
         $('#voucherType-select').change(function () {
             if ($(this).val() == 1) {
@@ -215,12 +219,21 @@
             }
         });
 
+        $('#payment-select').change(function () {
+            if ($(this).val() != 0) {
+                $('#paymentMethodValidation').addClass('hidden');
+            }
+        });
+
+        $('#condition-select').change(function () {
+            if ($(this).val() != 0) {
+                $('#conditionValidation').addClass('hidden');
+            }
+        });
+
         $('#downloadPDF').click(function () {
             doc.save('test.pdf');
         });
-
-        $('#productSelectionValidate').hide();
-        $('#quantityValidate').hide();
 
         $('#btnAddProduct').click(function () {
             $('#addProductModal').modal('show');
@@ -253,6 +266,7 @@
         $('#productsForSearch').keyup(function () {
             if ($('#productsForSearch').val() == "") {
                 $('#productSelectionValidate').show();
+                $('#selectedProductId').val("");
             } else {
                 $('#productSelectionValidate').hide();
             }
@@ -277,6 +291,17 @@
             }
         });
 
+        $('#clientsForSearch').keyup(function () {
+            if ($('#clientsForSearch').val() == "") {
+                $('#clientSelectionValidation').show();
+                $('#selectedClientId').val("");
+            } else {
+                $('#clientSelectionValidation').hide();
+            }
+        });
+
+        //---------------------------------------------------------------
+
         $('#quantity-input').keyup(function () {
             if ($('#quantity-input').val() == "" || $('#quantity-input').val() < 1) {
                 $('#quantityValidate').show();
@@ -285,11 +310,11 @@
             }
         });
 
+        //------------------------------ Add Product Detail to Table --------------------------------
         $('#btnAddProductDetail').click(function () {
-            if ($('#productsForSearch').val() == "") {
+            if ($('#selectedProductId').val() == "") {
                 $('#productSelectionValidate').show();
-            }
-            if ($('#quantity-input').val() == "" || $('#quantity-input').val() < 1) {
+            } else if ($('#quantity-input').val() == "" || $('#quantity-input').val() < 1) {
                 $('#quantityValidate').show();
             } else {
                 var id = $('#selectedProductId').val();
@@ -305,19 +330,32 @@
                         var idUnit = value.IdUnit;
                         var idTax = value.IdTax;
 
-                        var tableRow = "<tr id=rowWithProductId" + value.IdProduct + ">"
-                            + "<td class='productId hidden'>" + value.IdProduct + "</td>"
-                            + "<td class='productCode'>" + productCode + "</td>"
-                            + "<td class='productName'>" + productName + "</td>"
-                            + "<td class='unitPrice'>" + productUnitPrice + "</td>"
-                            + "<td class='quantity'>" + productQuantity + "</td>"
-                            + "<td class='totalAmount'>" + totalAmount + "</td>"
-                            + "<td class='idUnit hidden'>" + idUnit + "</td>"
-                            + "<td class='idTax hidden'>" + idTax + "</td>"
-                            + "<td><button class='btn btn-danger' onclick='removeTableRow(" + value.IdProduct + ")'>Eliminar</button></td>"
-                            + "</tr>";
+                        //----------------- Look for product in table --------------------
+                        
+                        if ($('#rowWithProductId' + id).length > 0) {
+                            var rQuantity = parseFloat($('#rowWithProductId' + id).find('.quantity').html());
+                            var rTotalAmount = parseFloat($('#rowWithProductId' + id).find('.totalAmount').html());
 
-                        $('#productsTable tbody').append(tableRow);
+                            $('#rowWithProductId' + id).find('.quantity').html(rQuantity + parseFloat(productQuantity));
+                            $('#rowWithProductId' + id).find('.totalAmount').html(rTotalAmount + totalAmount);
+                        } else {
+                            //--------------------- Add if product not in table -------------
+                            var tableRow = "<tr id=rowWithProductId" + value.IdProduct + ">"
+                                + "<td class='productId hidden'>" + value.IdProduct + "</td>"
+                                + "<td class='productCode'>" + productCode + "</td>"
+                                + "<td class='productName'>" + productName + "</td>"
+                                + "<td class='unitPrice'>" + productUnitPrice + "</td>"
+                                + "<td class='quantity'>" + productQuantity + "</td>"
+                                + "<td class='totalAmount'>" + totalAmount + "</td>"
+                                + "<td class='idUnit hidden'>" + idUnit + "</td>"
+                                + "<td class='idTax hidden'>" + idTax + "</td>"
+                                + "<td><button class='btn btn-danger' type='button' onclick='removeTableRow(" + value.IdProduct + ")'>Eliminar</button></td>"
+                                + "</tr>";
+
+                            $('#noLineDetailValidation').addClass('hidden');
+                            $('#productsTable tbody').append(tableRow);
+                        }
+                        
                         $('#totalAmount').val(parseFloat($('#totalAmount').val()) + totalAmount);
                     }
                 })
@@ -325,34 +363,65 @@
                 clearAddProductFields();
             }
         });
+        //----------------------------- Finish Add Product Detail to Table ----------------------------------
     })
 
     function postAllBillToController() {
-        $('#billFormContainer').addClass("hidden");
-        $('#generatingBillContainer').removeClass("hidden");
+        var everythingRight = true;
+        var paymentSelectedValue = $('#payment-select option:selected').val();
+        var conditionSelectedValue = $('#condition-select option:selected').val();
+        var tableLength = $('#productsTable tbody tr').length;
+        var clientSelectedValue = $('#selectedClientId').val();
 
-        var allBill = {
-            voucherType: $('#voucherType-select').val(),
-            branchOffice: "002",
-            terminal: "00001",
-            country: "506",
-            day: @DateTime.Now.Day,
-            month: @DateTime.Now.Month,
-            year: @DateTime.Now.Year,
-            idTransmitter: "000000000001",
-            situation: 1,
-            idPayment: $('#payment-select').val(),
-            idCondition: $('#condition-select').val(),
-            clientId: $('#selectedClientId').val(),
-            billProductDetails: transformProductDetails()
+        if (paymentSelectedValue != 0 &&
+            conditionSelectedValue != 0 &&
+            tableLength > 0) {
+            everythingRight = true;
+        } else {
+            if (paymentSelectedValue == 0) {
+                $('#paymentMethodValidation').removeClass('hidden');
+                everythingRight = false;
+            }
+            if (tableLength == 0) {
+                $('#noLineDetailValidation').removeClass('hidden');
+                everythingRight = false;
+            }
+            if (conditionSelectedValue == 0) {
+                $('#conditionValidation').removeClass('hidden');
+                everythingRight = false;
+            }
+            if (clientSelectedValue == "") {
+                $('#clientSelectionValidation').removeClass('hidden');
+                everythingRight = false;
+            }
         }
 
-        $.ajax({
-            contentType: 'application/json; charset=utf-8;',
-            dataType: 'json',
-            url: '@Url.Action("SaveAllBill", "Billing")',
-                type: 'POST',
-                data: JSON.stringify(allBill)
+        if (everythingRight) {
+            $('#billFormContainer').addClass("hidden");
+            $('#generatingBillContainer').removeClass("hidden");
+
+            var allBill = {
+                voucherType: $('#voucherType-select').val(),
+                branchOffice: "002",
+                terminal: "00001",
+                country: "506",
+                day: @DateTime.Now.Day,
+                month: @DateTime.Now.Month,
+                year: @DateTime.Now.Year,
+                idTransmitter: "000000000001",
+                situation: 1,
+                idPayment: $('#payment-select').val(),
+                idCondition: $('#condition-select').val(),
+                clientId: $('#selectedClientId').val(),
+                billProductDetails: transformProductDetails()
+            }
+
+            $.ajax({
+                contentType: 'application/json; charset=utf-8;',
+                dataType: 'json',
+                url: '@Url.Action("SaveAllBill", "Billing")',
+                    type: 'POST',
+                    data: JSON.stringify(allBill)
             })
             .done(function (data) {
                 if (data.state == 0) {
@@ -546,6 +615,8 @@
             .fail(function () {
                 console.log("ERROR");
             })
+        }
+        
     }
 
     function imageToBase64(img) {
@@ -606,13 +677,14 @@
     }
 
     function removeTableRow(productId) {
-        var removedSubtotal = $('#rowWithProductId' + productId).find('.subtotal').html();
+        var removedSubtotal = $('#rowWithProductId' + productId).find('.totalAmount').html();
         $('#totalAmount').val(parseFloat($('#totalAmount').val()) - removedSubtotal)
         $('#rowWithProductId' + productId).remove();
     }
 
     function clearAddProductFields() {
         $('#productsForSearch').val("");
+        $('#selectedProductId').val("");
         $('#quantity-input').val(1);
         $('#productSelectionValidate').hide();
         $('#quantityValidate').hide();

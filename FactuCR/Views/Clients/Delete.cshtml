@@ -10,31 +10,31 @@
 
 <dl class="dl-horizontal">
     <dt>
-        @Html.DisplayNameFor(model => model.Client.IdentificationNumber)
+        Tipo de Identificaci&oacute;n
+    </dt>
+    <dd>
+        @ViewBag.IdentificationType.Name
+    </dd>
+    <dt>
+        Identificaci&oacute;n
     </dt>
     <dd>
         @Html.DisplayFor(model => model.Client.IdentificationNumber)
     </dd>
     <dt>
-        @Html.DisplayNameFor(model => model.Client.Name)
+        Nombre completo
     </dt>
     <dd>
-        @Html.DisplayFor(model => model.Client.Name)
+        @Html.DisplayFor(model => model.Client.Name) @Html.DisplayFor(model => model.Client.LastName)
     </dd>
     <dt>
-        @Html.DisplayNameFor(model => model.Client.LastName)
-    </dt>
-    <dd>
-        @Html.DisplayFor(model => model.Client.LastName)
-    </dd>
-    <dt>
-        @Html.DisplayNameFor(model => model.Client.Email)
+        Correo Electr&oacute;nico
     </dt>
     <dd>
         @Html.DisplayFor(model => model.Client.Email)
     </dd>
     <dt>
-        @Html.DisplayNameFor(model => model.Client.Country)
+        Pa&iacute;s
     </dt>
     <dd>
         @Html.DisplayFor(model => model.Client.Country)
@@ -43,7 +43,16 @@
         @Html.DisplayNameFor(model => model.Client.Status)
     </dt>
     <dd>
-        @Html.DisplayFor(model => model.Client.Status)
+        @{ 
+            if (Model.Client.Status == 0)
+            {
+                <text>Inactivo</text>
+            }
+            else
+            {
+                <text>Activo</text>
+            }
+        }
     </dd>
     <dt>
         @Html.DisplayNameFor(model => model.Client.AdmissionDate)

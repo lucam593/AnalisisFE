@@ -160,11 +160,11 @@ namespace FactuCR.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdCategory"] = new SelectList(_context.Category, "IdCategory", "Description", product.IdCategory);
-            ViewData["IdCurrency"] = new SelectList(_context.Currency, "IdCurrency", "Code", product.IdCurrency);
+            ViewData["IdCategory"] = new SelectList(_context.Category, "IdCategory", "Name", product.IdCategory);
+            ViewData["IdCurrency"] = new SelectList(_context.Currency, "IdCurrency", "Name", product.IdCurrency);
             ViewData["IdDiscount"] = new SelectList(_context.Discount, "IdDiscount", "Name", product.IdDiscount);
             ViewData["IdProvider"] = new SelectList(_context.Provider, "IdProvider", "Email", product.IdProvider);
-            ViewData["IdTax"] = new SelectList(_context.Tax, "IdTax", "Code", product.IdTax);
+            ViewData["IdTax"] = new SelectList(_context.Tax, "IdTax", "Name", product.IdTax);
             ViewData["IdUnit"] = new SelectList(_context.MeasuredUnit, "IdUnit", "Name", product.IdUnit);
             return View(product);
         }
