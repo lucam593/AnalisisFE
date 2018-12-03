@@ -26,7 +26,7 @@ namespace FactuCR.Controllers
         // POST: Users/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        
+
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
@@ -36,7 +36,7 @@ namespace FactuCR.Controllers
                    { "sessionKey", User.Claims.First(c => c.Type == "SessionKey").Value}
                 };
             ApiConnect api = new ApiConnect();
-            JToken jObjet = api.PostApi( values,"users", "users_log_me_out");
+            JToken jObjet = api.PostApi(values, "users", "users_log_me_out");
             await HttpContext.SignOutAsync();
             return RedirectToAction("Index", "Login");
         }
@@ -54,10 +54,10 @@ namespace FactuCR.Controllers
             {
                 return NotFound();
             }
-             //Unix timestamp is seconds past epoch
+            //Unix timestamp is seconds past epoch
             DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
             dtDateTime = dtDateTime.AddSeconds(users.LastAccess).ToLocalTime();
- 
+
             ViewBag.Message = dtDateTime.ToString();
             return View(users);
         }
@@ -67,8 +67,9 @@ namespace FactuCR.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(uint id, [Bind("IdUser,FullName,UserName,Email,LastAccess,Pwd,ConfirmPassword")] Users users)
+        public IActionResult Index([Bind("IdUser,FullName,UserName,Email,LastAccess,Pwd,ConfirmPassword")] Users users)
         {
+            uint? id = Convert.ToUInt32(User.Claims.First(c => c.Type == "idUser").Value);
             if (id != users.IdUser)
             {
                 return NotFound();
@@ -78,9 +79,21 @@ namespace FactuCR.Controllers
             {
                 try
                 {
-                    Ok();
+
+                    var values = new Dictionary<string, string>
+                {
+                   { "idUser", Convert.ToString(  users.IdUser) },
+                   { "fullName", users.FullName },
+                   { "pwd", users.Pwd },
+                   { "iam", User.Identity.Name },
+                   { "sessionKey", User.Claims.First(c => c.Type == "SessionKey").Value}
+                };
+                    ApiConnect api = new ApiConnect();
+                    JToken jObjet = api.PostApi(values, "users", "users_update_profile");
+                    var status = (string)jObjet["status"];
+
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception)
                 {
                     if (!UsersExists(users.IdUser))
                     {
@@ -97,8 +110,8 @@ namespace FactuCR.Controllers
         }
 
         private bool UsersExists(uint id)
-        {
-            return _context.Users.Any(e => e.IdUser == id);
-        }
+    {
+        return _context.Users.Any(e => e.IdUser == id);
     }
+}
 }
