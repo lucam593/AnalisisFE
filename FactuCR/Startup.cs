@@ -13,6 +13,8 @@ using Microsoft.EntityFrameworkCore;
 using FactuCR.Models;
 using System.Configuration;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Net.Mail;
+using System.Net;
 
 namespace FactuCR
 {
@@ -31,8 +33,8 @@ namespace FactuCR
         public void ConfigureServices(IServiceCollection services)
         {
 
+           
 
-          
             services.AddDbContext<db_facturacionContext>(options => options.UseMySql(_config.GetConnectionString("smarterasp_db_dev")));
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

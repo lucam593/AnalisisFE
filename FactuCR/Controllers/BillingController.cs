@@ -12,6 +12,7 @@ using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Authorization;
 using FactuCR.Models.Email;
 using Microsoft.AspNetCore.Hosting;
+using System.Text;
 
 namespace FactuCR.Controllers
 {
@@ -118,10 +119,10 @@ namespace FactuCR.Controllers
         [HttpPost]
         public JsonResult SaveAllBill([FromBody] JObject allBill)
         {
-            /*
+
             dynamic dynamicAllBill = allBill;
 
-            //------------ CONSECUTIVE RECORD -----------------
+            //------------CONSECUTIVE RECORD---------------- -
             MasterConsecutive masterConsecutive = new MasterConsecutive();
 
             string branchOffice = dynamicAllBill.branchOffice;
@@ -133,10 +134,11 @@ namespace FactuCR.Controllers
             {
                 voucherTypeSymbology = "FE";
             }
-            else {
+            else
+            {
                 voucherTypeSymbology = "TE";
             }
-            
+
             masterConsecutive.BranchOffice = branchOffice;
             masterConsecutive.Terminal = terminal;
             masterConsecutive.VoucherType = voucherTypeSymbology;
@@ -150,9 +152,9 @@ namespace FactuCR.Controllers
             _context.MasterConsecutive.Add(masterConsecutive);
             _context.SaveChanges();
 
-            //----------- FINISH CONSECUTIVE RECORD -------------
+            // -----------FINISH CONSECUTIVE RECORD -------------
 
-            //----------- MASTER KEY RECORD ---------------------
+            //-----------MASTER KEY RECORD ---------------------
 
             MasterKey masterKey = new MasterKey();
 
@@ -174,7 +176,7 @@ namespace FactuCR.Controllers
             int year = dynamicAllBill.year;
             string yearCode = (year % 100).ToString();
             string transmitter = dynamicAllBill.idTransmitter;
-            
+
             int idConsecutive = _context.MasterConsecutive.Last().IdConsecutive;
 
             int situation = dynamicAllBill.situation;
@@ -195,9 +197,9 @@ namespace FactuCR.Controllers
             _context.MasterKey.Add(masterKey);
             _context.SaveChanges();
 
-            //----------- FINISH MASTER KEY RECORD --------------
+            // -----------FINISH MASTER KEY RECORD--------------
 
-            //----------- INVOICE VOUCHER RECORD ----------------
+            //---------- - INVOICE VOUCHER RECORD ----------------
             MasterInvoiceVoucher masterInvoiceVoucher = new MasterInvoiceVoucher();
 
             int lastMasterKey = _context.MasterKey.Last().IdKey;
@@ -211,10 +213,11 @@ namespace FactuCR.Controllers
             _context.MasterInvoiceVoucher.Add(masterInvoiceVoucher);
             _context.SaveChanges();
 
-            //---------- FINISH INVOICE VOUCHER RECORD ----------
+            // ----------FINISH INVOICE VOUCHER RECORD----------
 
-            //------------- CLIENT RECEIVER RECORD --------------
+            //------------ - CLIENT RECEIVER RECORD --------------
 
+            string[] cliID = new string[2];
             if (voucherType == 1)
             {
                 int clientId = dynamicAllBill.clientId;
@@ -232,11 +235,13 @@ namespace FactuCR.Controllers
 
                 _context.MasterReceiver.Add(mr);
                 _context.SaveChanges();
+                cliID[0] = mr.IdentificationType;
+                cliID[1] = mr.IdentificationNumber;
             }
 
-            //----------- FINISH CLIENT RECEIVER RECORD ---------
-            
-            List<ProductDetail> productDetailsList = new List<ProductDetail>();
+            //-----------FINISH CLIENT RECEIVER RECORD-------- -
+
+           List < ProductDetail > productDetailsList = new List<ProductDetail>();
 
             foreach (dynamic dynamicbpd in dynamicAllBill.billProductDetails)
             {
@@ -252,11 +257,21 @@ namespace FactuCR.Controllers
             }
 
             List<MasterDetail> mdList = SaveProductDetails(productDetailsList, lastMasterKey);
+            Models.Facturar_Hacienda.Hacienda hacienda = new Models.Facturar_Hacienda.Hacienda(_context);
+            Models.Facturar_Hacienda.FE fe = new Models.Facturar_Hacienda.FE(_context);
+            //------------------Send to Ministerio Hacienda------------------
+            hacienda.CreateKey(lastMasterKey, voucherTypeSymbology,"normal", consecutive, number, terminal, branchOffice);
+            string[] vales = fe.CreateXML(mdList, lastMasterKey, voucherTypeSymbology);
 
-            //------------------ Send to Ministerio Hacienda ------------------
-            //CreateKey(lastMasterKey, voucherTypeSymbology, "fisico", "112070714", "normal", consecutive, number, terminal, branchOffice);
-            //CreateXML(mdList, lastMasterKey, voucherTypeSymbology);
-            //sendMailToClient();*/
+            string[] token = hacienda.Token();
+
+            hacienda.SendHacienda(token, vales[0], vales[1], voucherTypeSymbology, cliID);
+ 
+
+        
+
+
+            //sendMailToClient();
 
             return Json(new { state = 0, message = string.Empty });
         }
@@ -372,224 +387,6 @@ namespace FactuCR.Controllers
             return strNewNumber;
         }
 
-        private void CreateXML(List<MasterDetail> mdList, int idKey, string voucherType)
-        {
-            MasterInvoiceVoucher miv = _context.MasterInvoiceVoucher.Find(idKey);
-            ConfigCompany configC = _context.ConfigCompany.Find(6);
-            MasterKey mk = _context.MasterKey.Find(idKey);
-            MasterConsecutive mc = _context.MasterConsecutive.Find(idKey);
-            MasterReceiver mr = _context.MasterReceiver.Find(idKey);
-            List<MasterDetail> listaDetalle = mdList; // DEBE SER LA LISTA DE DETALLE
-
-            String payment = _context.MasterPayment.Find(miv.IdPayment).Code;
-            string condition = _context.MasterSaleCondition.Find(miv.IdCondition).Code;
-
-            double total_serv_gravados = 0;
-            double total_serv_exentos = 0;
-            double total_merc_gravada = 0;
-            double total_merc_exenta = 0;
-            double total_gravados = 0;
-            double total_exentos = 0;
-            double total_ventas = 0;
-            double total_descuentos = 0;
-            double total_ventas_neta = 0;
-            double total_impuestos = 0;
-            double total_comprobante = 0;
-
-            string detalle = "{";
-            int count = 0;
-            foreach (var item in listaDetalle)
-            {
-                count++;
-                if (count > 1)
-                {
-                    detalle += ",";
-                }
-                detalle += "\"" + count + "\":{ " +
-                                                "\"cantidad\":\"" + item.Quantity + "\"," +
-                                                "\"unidadMedida\":\"" + item.MeasuredUnitSymbology + "\"," +
-                                                "\"detalle\":\"" + item.NameProduct + "\"," +
-                                                "\"precioUnitario\":\"" + item.UnitPrice + "\"," +
-                                                "\"montoTotal\":\"" + item.TotalAmount + "\"," +
-                                                "\"subtotal\":\"" + item.Subtotal + "\"," +
-                                                "\"montoTotalLinea\":\"" + item.TotalLineAmount + "\"," +
-                                                "\"montoDescuento\":\"" + item.DiscountAmount + "\"," +
-                                                "\"naturalezaDescuento\":\"Oferta\"}";
-
-                //------------- Total Amounts Calculation -----------------
-                total_descuentos += item.DiscountAmount;
-                if (item.MeasuredUnitSymbology.Equals("Sp"))
-                {
-                    total_serv_exentos += item.TotalLineAmount;
-                }
-                else
-                {
-                    total_merc_exenta += item.TotalLineAmount;
-                }
-            }
-            detalle += "}";
-
-            //------------- Total Amounts Calculation -----------------
-            total_gravados = total_serv_gravados + total_merc_gravada;
-            total_exentos = total_serv_exentos + total_merc_exenta;
-            total_ventas = total_gravados + total_exentos;
-            total_ventas_neta = total_ventas - total_descuentos;
-            total_comprobante = total_ventas_neta + total_impuestos;
-
-            var values = new Dictionary<string, string>
-                {
-                   { "clave",  miv.ApiKey.ToString()},
-                   { "consecutivo", miv.ApiConsecutive.ToString() },
-                   { "fecha_emision",  DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss%K") },
-                   { "emisor_nombre", configC.FullName },
-                   { "emisor_tipo_indetif", Convert.ToString( configC.IdType) },
-                   { "emisor_num_identif", Convert.ToString( configC.IdUser).Replace("-","") },
-                   { "nombre_comercial", configC.CompannyName },
-                   { "emisor_provincia", configC.Province },
-                   { "emisor_canton", configC.Canton },
-                   { "emisor_distrito", configC.District },
-                   { "emisor_barrio", configC.Province }, //arreglar a barrio
-                   { "emisor_otras_senas", configC.OtherSigns },
-                   { "emisor_cod_pais_tel", configC.Country },
-                   { "emisor_tel", configC.Telephone },
-                   { "emisor_cod_pais_fax", configC.Country },
-                   { "emisor_fax", configC.Fax },
-                   { "emisor_email", configC.Email },
-                   { "receptor_nombre", mr.Fullname }, //TODO REFERENTE A CLIENTE
-                   { "receptor_tipo_identif", mr.IdentificationType },
-                   { "receptor_num_identif", mr.IdentificationNumber },
-                   { "receptor_provincia", "1" },
-                   { "receptor_canton", "01" },
-                   { "receptor_distrito", "03" },
-                   { "receptor_barrio", "01" },
-                   { "receptor_cod_pais_tel",  mk.Country },
-                   { "receptor_tel", mr.Telephone },
-                   { "receptor_cod_pais_fax", mk.Country }, //eje: 506
-                   { "receptor_fax", mr.Telephone },
-                   { "receptor_email", mr.Email },
-                   { "condicion_venta", condition }, // eje: 01
-                   { "plazo_credito", "0" }, // 
-                   { "medio_pago", payment }, // medio pago 01
-                   { "cod_moneda", "CRC" }, //eje CRC
-                   { "tipo_cambio", Convert.ToString(configC.CurrencyValue) },
-                   { "total_serv_gravados", total_serv_gravados.ToString() },
-                   { "total_serv_exentos", total_serv_exentos.ToString() },
-                   { "total_merc_gravada", total_merc_gravada.ToString() },
-                   { "total_merc_exenta", total_merc_exenta.ToString() },
-                   { "total_gravados", total_gravados.ToString() },
-                   { "total_exentos", total_exentos.ToString() },
-                   { "total_ventas", total_ventas.ToString() },
-                   { "total_descuentos", total_descuentos.ToString() },
-                   { "total_ventas_neta", total_ventas_neta.ToString() },
-                   { "total_impuestos", total_impuestos.ToString() },
-                   { "total_comprobante", total_comprobante.ToString() },
-                   { "otros", "" },
-                   { "otrosType", "" }
-                };
-
-            values.Add("detalles", detalle);
-
-            ApiConnect api = new ApiConnect();
-            JToken jObjet = api.PostApi(values, "genXML", "gen_xml_fe");
-            var clave = (string)jObjet["clave"];
-            var xml = (string)jObjet["xml"];
-
-            Debug.WriteLine("-------------------------------------------------------------------------------");
-            Debug.WriteLine(xml);
-
-            string[] vals = { clave, xml, mc.VoucherType };
-
-            //CreateSignXML(vals);
-        }
-
-        private string CreateSignXML(string[] vals)
-        {
-            ConfigCompany configC = _context.ConfigCompany.Find(6);
-            var file = _context.Files.Find(UInt32.Parse("1"));
-            var values = new Dictionary<string, string>
-                {
-                   { "p12Url", file.DownloadCode },
-                   { "inXml", vals[1] },
-                   { "pinP12", configC.pin },
-                   { "tipodoc", vals[2] }
-                };
-            ApiConnect api = new ApiConnect();
-            JToken jObjet = api.PostApi(values, "signXML", "signFE");
-            var xmlFirmado = (string)jObjet["xmlFirmado"];
-
-            return xmlFirmado;
-        }
-
-        private void SendHacienda(string[] valToken, string xFirmado)
-        {
-            ConfigCompany configC = _context.ConfigCompany.Find(1);
-            
-            var values = new Dictionary<string, string>
-                {
-                   { "token", valToken[0]},
-                   { "clave", "" }, //clave de factura
-                   { "fecha", DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss%K") },
-                   { "emi_tipoIdentificacion", Convert.ToString( configC.IdType)},
-                   { "emi_numeroIdentificacion", Convert.ToString( configC.IdUser).Replace("-","") },
-                   { "recp_tipoIdentificacion", "" }, //tipo cedula cliente
-                   { "recp_numeroIdentificacion", "" }, //cedula cliente
-                   { "comprobanteXml", xFirmado },
-                   { "client_id", "api-stag" }
-                };
-            ApiConnect api = new ApiConnect();
-            JToken jObjet = api.PostApi(values, "send", "json");
-            var status = (string)jObjet["Status"];
-        }
-
-        private void CreateKey(int idKey, string tipoDocumento, string tipoCedula, string cedula, string situacion, string consec, string codSeg, string ter, string sucr)
-        {
-            var values = new Dictionary<string, string>
-                {
-                   { "tipoCedula", tipoCedula },
-                   { "cedula", cedula },
-                   { "situacion", situacion },
-                   { "codigoPais", "506" },
-                   { "consecutivo", consec },
-                   { "codigoSeguridad", codSeg },
-                   { "tipoDocumento", tipoDocumento },
-                   { "terminal", ter },
-                   { "sucursal", sucr }
-                };
-            ApiConnect api = new ApiConnect();
-            JToken jObjet = api.PostApi(values, "clave", "clave");
-            var key = (string)jObjet["clave"];
-            var consecutive = (string)jObjet["consecutivo"];
-
-            MasterInvoiceVoucher miv = _context.MasterInvoiceVoucher.Find(idKey);
-
-            miv.ApiKey = key;
-            miv.ApiConsecutive = consecutive;
-
-            _context.SaveChanges();
-        }
-
-        private string[] Token()
-        {
-            var configC = _context.ConfigCompany.Find(1);
-            var values = new Dictionary<string, string>
-                {
-                   { "grant_type", "password" },
-                   { "client_id", "api-stag" },
-                   { "username", configC.UserTax }, 
-                   { "password",  configC.PasswordTax}
-                };
-
-            ApiConnect api = new ApiConnect();
-            JToken jObjet = api.PostApi(values, "token", "gettoken");
-
-            var access_token = (string)jObjet["access_token"];
-            var refresh_token = (string)jObjet["refresh_token"];
-            var expires_in = (string)jObjet["expires_in"];
-
-            string[] vals = { access_token, refresh_token, expires_in };
-
-            return vals;
-        }
 
         [HttpPost]
         public JsonResult SendMailToClient([FromBody] JObject billPDF)
@@ -622,5 +419,6 @@ namespace FactuCR.Controllers
 
             return Json(new { state = 0, message = string.Empty });
         }
+
     }
 }
