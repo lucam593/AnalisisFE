@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace FactuCR.Models
@@ -15,6 +16,7 @@ namespace FactuCR.Models
         public string Name { get; set; }
         public int Percentage { get; set; }
 
+        [JsonIgnore]
         public ICollection<Product> Product { get; set; }
     }
 }
