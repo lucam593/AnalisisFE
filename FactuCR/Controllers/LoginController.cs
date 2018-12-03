@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Authentication;
 using System.Threading;
+using System.Net.Mail;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FactuCR.Controllers
 {
@@ -32,8 +34,7 @@ namespace FactuCR.Controllers
         {
             try
             {
-
-
+               
                 if (ModelState.IsValid)
                 {
                     var temp = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss%K");
@@ -76,7 +77,7 @@ namespace FactuCR.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async System.Threading.Tasks.Task<IActionResult> Create([Bind("FullName,UserName,Email,About,Country,Status,Pwd")] Users users)
+        public async System.Threading.Tasks.Task<IActionResult> Create([Bind("FullName,UserName,Email,,Pwd,ConfirmPassword")] Users users)
         {
             if (ModelState.IsValid)
             {
@@ -92,17 +93,18 @@ namespace FactuCR.Controllers
                 };
                     ApiConnect api = new ApiConnect();
                     JToken jObjet = api.PostApi(values, "users", "users_register");
+                    var status = (string)jObjet["status"];
+                    TempData["Fail"] = status;
                     var sessionKey = (string)jObjet["sessionKey"];
                     var user = (string)jObjet["userName"];
                     var idUser = (string)jObjet["idUser"];
                     await genClaimsAsync(user, sessionKey, idUser);
                     ModelState.Clear();
                     TempData["Success"] = "Registro Exitoso";
-                    return RedirectToAction("Create", "Files");
+                    return RedirectToAction("Index", "Home");
                 }
                 catch (Exception e)
                 {
-                    TempData["Fail"] = "Este Usuario ya existe. Registro fallido.";
                     return View();
                 }
             }
@@ -129,7 +131,43 @@ namespace FactuCR.Controllers
             return principal;
         }
 
-    }
+
+        private async System.Threading.Tasks.Task enviarmailpruebaAsync()
+        {
+            using (var smtpClient = HttpContext.RequestServices.GetRequiredService<System.Net.Mail.SmtpClient>())
+            {
+                await smtpClient.SendMailAsync(new MailMessage(
+                       "luis.castro@ucrso.info",
+                       "sandy.ovg@gmail.com",
+                       "Test message body",
+                       "sirva pendejada"
+                       ));
+
+            }
+
+                //var mail = new MimeMessage();
+                //mail.From.Add(new MailboxAddress("FactuCR", "luis.castro@ucrso.info"));
+                //mail.To.Add(new MailboxAddress("Mr Sandy", "sandy.ovg@gmail.com"));
+
+                //mail.Subject = "PROBANDO CORREO DESDE C#";
+                //mail.Body =  new TextPart("plain")
+                //{
+                //    Text = "nananana esta mierda sirve?"
+                //};
+
+                //using (var client = new SmtpClient())
+                //{
+                //    client.Connect("smtp-pulse.com", 465, true);
+                //    client.Authenticate("lucam5993@gmail.com", "YP2g3Ab7jgYt");
+                //    client.Send(mail);
+                //    client.Disconnect(true);
+                //}
+
+
+                //srive??
+
+            }
+        }
 
 
 
