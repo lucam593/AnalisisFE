@@ -123,14 +123,14 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="configCompany.UserTax" class="control-label col-md-3 col-sm-3 col-xs-12">Usuario Tributación</label>
+        <i class="fa fa-question-circle-o " data-toggle="tooltip" title="usuario con el que se conecta a hacienda" data-placement="top" aria-hidden="true"></i><label asp-for="configCompany.UserTax" class="control-label col-md-3 col-sm-3 col-xs-12">Usuario Tributación</label>
         <div class="col-md-4 col-sm-4 col-xs-12">
             <input asp-for="configCompany.UserTax" class="form-control" />
             <span asp-validation-for="configCompany.UserTax" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group">
-        <label asp-for="configCompany.PasswordTax" class="control-label col-md-3 col-sm-3 col-xs-12">Contraseña Tributación</label>
+        <i class="fa fa-question-circle-o " data-toggle="tooltip" title="Contraseña de usuario con la que se conecta a hacienda" data-placement="top" aria-hidden="true"></i><label asp-for="configCompany.PasswordTax" class="control-label col-md-3 col-sm-3 col-xs-12">Contraseña Tributación</label>
         <div class="col-md-4 col-sm-4 col-xs-12">
             <input asp-for="configCompany.PasswordTax"  class="form-control" />
             <span asp-validation-for="configCompany.PasswordTax" class="text-danger"></span>
@@ -168,7 +168,7 @@
     </div>
 
     <div class="form-group">
-        <i class="fa fa-question-circle-o " data-toggle="tooltip" title="es la clave para poder accede a la llave criptografica" data-placement="top" aria-hidden="true"></i><label asp-for="configCompany.pin" class="control-label col-md-3 col-sm-3 col-xs-12">Pin Hacienda</label>
+        <i class="fa fa-question-circle-o " data-toggle="tooltip" title="clave para poder accede a la llave criptografica" data-placement="top" aria-hidden="true"></i><label asp-for="configCompany.pin" class="control-label col-md-3 col-sm-3 col-xs-12">Pin Hacienda</label>
         <div class="col-md-4 col-sm-4 col-xs-12">
             <input asp-for="configCompany.pin" class="form-control" />
             <span asp-validation-for="configCompany.pin" class="text-danger"></span>

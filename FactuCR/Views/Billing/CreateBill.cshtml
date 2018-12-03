@@ -55,14 +55,14 @@
                 <input id="dateInput" class="form-control" value="@DateTime.Now.ToShortDateString()" readonly />
             </div>
             <div class="col-md-4 col-lg-4 col-xs-12 col-sm-6">
-                <label class="control-label">Tipo de documento</label>
+                <label class="control-label">Tipo de documento   <i class="fa fa-question-circle-o " data-toggle="tooltip" title="la factura electrónica posee un cliente al cual se remite la factura, el tiquete no" data-placement="top" aria-hidden="true"></i></label>
                 <select id="voucherType-select" class="form-control">
                     <option selected value="1">Factura Electr&oacute;nica</option>
                     <option value="2">Tiquete Electr&oacute;nico</option>
                 </select>
             </div>
             <div class="col-md-4 col-sm-6 col-xs-12">
-                <label asp-for="MasterInvoiceVoucher.IdPayment" class="control-label">M&eacute;todo de pago</label>
+                <label asp-for="MasterInvoiceVoucher.IdPayment" class="control-label">M&eacute;todo de pago   <i class="fa fa-question-circle-o " data-toggle="tooltip" title=" Forma con la que se realiza el pago " data-placement="top" aria-hidden="true"></i></label>
                 <select id="payment-select" asp-for="MasterInvoiceVoucher.IdPayment" class="form-control" asp-items="ViewBag.IdPayment">
                     <option selected disabled value="0">- seleccione el m&eacute;todo de pago -</option>
                 </select>
@@ -78,7 +78,7 @@
         </div>
         <div class="form-group">
             <div id="clientSelectContainer" class="col-md-4 col-sm-6 col-xs-12">
-                <label class="control-label">Cliente</label>
+                <label class="control-label">Cliente  <i class="fa fa-question-circle-o " data-toggle="tooltip" title=" Cliente al que se le realiza la factura " data-placement="top" aria-hidden="true"></i></label>
                 <div class="ui-widget">
                     <input id="clientsForSearch" class="form-control" placeholder="Buscar cliente..." />
                     <input id="selectedClientId" class="hidden" type="hidden" />
@@ -95,7 +95,7 @@
         </div>
         <div class="ln_solid"></div>
         <div style="margin-bottom: 30px;">
-            <h2>L&iacute;neas de detalle</h2>
+            <h2>L&iacute;neas de detalle   <i class="fa fa-question-circle-o " data-toggle="tooltip" title=" Son los productos que se han comprado, cada línea representa un producto. " data-placement="top" aria-hidden="true"></i></h2>
         </div>
         <div class="form-group">
             <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 10px;">
