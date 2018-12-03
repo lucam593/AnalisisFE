@@ -1,0 +1,165 @@
+﻿@model FactuCR.Models.ReferenceManagement
+
+@{
+    ViewData["Title"] = "Create";
+    ViewData["PanelTitle"] = "Crear Nota";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<form asp-action="Create" class="form-horizontal" onkeypress="return event.keyCode != 13;">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="col-md-4 col-sm-6 col-xs-12 col-md-offset-8">
+        <label asp-for="date" class="control-label col-md-3 col-sm-3 col-xs-12">Fecha</label>
+        <input id="dateInput" class="form-control" value="@DateTime.Now.ToShortDateString()" readonly />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="MasterInvoiceReference.IdKeyNavigation.IdConsecutiveNavigation.VoucherType" class="control-label col-md-3 col-sm-3 col-xs-12">Tipo de documento referencia</label>
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <select id="CodeReference" asp-for="MasterInvoiceReference.IdKeyNavigation.IdConsecutiveNavigation.VoucherType" asp-items="ViewBag.CodeReference" class="form-control">
+                <option selected disabled>- seleccione un tipo de referencia -</option>
+            </select>
+            <span asp-validation-for="MasterInvoiceReference.IdKeyNavigation.IdConsecutiveNavigation.VoucherType" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="MasterInvoiceReference.IdKeyNavigation.IdConsecutiveNavigation.BranchOffice" class="control-label col-md-3 col-sm-3 col-xs-12">Sucursal</label>
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <select id="BranchOffice" asp-for="MasterInvoiceReference.IdKeyNavigation.IdConsecutiveNavigation.BranchOffice" asp-items="ViewBag.BranchOffice" class="form-control">
+                <option selected disabled>- seleccione una sucursal -</option>
+            </select>
+            <span asp-validation-for="MasterInvoiceReference.IdKeyNavigation.IdConsecutiveNavigation.BranchOffice" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="MasterInvoiceReference.IdKeyNavigation.IdConsecutiveNavigation.Terminal" class="control-label col-md-3 col-sm-3 col-xs-12">Terminal</label>
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <select id="Terminal" asp-for="MasterInvoiceReference.IdKeyNavigation.IdConsecutiveNavigation.Terminal" asp-items="@(new SelectList(string.Empty,"Name", "Name"))" class="form-control"></select>
+
+            <span asp-validation-for="MasterInvoiceReference.IdKeyNavigation.IdConsecutiveNavigation.Terminal" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="situation" class="control-label col-md-3 col-sm-3 col-xs-12">Situacion</label>
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <select id="situacion" asp-for="situation" asp-items="ViewBag.situation" class="form-control">
+                <option selected disabled>- seleccione la situacion del documento -</option>
+            </select>
+            <span asp-validation-for="situation" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="MasterInvoiceReference.Detail" class="control-label col-md-3 col-sm-3 col-xs-12">Razon</label>
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <input asp-for="MasterInvoiceReference.Detail" class="form-control" />
+            <span asp-validation-for="MasterInvoiceReference.Detail" class="text-danger"></span>
+        </div>
+    </div>
+
+    <table id="datatable" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    Tipo de documento
+                </th>
+                <th>
+                    Identificaci&oacute;n del cliente
+                </th>
+                <th>
+                    Nombre del cliente
+                </th>
+                <th>
+                    M&eacute;todo de pago
+                </th>
+                <th>
+                    Condici&oacute;n
+                </th>
+                <th>
+                    Fecha
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.invoiceVouchers)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdKeyNavigation.IdConsecutiveNavigation.VoucherType)
+                    </td>
+                    <td>
+                        @{
+                            if (item.MasterReceiver == null)
+                            {
+                                <text>No aplica</text>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(modelItem => item.MasterReceiver.IdentificationNumber)
+                            }
+                        }
+                    </td>
+                    <td>
+                        @{
+                            if (item.MasterReceiver == null)
+                            {
+                                <text>No aplica</text>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(modelItem => item.MasterReceiver.Fullname)
+                            }
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdPaymentNavigation.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdConditionNavigation.Name)
+                    </td>
+                    <td>
+                        @{
+                            var day = item.IdKeyNavigation.Day;
+                            var month = item.IdKeyNavigation.Month;
+                            var year = 20 + item.IdKeyNavigation.Year;
+                        }
+                        @day/@month/@year
+                    </td>
+                    <td>
+                        <input asp-for="key" type="radio" value="@item.IdKeyNavigation" /> @item.IdKeyNavigation.IdKey
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="ln_solid"></div>
+
+    <div class="form-group">
+        <input type="submit" value="Generar Nota" class="btn btn-default" />
+    </div>
+</form>
+
+
+
+<script type="text/javascript">
+    $(function () {
+        $("#BranchOffice").change(function () {
+            var url = '@Url.Content("~/")' + "References/getTerminal";
+            var ddlsource = "#BranchOffice";
+            $.getJSON(url, { branchOffice: $(ddlsource).val() }, function (data) {
+                var items = '';
+                $("#Terminal").empty();
+                $.each(data, function (i, row) {
+                    items += "<option value= '" + row.value + "'>" + row.text + "</option>";
+                });
+                $("#Terminal").html(items);
+            })
+        });
+    });
+</script>
+

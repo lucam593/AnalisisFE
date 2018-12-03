@@ -648,6 +648,11 @@ namespace FactuCR.Models
                     .IsRequired()
                     .HasColumnType("varchar(100)");
 
+                entity.Property(e => e.Document_Type)
+                   .IsRequired()
+                   .HasColumnName("Document_Type")
+                   .HasColumnType("varchar(45)");
+
                 entity.Property(e => e.DocumentNumber)
                     .IsRequired()
                     .HasColumnName("Document_Number")
@@ -657,6 +662,11 @@ namespace FactuCR.Models
                     .IsRequired()
                     .HasColumnName("Reference_Code")
                     .HasColumnType("varchar(100)");
+
+                entity.Property(e => e.Type_Reference)
+                   .IsRequired()
+                   .HasColumnName("Type_Reference")
+                   .HasColumnType("varchar(45)");
 
                 entity.Property(e => e.RespuestaMhbase64)
                     .HasColumnName("respuestaMHBase64")
@@ -1378,7 +1388,7 @@ namespace FactuCR.Models
 
                 entity.Property(e => e.Name)
                     .IsRequired()
-                    .HasColumnType("varchar(20)");
+                    .HasColumnType("varchar(100)");
             });
 
             modelBuilder.Entity<Tax>(entity =>
