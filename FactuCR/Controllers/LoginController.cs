@@ -8,9 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Authentication;
 using System.Threading;
-using MailKit.Net.Smtp;
-using MailKit;
-using MimeKit;
 using System.Net.Mail;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -80,7 +77,7 @@ namespace FactuCR.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async System.Threading.Tasks.Task<IActionResult> Create([Bind("FullName,UserName,Email,About,Country,Status,Pwd")] Users users)
+        public async System.Threading.Tasks.Task<IActionResult> Create([Bind("FullName,UserName,Email,,Pwd,ConfirmPassword")] Users users)
         {
             if (ModelState.IsValid)
             {
@@ -96,17 +93,18 @@ namespace FactuCR.Controllers
                 };
                     ApiConnect api = new ApiConnect();
                     JToken jObjet = api.PostApi(values, "users", "users_register");
+                    var status = (string)jObjet["status"];
+                    TempData["Fail"] = status;
                     var sessionKey = (string)jObjet["sessionKey"];
                     var user = (string)jObjet["userName"];
                     var idUser = (string)jObjet["idUser"];
                     await genClaimsAsync(user, sessionKey, idUser);
                     ModelState.Clear();
                     TempData["Success"] = "Registro Exitoso";
-                    return RedirectToAction("Create", "Files");
+                    return RedirectToAction("Index", "Home");
                 }
                 catch (Exception e)
                 {
-                    TempData["Fail"] = "Este Usuario ya existe. Registro fallido.";
                     return View();
                 }
             }
