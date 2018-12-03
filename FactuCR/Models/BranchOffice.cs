@@ -10,7 +10,7 @@ namespace FactuCR.Models
         {
             Terminal = new HashSet<Terminal>();
         }
-
+        
         public int IdOffice { get; set; }
 
         [Required(ErrorMessage = "Debe ingresar un nombre de sucursal")]

@@ -1,0 +1,55 @@
+﻿@model FactuCR.Models.MasterInvoiceReference
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>MasterInvoiceReference</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DocumentNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DocumentNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ReferenceCode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ReferenceCode)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Detail)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Detail)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RespuestaMhbase64)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RespuestaMhbase64)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.XmlenviadoBase64)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.XmlenviadoBase64)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdKeyNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdKeyNavigation.Country)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.IdKey">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

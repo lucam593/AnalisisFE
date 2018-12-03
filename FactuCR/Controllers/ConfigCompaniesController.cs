@@ -70,25 +70,26 @@ namespace FactuCR.Controllers
         switch (model.configCompany.IdType)
         {
 
-            case 1:
-                configCompannyInBD.IdUser = model.IdentificationNumberCedFisica;
-                break;
-            case 2:
-                configCompannyInBD.IdUser = model.IdentificationNumberCedJuridica;
-                break;
-            case 3:
-                configCompannyInBD.IdUser = model.IdentificationNumberNITE;
-                break;
-            default:
-                configCompannyInBD.IdUser = model.IdentificationNumberDIMEX;
-                break;
-        }
-        configCompannyInBD.Telephone = model.configCompany.Telephone;
-        configCompannyInBD.Fax = model.configCompany.Fax;
-        configCompannyInBD.Province = model.configCompany.Province;
-        configCompannyInBD.Canton = model.configCompany.Canton;
-        configCompannyInBD.District = model.configCompany.District;
-        configCompannyInBD.OtherSigns = model.configCompany.OtherSigns;
+                case 1:
+                    configCompannyInBD.IdUser = model.IdentificationNumberCedFisica;
+                    break;
+                case 2:
+                    configCompannyInBD.IdUser = model.IdentificationNumberCedJuridica;
+                    break;
+                case 3:
+                    configCompannyInBD.IdUser = model.IdentificationNumberNITE;
+                    break;
+                default:
+                    configCompannyInBD.IdUser = model.IdentificationNumberDIMEX;
+                    break;
+            }
+            configCompannyInBD.Telephone = model.configCompany.Telephone;
+            configCompannyInBD.Fax = model.configCompany.Fax;
+            configCompannyInBD.Province = model.configCompany.Province;
+            configCompannyInBD.Canton = model.configCompany.Canton;
+            configCompannyInBD.District = model.configCompany.District;
+            configCompannyInBD.neighborhood = model.configCompany.neighborhood;
+            configCompannyInBD.OtherSigns = model.configCompany.OtherSigns;
 
         configCompannyInBD.UserTax = model.configCompany.UserTax;
         configCompannyInBD.PasswordTax = model.configCompany.PasswordTax;

@@ -1,4 +1,4 @@
-﻿@model FactuCR.Models.Client
+﻿@model FactuCR.Models.ClientManagement
 
 @{
     ViewData["Title"] = "FCR - Detalles Cliente";
@@ -12,38 +12,38 @@
         Tipo de Identificaci&oacute;n
     </dt>
     <dd>
-        @Html.DisplayFor(model => model.IdTypeNavigation.Name)
+        @Html.DisplayFor(model => model.Client.IdTypeNavigation.Name)
     </dd>
     <dt>
         Identificaci&oacute;n
     </dt>
     <dd>
-        @Html.DisplayFor(model => model.IdentificationNumber)
+        @Html.DisplayFor(model => model.Client.IdentificationNumber)
     </dd>
     <dt>
         Nombre completo
     </dt>
     <dd>
-        @Html.DisplayFor(model => model.Name) @Html.DisplayFor(model => model.LastName)
+        @Html.DisplayFor(model => model.Client.Name) @Html.DisplayFor(model => model.Client.LastName)
     </dd>
     <dt>
-        @Html.DisplayNameFor(model => model.Email)
+        @Html.DisplayNameFor(model => model.Client.Email)
     </dt>
     <dd>
-        @Html.DisplayFor(model => model.Email)
+        @Html.DisplayFor(model => model.Client.Email)
     </dd>
     <dt>
-        @Html.DisplayNameFor(model => model.Country)
-    </dt>
+        @Html.DisplayNameFor(model => model.Client.Country)
+    </dt>.
     <dd>
-        @Html.DisplayFor(model => model.Country)
+        @Html.DisplayFor(model => model.Client.Country)
     </dd>
     <dt>
-        @Html.DisplayNameFor(model => model.Status)
+        @Html.DisplayNameFor(model => model.Client.Status)
     </dt>
     <dd>
         @{
-            if (Model.Status == 0)
+            if (Model.Client.Status == 0)
             {
                 <text>Inactivo</text>
             }
@@ -54,10 +54,10 @@
         }
     </dd>
     <dt>
-        @Html.DisplayNameFor(model => model.AdmissionDate)
+        @Html.DisplayNameFor(model => model.Client.AdmissionDate)
     </dt>
     <dd>
-        @Html.DisplayFor(model => model.AdmissionDate)
+        @Html.DisplayFor(model => model.Client.AdmissionDate)
     </dd>
 
     <dt>
@@ -67,7 +67,7 @@
         <table class="table table-fit">
             <thead>
                 <tr>
-                    <th>@Html.DisplayNameFor(model => model.Email)</th>
+                    <th>@Html.DisplayNameFor(model => model.Client.Email)</th>
                     <th>C&oacute;digo de pa&iacute;s</th>
                     <th>Tel&eacute;fono</th>
                     <th>Tipo de Tel&eacute;fono</th>
@@ -75,7 +75,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>@Html.DisplayFor(model => model.Email)</td>
+                    <td>@Html.DisplayFor(model => model.Client.Email)</td>
                     <td>@ViewBag.TelephoneContact.CountryCode</td>
                     <td>@ViewBag.TelephoneContact.TelephoneNumber</td>
                     <td>@ViewBag.TelephoneContact.Type</td>
@@ -83,10 +83,36 @@
             </tbody>
         </table>
     </dd>
+    <dt>
+        Direcci&oacute;n
+    </dt>
+    <dd>
+        <table class="table table-fit">
+            <thead>
+                <tr>
+                    <th>Provincia</th>
+                    <th>Cant&oacute;n</th>
+                    <th>Distrito</th>
+                    <th>Barrio</th>
+                    <th>Otras señales</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Html.DisplayFor(model => model.Province)</td>
+                    <td>@Html.DisplayFor(model => model.Canton)</td>
+                    <td>@Html.DisplayFor(model => model.District)</td>
+                    <td>@Html.DisplayFor(model => model.neighborhood)</td>
+                    <td>@Html.DisplayFor(model => model.address.OtherSigns)</td>
+                </tr>
+            </tbody>
+        </table>
+    </dd>
+
 </dl>
 
 <div class="ln_solid"></div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.IdClient" class="btn btn-success"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar Cliente</a>
+    <a asp-action="Edit" asp-route-id="@Model.Client.IdClient" class="btn btn-success"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar Cliente</a>
     <a asp-action="Index" class="btn btn-default"><i class="fa fa-caret-square-o-left" aria-hidden="true"></i> Regresar a la lista</a>
 </div>
