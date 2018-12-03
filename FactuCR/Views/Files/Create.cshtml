@@ -7,7 +7,7 @@
 <link href="~/css/uploadFile.css" rel="stylesheet" />
 <h2>Agregar Llave Criptográfica</h2>
 
-<h4>El nombre del archivo esta conformado por nombre.p12 </h4>
+<h4>El nombre del archivo esta conformado por "nombre.p12" </h4>
 
 <hr />
 <div class="row">
@@ -16,7 +16,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="container">
                 <div class="form-group files">
-                    <label>Sube la llave criptográfica aportada por hacienda acá </label>
+                    <label>Sube la llave criptográfica aportada por hacienda acá  <i class="fa fa-question-circle-o " data-toggle="tooltip" title="inserta el archivo brindado por hacienda con la llave criptográfica" data-placement="right" aria-hidden="true"></i></label>
                     <input type="file" class="form-control">
                 </div>
             </div>
@@ -28,12 +28,12 @@
 
     </div>
     <div class="col-md-6">
-        <h2>Enlace con información de Hacienda</h2>
-        <h3><a class="badge" style="color:white" target="_blank" rel="noopener noreferrer" href="https://www.hacienda.go.cr/docs/5a6f9e6abe4c4_Generacion%20de%20Llave%20CriptogrAFICA%20ENE%2018.pdf">Llave Criptográfica</a></h3>
+        <h2>Enlace con información de Hacienda    <i class="fa fa-question-circle-o " data-toggle="tooltip" title="Se redirección a la página de hacienda. " data-placement="right" aria-hidden="true"></i></h2>
+        <h3><a class="badge" style="color:white" target="_blank" rel="noopener noreferrer" href="https://www.hacienda.go.cr/docs/5a6f9e6abe4c4_Generacion%20de%20Llave%20CriptogrAFICA%20ENE%2018.pdf">Llave Criptográfica   </a></h3>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Cancelar</a>
 </div>
 

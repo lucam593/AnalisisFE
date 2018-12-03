@@ -39,9 +39,9 @@
                     @Html.DisplayFor(modelItem => item.IdOfficeNavigation.Name)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.IdTerminal">Modificar</a> |
-                    <a asp-action="Details" asp-route-id="@item.IdTerminal">Detalles</a> |
-                    <a asp-action="Delete" asp-route-id="@item.IdTerminal">Eliminar</a>
+                    <a asp-action="Edit" asp-route-id="@item.IdTerminal" class="label label-success">Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.IdTerminal" class="label label-default">Detalles</a>
+                    <a asp-action="Delete" asp-route-id="@item.IdTerminal" class="label label-danger">Eliminar</a>
                 </td>
             </tr>
         }

@@ -31,5 +31,23 @@ namespace FactuCR.Models
         public string IdentificationNumberDIMEX { get; set; }
         public TelephoneContact TelephoneContact { get; set; }
 
+        public Address address { get; set; }
+
+        [Required(ErrorMessage = "Debe ingresar una provincia")]
+        [Display(Name = "Provincia")]
+        public string Province { get; set; }
+
+        [Required(ErrorMessage = "Debe ingresar un canton")]
+        [Display(Name = "Canton")]
+        public string Canton { get; set; }
+        
+        [Required(ErrorMessage = "Debe ingresar un distrito")]
+        [Display(Name = "Distrito")]
+        public string District { get; set; }
+
+        [Required(ErrorMessage = "Debe ingresar un barrio")]
+        [Display(Name = "Barrio")]
+        public string neighborhood { get; set; }
+        
     }
 }
