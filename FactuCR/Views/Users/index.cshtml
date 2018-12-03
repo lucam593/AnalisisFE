@@ -1,57 +1,65 @@
 ﻿@model FactuCR.Models.Users
 
 @{
-    ViewData["Title"] = "Perfil";
+    ViewData["Title"] = "FCR - Perfil Usuario";
+    ViewData["PanelTitle"] = "Perfil de Usuario";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
     var ultAcceso = ViewBag.Message;
 }
 
-<h2>Perfil</h2>
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Index">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="IdUser" />
-            <div class="form-group">
-                <label asp-for="FullName" class="control-label"></label>
-                <input asp-for="FullName" class="form-control" />
-                <span asp-validation-for="FullName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserName" class="control-label"></label>
-                <input asp-for="UserName" class="form-control" readonly />
-                <span asp-validation-for="UserName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastAccess" class="control-label"></label>
-                <input placeholder="@ultAcceso" class="form-control" readonly />
-                <span asp-validation-for="LastAccess" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Pwd" class="control-label"></label>
-                <input asp-for="Pwd" class="form-control" />
-                <span asp-validation-for="Pwd" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ConfirmPassword" class="control-label"></label>
-                <input asp-for="ConfirmPassword" class="form-control" />
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-success" />
-            </div>
-        </form>
+<form asp-action="Index" class="form-horizontal">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="IdUser" />
+    <div class="form-group">
+        <label asp-for="FullName" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <input asp-for="FullName" class="form-control" />
+            <span asp-validation-for="FullName" class="text-danger"></span>
+        </div>
     </div>
-</div>
+    <div class="form-group">
+        <label asp-for="UserName" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <input asp-for="UserName" class="form-control" readonly />
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Email" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="LastAccess" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <input placeholder="@ultAcceso" class="form-control" readonly />
+            <span asp-validation-for="LastAccess" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Pwd" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <input asp-for="Pwd" class="form-control" />
+            <span asp-validation-for="Pwd" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="ConfirmPassword" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <input asp-for="ConfirmPassword" class="form-control" />
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="ln_solid"></div>
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3 col-sm-offset-3">
+            <button type="submit" class="btn btn-success"><i class="fa fa-floppy-o"></i> Guardar Cambios</button>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-default"><i class="fa fa-caret-square-o-left"></i> Regresar</a>
+        </div>
+    </div>
+</form>
 
-<div>
-    <a asp-controller="Home" asp-action="Index">Regresar</a>
-</div>
 

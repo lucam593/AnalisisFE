@@ -16,7 +16,7 @@ using System.Text;
 
 namespace FactuCR.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class BillingController : Controller
     {
         private readonly db_facturacionContext _context;
