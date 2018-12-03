@@ -1,11 +1,10 @@
 ﻿@model FactuCR.Models.ConfigCompaniesManagement
 
 @{
-    ViewData["Title"] = "Configuración";
+    ViewData["Title"] = "FCR - Configuración";
+    ViewData["PanelTitle"] = "Modificar Configuración";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
-
-<h4>Modificar Configuración</h4>
 
 <form asp-action="Index" class="form-horizontal">
 
@@ -14,7 +13,7 @@
 
     <div class="form-group">
         <i class="fa fa-question-circle-o " data-toggle="tooltip" title="Nombre del tributante" data-placement="top" aria-hidden="true"></i><label asp-for="configCompany.FullName" class="control-label col-md-3 col-sm-3 col-xs-12">Nombre Completo</label>
-        <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <input asp-for="configCompany.FullName" class="form-control" />
             <span asp-validation-for="configCompany.FullName" class="text-danger"></span>
         </div>
@@ -22,7 +21,7 @@
 
     <div class="form-group">
         <label asp-for="configCompany.IdType" class="control-label col-md-3 col-sm-3 col-xs-12">Tipo de Identificación</label>
-        <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <select id="idtype-select" asp-for="configCompany.IdType" class="form-control" asp-items="ViewBag.IdType">
                 <option selected disabled>- Seleccione una opcion -</option>
             </select>
@@ -32,7 +31,7 @@
 
     <div class="form-group">
         <label id="idnum-label" asp-for="IdentificationNumberCedJuridica" class="control-label col-md-3 col-sm-3 col-xs-12">Número de Cédula</label>
-        <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <input id="cedfisica-input" asp-for="IdentificationNumberCedFisica" class="form-control" data-inputmask="'mask': '9-9999-9999'" />
             <span asp-validation-for="IdentificationNumberCedFisica" class="text-danger"></span>
 
@@ -49,7 +48,7 @@
 
     <div class="form-group">
         <label asp-for="configCompany.CompannyName" class="control-label col-md-3 col-sm-3 col-xs-12">Nombre Compañia</label>
-        <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <input asp-for="configCompany.CompannyName" class="form-control" />
             <span asp-validation-for="configCompany.CompannyName" class="text-danger"></span>
         </div>
@@ -57,35 +56,35 @@
 
     <div class="form-group">
         <label asp-for="configCompany.Email" class="control-label col-md-3 col-sm-3 col-xs-12">Correo Electrónico</label>
-        <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <input asp-for="configCompany.Email" class="form-control" />
             <span asp-validation-for="configCompany.Email" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group">
         <label asp-for="configCompany.Country" class="control-label col-md-3 col-sm-3 col-xs-12">Código Páis</label>
-        <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <input asp-for="configCompany.Country" class="form-control" />
             <span asp-validation-for="configCompany.Country" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group">
         <label asp-for="configCompany.Telephone" class="control-label col-md-3 col-sm-3 col-xs-12">Telefono</label>
-        <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <input id="telefone-input" asp-for="configCompany.Telephone" class="form-control" data-inputmask="'mask': '9999-9999'" />
             <span asp-validation-for="configCompany.Telephone" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group">
         <label asp-for="configCompany.Fax" class="control-label col-md-3 col-sm-3 col-xs-12">Fax</label>
-        <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <input id="fax-input" asp-for="configCompany.Fax" class="form-control" data-inputmask="'mask': '9999-9999'" />
             <span asp-validation-for="configCompany.Fax" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group">
         <label asp-for="configCompany.Province" class="control-label col-md-3 col-sm-3 col-xs-12">Provincia</label>
-        <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <select id="ProvinceName" asp-for="configCompany.Province"  asp-items="@(new SelectList(ViewBag.provinceList,"NameProvince", "NameProvince"))" class="form-control">
             </select>
             <span asp-validation-for="configCompany.Province" class="text-danger"></span>
@@ -93,14 +92,14 @@
     </div>
     <div class="form-group">
         <i class="fa fa-question-circle-o " data-toggle="tooltip" title="Seleccionar Provincia antes de intentar llenar este espacio" data-placement="top" aria-hidden="true"></i><label asp-for="configCompany.Canton" class="control-label col-md-3 col-sm-3 col-xs-12">Cantón</label>
-        <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <select id="CantonName" asp-for="configCompany.Canton" asp-items="@(new SelectList(string.Empty,"NameCanton", "NameCanton"))" class="form-control"></select>
             <span asp-validation-for="configCompany.Canton" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group">
         <i class="fa fa-question-circle-o " data-toggle="tooltip" title="Seleccionar Cantón antes de intentar llenar este espacio" data-placement="top" aria-hidden="true"></i><label asp-for="configCompany.District" class="control-label col-md-3 col-sm-3 col-xs-12">Distrito</label>
-        <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <select id="DistrictName" asp-for="configCompany.District" asp-items="@(new SelectList(string.Empty,"NameDistrict", "NameDistrict"))" class="form-control"></select>
             <span asp-validation-for="configCompany.District" class="text-danger"></span>
         </div>
@@ -108,7 +107,7 @@
 
     <div class="form-group">
         <i class="fa fa-question-circle-o " data-toggle="tooltip" title="Seleccionar Distrito antes de intentar llenar este espacio" data-placement="top" aria-hidden="true"></i><label asp-for="configCompany.neighborhood" class="control-label col-md-3 col-sm-3 col-xs-12">Barrio</label>
-        <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <select id="NeighborhoodName" asp-for="configCompany.neighborhood" asp-items="@(new SelectList(string.Empty,"NameNeighborhood", "NameNeighborhood"))" class="form-control"></select>
             <span asp-validation-for="configCompany.neighborhood" class="text-danger"></span>
         </div>
@@ -116,7 +115,7 @@
 
     <div class="form-group">
         <label asp-for="configCompany.OtherSigns" class="control-label col-md-3 col-sm-3 col-xs-12">Otras Señas</label>
-        <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <input asp-for="configCompany.OtherSigns" class="form-control" />
             <span asp-validation-for="configCompany.OtherSigns" class="text-danger"></span>
         </div>
@@ -124,28 +123,28 @@
 
     <div class="form-group">
         <i class="fa fa-question-circle-o " data-toggle="tooltip" title="usuario con el que se conecta a hacienda" data-placement="top" aria-hidden="true"></i><label asp-for="configCompany.UserTax" class="control-label col-md-3 col-sm-3 col-xs-12">Usuario Tributación</label>
-        <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <input asp-for="configCompany.UserTax" class="form-control" />
             <span asp-validation-for="configCompany.UserTax" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group">
         <i class="fa fa-question-circle-o " data-toggle="tooltip" title="Contraseña de usuario con la que se conecta a hacienda" data-placement="top" aria-hidden="true"></i><label asp-for="configCompany.PasswordTax" class="control-label col-md-3 col-sm-3 col-xs-12">Contraseña Tributación</label>
-        <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <input asp-for="configCompany.PasswordTax"  class="form-control" />
             <span asp-validation-for="configCompany.PasswordTax" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group">
         <label asp-for="configCompany.Currency" class="control-label col-md-3 col-sm-3 col-xs-12">Moneda Estándar</label>
-        <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <input asp-for="configCompany.Currency" class="form-control" />
             <span asp-validation-for="configCompany.Currency" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group">
         <label asp-for="configCompany.CurrencyValue" class="control-label col-md-3 col-sm-3 col-xs-12">Precio Moneda</label>
-        <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <input asp-for="configCompany.CurrencyValue" class="form-control" />
             <span asp-validation-for="configCompany.CurrencyValue" class="text-danger"></span>
         </div>
@@ -169,15 +168,17 @@
 
     <div class="form-group">
         <i class="fa fa-question-circle-o " data-toggle="tooltip" title="clave para poder accede a la llave criptografica" data-placement="top" aria-hidden="true"></i><label asp-for="configCompany.pin" class="control-label col-md-3 col-sm-3 col-xs-12">Pin Hacienda</label>
-        <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <input asp-for="configCompany.pin" class="form-control" />
             <span asp-validation-for="configCompany.pin" class="text-danger"></span>
         </div>
     </div>
-
+    <div class="ln_solid"></div>
     <div class="form-group">
-        <input type="submit" id="Guardar" value="Guardar Configuración" class="btn btn-success" />|
-        <a asp-action="Index" asp-controller="Home">Regresar</a>
+        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3 col-sm-offset-3">
+            <button type="submit" class="btn btn-success"><i class="fa fa-floppy-o"></i> Guardar Configuraci&oacute;n</button>
+            <a asp-action="Index" asp-controller="Home" class="btn btn-default"><i class="fa fa-caret-square-o-left"></i> Regresar</a>
+        </div>
     </div>
 </form>
 

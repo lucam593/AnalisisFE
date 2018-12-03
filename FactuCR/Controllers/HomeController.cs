@@ -28,5 +28,10 @@ namespace FactuCR.Controllers
 
             return View();
         }
+
+        public IActionResult Manual()
+        {
+            return View();
+        }
     }
 }
