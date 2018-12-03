@@ -47,7 +47,7 @@ namespace FactuCR.Models.Facturar_Hacienda
             var xmlR = (string)jObjet["Status"];
             if (status.Equals("202"))
             {
-                consultarF(valToken[0], clave);
+                //consultarF(valToken[0], clave);
             }
         }
 
