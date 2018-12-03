@@ -37,20 +37,24 @@ namespace FactuCR.Models
         public string Canton { get; set; }
         [Required(ErrorMessage = "Debe ingresar un distrito")]
         public string District { get; set; }
+        [Required(ErrorMessage = "Debe ingresar un barrio")]
         public string neighborhood { get; set; }
+        [Required(ErrorMessage = "Debe ingresar otras señas")]
         public string OtherSigns { get; set; }
         public string Country { get; set; }
+        [Required(ErrorMessage = "Debe ingresar el usuario de hacienda")]
         public string UserTax { get; set; }
+        [Required(ErrorMessage = "Debe ingresar la contraseña de hacienda")]
         public string PasswordTax { get; set; }
         public string Currency { get; set; }
         public double CurrencyValue { get; set; }
 
-        [Required(ErrorMessage = "Debe ingresar un status")]
-        [Display(Name = "Estado")]
+        //[Required(ErrorMessage = "Debe ingresar un status")]
+        //[Display(Name = "Estado")]
         public string Status { get; set; }
 
         [Required(ErrorMessage = "Debe ingresar un pin")]
-        [Display(Name = "Pin")]
+        [Display(Name = "PIN")]
         public string pin { get; set; }
         public IdentificationType IdTypeNavigation { get; set; }
     }
