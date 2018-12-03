@@ -5,25 +5,3 @@
     width: 100px;
     white-space: nowrap;
 }
-.go-up {
-    display: none;
-    position: relative;
-    padding: 15px;
-    background-color: #1ABB9C;
-    color: #fff;
-    cursor: pointer;
-    position: fixed;
-    bottom: 40px;
-    right: 40px;
-    z-index: 1000;
-}
-.go-up:hover {
-    background-color: #169F85;
-}
-#dashboard_footer {
-    color: #515356;
-    background-color: #EDEDED;
-    -webkit-box-shadow: 0px -1px 12px -3px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px -1px 12px -3px rgba(0,0,0,0.75);
-    box-shadow: 0px -1px 12px -3px rgba(0,0,0,0.75);
-}

@@ -10,7 +10,7 @@
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group">
-        <label asp-for="Provider.IdType" class="control-label col-md-3 col-sm-3 col-xs-12">Tipo de identificaci&oacute;n *</label>
+        <i class="fa fa-question-circle-o " data-toggle="tooltip" title="debe ingresar un tipo de identificación para poder ingresar la identificación correspondiente" data-placement="right" aria-hidden="true"></i><label asp-for="Provider.IdType" class="control-label col-md-3 col-sm-3 col-xs-12">Tipo de identificaci&oacute;n *</label>
         <div class="col-md-6 col-sm-6 col-xs-12">
             <select id="idtype-select" asp-for="Provider.IdType" class="form-control" asp-items="ViewBag.IdType">
                 <option selected disabled>- Seleccione una opcion -</option>
