@@ -14,7 +14,7 @@ namespace FactuCR.Models
 
         [Required(ErrorMessage = "Debe ingresar un número terminal")]
         [Display(Name = "Nombre Terminal")]
-        public int TerminalNumber { get; set; }
+        public string TerminalNumber { get; set; }
 
         [Required(ErrorMessage = "Debe ingresar un número de sucursal")]
         [Display(Name = "Número Sucursal")]
