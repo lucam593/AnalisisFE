@@ -15,7 +15,7 @@ using System.IO;
 
 namespace FactuCR.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class FilesController : Controller
     {
         private readonly db_facturacionContext _context;
@@ -59,44 +59,46 @@ namespace FactuCR.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create([FromForm]IFormFile file)
+        public IActionResult Create(IFormFile file)
         {
-            if (file != null && file.Length > 0)
+        
+            try
             {
-            
+                if (file != null && file.Length > 0)
+                {
+
+                    using (var client = new HttpClient())
+                    {
+                       
+                        
+                            client.BaseAddress = new Uri("http://localhost/apiCRLibre/www/api.php");
+
+                            byte[] data;
+                            using (var br = new BinaryReader(file.OpenReadStream()))
+                                data = br.ReadBytes((int)file.OpenReadStream().Length);
+                                
+                            ByteArrayContent bytes = new ByteArrayContent(data);
+
+
+                            MultipartFormDataContent multiContent = new MultipartFormDataContent();
+
+                            multiContent.Add(bytes, "file", file.FileName);
+                            //multiContent.Add(,,);
+
+                            var result = client.PostAsync("api/Values", multiContent).Result;
+
+
+                            return StatusCode((int)result.StatusCode); //201 Created the request has been fulfilled, resulting in the creation of a new resource.
+
+                        
+                    }
+                }
+                return Ok();
             }
-
-            return Ok();
-
-                //try
-                //{
-                //    if (file != null && file.Length > 0)
-                //    {
-                //        using (var client = new HttpClient())
-                //        {
-                //            try
-                //            {
-                //                client.BaseAddress = new Uri("http://localhost/apiCRLibre/www/api.php");
-
-                //                byte[] data;
-                //                using (var br = new BinaryReader(file.OpenReadStream()))
-                //                    data = br.ReadBytes((int)file.OpenReadStream().Length);
-
-                //                ByteArrayContent bytes = new ByteArrayContent(data);
-
-
-                //                MultipartFormDataContent multiContent = new MultipartFormDataContent();
-
-                //                multiContent.Add(bytes, "file", file.FileName);
-                //                //multiContent.Add(,,);
-
-                //                var result = client.PostAsync("api/Values", multiContent).Result;
-
-
-                //                return StatusCode((int)result.StatusCode); //201 Created the request has been fulfilled, resulting in the creation of a new resource.
-
-                //            }
+            catch(Exception)
+            {
+                return Ok();
+            }       
 
         }
 
