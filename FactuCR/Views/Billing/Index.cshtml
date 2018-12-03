@@ -33,7 +33,7 @@
                 Nombre del cliente
             </th>
             <th>
-                Pa&iacute;s
+                Consecutivo
             </th>
             <th>
                 M&eacute;todo de pago
@@ -92,7 +92,7 @@
                 }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdKeyNavigation.Country)
+                @Html.DisplayFor(modelItem => item.IdKeyNavigation.IdConsecutiveNavigation.NumberConsecutive)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IdPaymentNavigation.Name)

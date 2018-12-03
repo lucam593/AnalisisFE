@@ -47,7 +47,7 @@ namespace FactuCR.Models.Facturar_Hacienda
             var xmlR = (string)jObjet["Status"];
             if (status.Equals("202"))
             {
-                consultarF(valToken[0], clave);
+                //consultarF(valToken[0], clave);
             } else
             {
                 // error 403 que algo salio mal
@@ -78,7 +78,7 @@ namespace FactuCR.Models.Facturar_Hacienda
             var xmlDecode = Encoding.UTF8.GetString(Convert.FromBase64String(xmlRe));
 
             //GENERAR XML FIRMADO PARA ENVIAR A CORREO, CORREGIR PATH
-            System.IO.File.WriteAllText(@"C:\Users\LucamPC\Desktop\" + clave + ".xml", xmlDecode);
+            //System.IO.File.WriteAllText(@"C:\Users\LucamPC\Desktop\" + clave + ".xml", xmlDecode);
         }
         //------------ DEBE CUIDARSE EL TIEMPO DE DURACION DEL TOKEN
         public string[] Token()

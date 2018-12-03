@@ -41,7 +41,7 @@ namespace FactuCR
             .AddCookie(options =>
             {
                 options.LoginPath = "/";
-                //options.ExpireTimeSpan = 
+                options.ExpireTimeSpan = TimeSpan.FromHours(12.0);
             }); 
 
             services.Configure<CookiePolicyOptions>(options =>
