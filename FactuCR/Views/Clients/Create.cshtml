@@ -9,8 +9,8 @@
 
 <form id="new-client-form" asp-action="Create" class="form-horizontal">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="form-group">
-        <label asp-for="Client.IdType" class="control-label col-md-3 col-sm-3 col-xs-12">Tipo de indentificaci&oacute;n *</label>
+    <div class="form-group ">
+        <i class="fa fa-question-circle-o " data-toggle="tooltip" title="debe ingresar un tipo de identificación para poder ingresar la identificación correspondiente" data-placement="right" aria-hidden="true"></i><label asp-for="Client.IdType" class="control-label col-md-3 col-sm-3 col-xs-12">Tipo de indentificaci&oacute;n *</label>
         <div class="col-md-6 col-sm-6 col-xs-12">
             <select id="idtype-select" asp-for="Client.IdType" class="form-control" asp-items="ViewBag.IdType">
                 <option selected disabled>- Seleccione el tipo de identificaci&oacute;n -</option>
@@ -116,14 +116,14 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="Client.Status" class="control-label col-md-3 col-sm-3 col-xs-12">Estado <span class="required">*</span></label>
+         <label asp-for="Client.Status" class="control-label col-md-3 col-sm-3 col-xs-12">Estado <span class="required">*</span></label>
         <div class="col-md-6 col-sm-6 col-xs-12">
             <div id="status" class="btn-group" data-toggle="buttons">
                 <label class="btn btn-success active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
                     <input type="radio" name="status" value="1" asp-for="Client.Status" checked /> &nbsp; Activo &nbsp;
                     <span asp-validation-for="Client.Status" class="text-danger"></span>
                 </label>
-                <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                <i class="fa fa-question-circle-o " data-toggle="tooltip" title="un cliente inactivo no dispone del servicio, activo si dispone del servicio " data-placement="right" aria-hidden="true"></i><label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
                     <input type="radio" name="status" value="0" asp-for="Client.Status" /> Inactivo
                     <span asp-validation-for="Client.Status" class="text-danger"></span>
                 </label>
@@ -150,6 +150,7 @@
 
 
 <script>
+   
     $(document).ready(function () {
         $('#idnum-label').hide();
         $('#cedfisica-input').hide();

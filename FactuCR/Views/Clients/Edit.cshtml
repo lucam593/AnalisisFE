@@ -112,7 +112,7 @@
                     <input type="radio" name="status" value="1" asp-for="Client.Status" checked /> &nbsp; Activo &nbsp;
                     <span asp-validation-for="Client.Status" class="text-danger"></span>
                 </label>
-                <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                <i class="fa fa-question-circle-o " data-toggle="tooltip" title="un cliente inactivo no dispone del servicio, activo si dispone del servicio " data-placement="right" aria-hidden="true"></i><label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
                     <input type="radio" name="status" value="0" asp-for="Client.Status" /> Inactivo
                     <span asp-validation-for="Client.Status" class="text-danger"></span>
                 </label>
