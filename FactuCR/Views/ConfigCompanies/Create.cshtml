@@ -100,6 +100,15 @@
             <span asp-validation-for="configCompany.District" class="text-danger"></span>
         </div>
     </div>
+
+    <div class="form-group">
+        <label asp-for="configCompany.neighborhood" class="control-label col-md-3 col-sm-3 col-xs-12">Barrio</label>
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <select id="NeighborhoodName" asp-for="configCompany.neighborhood" asp-items="@(new SelectList(string.Empty,"NameNeighborhood", "NameNeighborhood"))" class="form-control"></select>
+            <span asp-validation-for="configCompany.neighborhood" class="text-danger"></span>
+        </div>
+    </div>
+
     <div class="form-group">
         <label asp-for="configCompany.OtherSigns" class="control-label col-md-3 col-sm-3 col-xs-12">Otras Señas</label>
         <div class="col-md-4 col-sm-4 col-xs-12">
@@ -226,7 +235,22 @@
         });
     });
 
-
+      $(function () {
+        $("#DistrictName").change(function () {
+            var url = '@Url.Content("~/")' + "ConfigCompanies/getNeighborhood";
+             var ddlsource = "#ProvinceName";
+            var ddlsource2 = "#CantonName";
+            var ddlsource3 = "#DistrictName";
+            $.getJSON(url, { Province: $(ddlsource).val(), Canton: $(ddlsource2).val(), District: $(ddlsource3).val()}, function (data) {
+                var items = '';
+                 $("#NeighborhoodName").empty();
+                $.each(data, function (i, row) {
+                    items += "<option value= '" + row.value + "'>" + row.text + "</option>";
+                });
+                $("#NeighborhoodName").html(items);
+            })
+        });
+    });
 </script>
 
 

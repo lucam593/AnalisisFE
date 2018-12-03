@@ -99,6 +99,7 @@ namespace FactuCR.Controllers
             configCompannyInBD.Province = model.configCompany.Province;
             configCompannyInBD.Canton = model.configCompany.Canton;
             configCompannyInBD.District = model.configCompany.District;
+            configCompannyInBD.neighborhood = model.configCompany.neighborhood;
             configCompannyInBD.OtherSigns = model.configCompany.OtherSigns;
 
             configCompannyInBD.UserTax = model.configCompany.UserTax;

@@ -75,14 +75,11 @@ namespace FactuCR.Models
         {
             modelBuilder.Entity<Address>(entity =>
             {
-                entity.HasKey(e => new { e.IdCodificacion, e.IdUser });
+                entity.HasKey(e => new {e.IdUser });
 
                 entity.ToTable("address");
-
-                entity.HasIndex(e => e.IdCodificacion)
-                    .HasName("fk_ADDRESS_master_Address1_idx");
-
-                entity.Property(e => e.IdCodificacion)
+               
+                entity.Property(e => e.idCodificacion)
                     .HasColumnName("idCodificacion")
                     .HasColumnType("int(11)");
 
@@ -91,12 +88,7 @@ namespace FactuCR.Models
                 entity.Property(e => e.OtherSigns)
                     .HasColumnName("Other_signs")
                     .HasColumnType("varchar(200)");
-
-                entity.HasOne(d => d.IdCodificacionNavigation)
-                    .WithMany(p => p.Address)
-                    .HasForeignKey(d => d.IdCodificacion)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_ADDRESS_master_Address1");
+                
             });
 
             modelBuilder.Entity<BranchOffice>(entity =>
