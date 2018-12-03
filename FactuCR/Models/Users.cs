@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FactuCR.Models
 {
@@ -33,6 +34,7 @@ namespace FactuCR.Models
         [DisplayName("Confirmación de contraseña")]
         [Compare("Pwd", ErrorMessage = "Contraseñas no coinciden, intenta de nuevo.")]
         [DataType(DataType.Password)]
+        [NotMapped]
         public string ConfirmPassword { get; set; }
         public string Avatar { get; set; }
         public string Settings { get; set; }
