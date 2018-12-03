@@ -42,6 +42,7 @@ namespace FactuCR.Models
         public double ProfitPercentage { get; set; }
 
         [Required(ErrorMessage = "Debe ingresar la cantidad del producto")]
+        [Range(1, Int32.MaxValue, ErrorMessage = "Debe ingresar una cantidad mayor a 1")]
         [Display(Name = "Cantidad")]
         public int? Quantity { get; set; }
         
@@ -59,6 +60,8 @@ namespace FactuCR.Models
         [Required(ErrorMessage = "Debe seleccionar la unidad de medida")]
         [Display(Name = "Unidad de medida")]
         public int IdUnit { get; set; }
+
+        [Required(ErrorMessage = "Debe seleccionar el descuento del producto")]
         public int? IdDiscount { get; set; }
 
         [Required(ErrorMessage = "Debe seleccionar o crear una categoría para el producto")]

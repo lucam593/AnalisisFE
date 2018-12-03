@@ -2,11 +2,12 @@
 
 @{
     ViewData["Title"] = "Delete";
-    ViewData["PanelTitle"] = "¿Seguro que desea eliminar este producto?";
-    ViewData["Annotation"] = "cuando los datos son borrados, no pueden ser recuperados";
+    ViewData["PanelTitle"] = "¿Seguro que desea eliminar este Producto?";
+    ViewData["Annotation"] = "Cuando los datos son borrados, no pueden ser recuperados";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
+<h4><strong>Detalles generales</strong></h4>
 <dl class="dl-horizontal">
     <dt>
         @Html.DisplayNameFor(model => model.CodeProduct)
@@ -27,16 +28,63 @@
         @Html.DisplayFor(model => model.Description)
     </dd>
     <dt>
-        @Html.DisplayNameFor(model => model.Status)
+        Estado
     </dt>
     <dd>
-        @Html.DisplayFor(model => model.Status)
+        @{
+            if (Model.Status == 0)
+            {
+                <text>Inactivo</text>
+            }
+            else
+            {
+                <text>Activo</text>
+            }
+        }
     </dd>
     <dt>
-        @Html.DisplayNameFor(model => model.SalePrice)
+        @Html.DisplayNameFor(model => model.Quantity)
     </dt>
     <dd>
-        @Html.DisplayFor(model => model.SalePrice)
+        @Html.DisplayFor(model => model.Quantity)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.Barcode)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Barcode)
+    </dd>
+    <dt>
+        Categor&iacute;a
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.IdCategoryNavigation.Name)
+    </dd>
+    <dt>
+        Proveedor
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.IdProviderNavigation.Name)
+    </dd>
+    <dt>
+        Tipo de unidad
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.IdUnitNavigation.Name)
+    </dd>
+    <hr align="left" width="300px" />
+    <h4><strong>Detalles de venta</strong></h4>
+    <dt>
+        Moneda
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.IdCurrencyNavigation.Name)
+    </dd>
+    <dt>
+        Impuesto
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.IdTaxNavigation.Percentage)%
     </dd>
     <dt>
         @Html.DisplayNameFor(model => model.CostPrice)
@@ -51,52 +99,16 @@
         @Html.DisplayFor(model => model.ProfitPercentage)
     </dd>
     <dt>
-        Cantidad en inventario
+        Descuento
     </dt>
     <dd>
-        @Html.DisplayFor(model => model.Quantity)
+        @Html.DisplayFor(model => model.IdDiscountNavigation.Percentage)%
     </dd>
     <dt>
-        @Html.DisplayNameFor(model => model.Barcode)
+        @Html.DisplayNameFor(model => model.SalePrice)
     </dt>
     <dd>
-        @Html.DisplayFor(model => model.Barcode)
-    </dd>
-    <dt>
-        @Html.DisplayNameFor(model => model.IdCategoryNavigation)
-    </dt>
-    <dd>
-        @Html.DisplayFor(model => model.IdCategoryNavigation.Description)
-    </dd>
-    <dt>
-        @Html.DisplayNameFor(model => model.IdCurrencyNavigation)
-    </dt>
-    <dd>
-        @Html.DisplayFor(model => model.IdCurrencyNavigation.Code)
-    </dd>
-    <dt>
-        @Html.DisplayNameFor(model => model.IdDiscountNavigation)
-    </dt>
-    <dd>
-        @Html.DisplayFor(model => model.IdDiscountNavigation.Name)
-    </dd>
-    <dt>
-        @Html.DisplayNameFor(model => model.IdProviderNavigation)
-    </dt>
-    <dd>
-        @Html.DisplayFor(model => model.IdProviderNavigation.Email)
-    </dd>
-    <dt>
-        @Html.DisplayNameFor(model => model.IdTaxNavigation)
-    </dt>
-    <dd>
-        @Html.DisplayFor(model => model.IdTaxNavigation.Code)
-    </dd>
-    <dt>
-        @Html.DisplayNameFor(model => model.IdUnitNavigation)
-    </dt>
-    <dd>
-        @Html.DisplayFor(model => model.IdUnitNavigation.Name)
+        @Html.DisplayFor(model => model.SalePrice)
     </dd>
 </dl>
 <div class="ln_solid"></div>

@@ -6,37 +6,42 @@
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
+<form class="form-horizontal">
+    <div class="form-group">
+        <div class="col-md-7 col-md-offset-2">
+            <table id="datatable" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Description)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.IdFamily" class="label label-success"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a>
+                                <a asp-action="Delete" asp-route-id="@item.IdFamily" class="label label-danger"><i class="fa fa-trash-o"></i> Eliminar</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="ln_solid"></div>
+            <a asp-action="Create" class="btn btn-success"><i class="fa fa-plus"></i> Agregar Familia</a>
+        </div>
+    </div>
+</form>
 
-
-<table id="datatable" class="table table-bordered">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.IdFamily" class="label label-success"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a>
-                    <a asp-action="Delete" asp-route-id="@item.IdFamily" class="label label-danger"><i class="fa fa-trash-o"></i> Eliminar</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-<div class="ln_solid"></div>
-<a asp-action="Create" class="btn btn-success">Ingresar Familia</a>

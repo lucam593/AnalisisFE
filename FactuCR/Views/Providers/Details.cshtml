@@ -8,36 +8,48 @@
 
 <dl class="dl-horizontal">
     <dt>
+        Tipo de Identificaci&oacute;n
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.IdTypeNavigation.Name)
+    </dd>
+    <dt>
+        Identificaci&oacute;n
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.IdentificationNumber)
+    </dd>
+    <dt>
         @Html.DisplayNameFor(model => model.Name)
     </dt>
     <dd>
         @Html.DisplayFor(model => model.Name)
     </dd>
     <dt>
-        @Html.DisplayNameFor(model => model.Description)
+        Descripci&oacute;n
     </dt>
     <dd>
         @Html.DisplayFor(model => model.Description)
     </dd>
     <dt>
-        @Html.DisplayNameFor(model => model.IdTypeNavigation)
-    </dt>
-    <dd>
-        @Html.DisplayFor(model => model.IdTypeNavigation.Code)
-    </dd>
-    <dt>
         Informaci&oacute;n de contacto
     </dt>
     <dd>
-        <table class="table">
+        <table class="table table-fit">
             <thead>
                 <tr>
                     <th>@Html.DisplayNameFor(model => model.Email)</th>
+                    <th>C&oacute;digo de pa&iacute;s</th>
+                    <th>Tel&eacute;fono</th>
+                    <th>Tipo de Tel&eacute;fono</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>@Html.DisplayFor(model => model.Email)</td>
+                    <td>@ViewBag.TelephoneContact.CountryCode</td>
+                    <td>@ViewBag.TelephoneContact.TelephoneNumber</td>
+                    <td>@ViewBag.TelephoneContact.Type</td>
                 </tr>
             </tbody>
         </table>

@@ -2,47 +2,47 @@
 
 @{
     ViewData["Title"] = "Delete";
-    ViewData["PanelTitle"] = "¿Seguro que desea eliminar este provedor?";
-    ViewData["Annotation"] = "cuando los datos son borrados, no pueden ser recuperados";
+    ViewData["PanelTitle"] = "¿Seguro que desea eliminar este Provedor?";
+    ViewData["Annotation"] = "Cuando los datos son borrados, no pueden ser recuperados";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Provider.IdType)
-        </dt>
-        <dd>
-            @ViewBag.IdentificationType.Name
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Provider.IdentificationNumber)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Provider.IdentificationNumber)
-        </dd>
-        <dt>
-            Nombre del proveedor
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Provider.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Provider.Email)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Provider.Email)
-        </dd>
-        <dt>
-            Descripci&oacute;n
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Provider.Description)
-        </dd>
-    </dl>
-    <div class="ln_solid"></div>
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Provider.IdProvider" />
-        <button type="submit" value="Eliminar" class="btn btn-danger"><i class="fa fa-trash-o"></i> Eliminar</button>
-        <a asp-action="Index" class="btn btn-default"><i class="fa fa-caret-square-o-left" aria-hidden="true"></i> Cancelar</a>
-    </form>
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.Provider.IdType)
+    </dt>
+    <dd>
+        @ViewBag.IdentificationType.Name
+    </dd>
+    <dt>
+        Identificaci&oacute;n
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Provider.IdentificationNumber)
+    </dd>
+    <dt>
+        Nombre del proveedor
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Provider.Name)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.Provider.Email)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Provider.Email)
+    </dd>
+    <dt>
+        Descripci&oacute;n
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Provider.Description)
+    </dd>
+</dl>
+<div class="ln_solid"></div>
+<form asp-action="Delete">
+    <input type="hidden" asp-for="Provider.IdProvider" />
+    <button type="submit" value="Eliminar" class="btn btn-danger"><i class="fa fa-trash-o"></i> Eliminar</button>
+    <a asp-action="Index" class="btn btn-default"><i class="fa fa-caret-square-o-left" aria-hidden="true"></i> Cancelar</a>
+</form>
 

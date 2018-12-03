@@ -9,7 +9,8 @@
         checkStringInURL("Categories") ||
         checkStringInURL("Families") ||
         checkStringInURL("Providers") ||
-        checkStringInURL("Clients")) {
+        checkStringInURL("Clients") ||
+        checkStringInURL("Discounts")) {
         $('#mantenimiento-menu-container').show("slow");
     } else {
         $('#mantenimiento-menu-container').hide();
