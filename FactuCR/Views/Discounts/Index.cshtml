@@ -1,8 +1,8 @@
-﻿@model IEnumerable<FactuCR.Models.Category>
+﻿@model IEnumerable<FactuCR.Models.Discount>
 
 @{
     ViewData["Title"] = "Index";
-    ViewData["PanelTitle"] = "Lista de Categorías";
+    ViewData["PanelTitle"] = "Lista de descuentos";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 <form class="form-horizontal">
@@ -15,7 +15,7 @@
                             @Html.DisplayNameFor(model => model.Name)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Description)
+                            @Html.DisplayNameFor(model => model.Percentage)
                         </th>
                         <th></th>
                     </tr>
@@ -28,18 +28,18 @@
                                 @Html.DisplayFor(modelItem => item.Name)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Description)
+                                @Html.DisplayFor(modelItem => item.Percentage)%
                             </td>
                             <td>
-                                <a asp-action="Edit" asp-route-id="@item.IdCategory" class="label label-success">Editar</a>
-                                <a asp-action="Delete" asp-route-id="@item.IdCategory" class="label label-danger">Eliminar</a>
+                                <a asp-action="Edit" asp-route-id="@item.IdDiscount" class="label label-success">Editar</a>
+                                <a asp-action="Delete" asp-route-id="@item.IdDiscount" class="label label-danger">Eliminar</a>
                             </td>
                         </tr>
                     }
                 </tbody>
             </table>
             <div class="ln_solid"></div>
-            <a asp-action="Create" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Agregar Categor&iacute;a</a>
+            <a asp-action="Create" class="btn btn-success"><i class="fa fa-plus"></i> Agregar Descuento</a>
         </div>
     </div>
 </form>

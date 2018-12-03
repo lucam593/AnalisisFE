@@ -366,10 +366,6 @@ namespace FactuCR.Models
                     .HasColumnType("varchar(50)");
 
                 entity.Property(e => e.Percentage).HasColumnType("int(11)");
-
-                entity.Property(e => e.Type)
-                    .IsRequired()
-                    .HasColumnType("varchar(50)");
             });
 
             modelBuilder.Entity<Family>(entity =>

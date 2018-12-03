@@ -38,7 +38,7 @@ namespace FactuCR.Models
         public string Country { get; set; }
 
         
-        [Display(Name = "estado")]
+        [Display(Name = "Estado")]
         public sbyte Status { get; set; }
 
       

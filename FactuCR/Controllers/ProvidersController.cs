@@ -43,7 +43,7 @@ namespace FactuCR.Controllers
                 return NotFound();
             }
 
-            ProviderManagement model = new ProviderManagement();
+            ViewData["TelephoneContact"] = await _context.TelephoneContact.Where(tc => tc.IdOwner.Equals(provider.IdentificationNumber)).FirstAsync();
 
             return View(provider);
         }
@@ -194,7 +194,6 @@ namespace FactuCR.Controllers
                 providerInDB.IdentificationNumber = model.IdentificationNumberDIMEX;
             }
             
-
             TelephoneContact telephoneContactInDB = _context.TelephoneContact.Where(tc => tc.IdOwner.Equals(providerIdBeforeChanges)).First();
             telephoneContactInDB.IdOwner = providerInDB.IdentificationNumber;
             telephoneContactInDB.CountryCode = model.TelephoneContact.CountryCode;
@@ -209,45 +208,6 @@ namespace FactuCR.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
-        /* POST: Providers/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdProvider,IdType,IdentificationNumber,Name,Email,Description")] ProviderManagement providerManagement)
-        {
-            if (id != providerManagement.Provider.IdProvider)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(providerManagement.Provider);
-                    _context.Update(providerManagement.TelephoneContact);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProviderExists(providerManagement.Provider.IdProvider))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["IdType"] = new SelectList(_context.IdentificationType, "IdType", "Name", providerManagement.Provider.IdType);
-            List<Country> countriesList = _context.Country.ToList();
-            ViewData["CountriesList"] = countriesList;
-            return View(providerManagement);
-        }*/
 
         // GET: Providers/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -280,9 +240,11 @@ namespace FactuCR.Controllers
         {
             var provider = await _context.Provider.FindAsync(id);
             var telephone_contact = await _context.TelephoneContact.Where(tc => tc.IdOwner.Equals(provider.IdentificationNumber)).FirstAsync();
+
             _context.Provider.Remove(provider);
             _context.TelephoneContact.Remove(telephone_contact);
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 

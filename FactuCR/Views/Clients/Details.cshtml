@@ -9,22 +9,22 @@
 
 <dl class="dl-horizontal">
     <dt>
-        @Html.DisplayNameFor(model => model.IdentificationNumber)
+        Tipo de Identificaci&oacute;n
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.IdTypeNavigation.Name)
+    </dd>
+    <dt>
+        Identificaci&oacute;n
     </dt>
     <dd>
         @Html.DisplayFor(model => model.IdentificationNumber)
     </dd>
     <dt>
-        @Html.DisplayNameFor(model => model.Name)
+        Nombre completo
     </dt>
     <dd>
-        @Html.DisplayFor(model => model.Name)
-    </dd>
-    <dt>
-        @Html.DisplayNameFor(model => model.LastName)
-    </dt>
-    <dd>
-        @Html.DisplayFor(model => model.LastName)
+        @Html.DisplayFor(model => model.Name) @Html.DisplayFor(model => model.LastName)
     </dd>
     <dt>
         @Html.DisplayNameFor(model => model.Email)
@@ -42,7 +42,16 @@
         @Html.DisplayNameFor(model => model.Status)
     </dt>
     <dd>
-        @Html.DisplayFor(model => model.Status)
+        @{
+            if (Model.Status == 0)
+            {
+                <text>Inactivo</text>
+            }
+            else
+            {
+                <text>Activo</text>
+            }
+        }
     </dd>
     <dt>
         @Html.DisplayNameFor(model => model.AdmissionDate)
@@ -50,20 +59,26 @@
     <dd>
         @Html.DisplayFor(model => model.AdmissionDate)
     </dd>
-   
+
     <dt>
         Informaci&oacute;n de contacto
     </dt>
     <dd>
-        <table class="table">
+        <table class="table table-fit">
             <thead>
                 <tr>
                     <th>@Html.DisplayNameFor(model => model.Email)</th>
+                    <th>C&oacute;digo de pa&iacute;s</th>
+                    <th>Tel&eacute;fono</th>
+                    <th>Tipo de Tel&eacute;fono</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>@Html.DisplayFor(model => model.Email)</td>
+                    <td>@ViewBag.TelephoneContact.CountryCode</td>
+                    <td>@ViewBag.TelephoneContact.TelephoneNumber</td>
+                    <td>@ViewBag.TelephoneContact.Type</td>
                 </tr>
             </tbody>
         </table>

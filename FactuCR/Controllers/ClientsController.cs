@@ -46,6 +46,8 @@ namespace FactuCR.Controllers
                 return NotFound();
             }
 
+            ViewData["TelephoneContact"] = await _context.TelephoneContact.Where(tc => tc.IdOwner.Equals(client.IdentificationNumber)).FirstAsync();
+
             return View(client);
         }
 
@@ -127,19 +129,19 @@ namespace FactuCR.Controllers
 
             if (client.IdType == 1)
             {
-            model.IdentificationNumberCedFisica  = client.IdentificationNumber;
+                model.IdentificationNumberCedFisica  = client.IdentificationNumber;
             }
-            else if (model.Client.IdType == 2)
+            else if (client.IdType == 2)
             {
-                model.IdentificationNumberCedJuridica = client.IdentificationNumber ;
+                model.IdentificationNumberCedJuridica = client.IdentificationNumber;
             }
-          else  if (model.Client.IdType == 3)
+            else  if (client.IdType == 3)
             {
-                model.IdentificationNumberNITE = client.IdentificationNumber  ;
+                model.IdentificationNumberNITE = client.IdentificationNumber;
             }
-        else   
+            else   
             {
-                model.IdentificationNumberDIMEX = client.IdentificationNumber  ;
+                model.IdentificationNumberDIMEX = client.IdentificationNumber;
             }
 
 
@@ -165,50 +167,48 @@ namespace FactuCR.Controllers
             List<Country> countriesList = _context.Country.ToList();
             ViewData["CountriesList"] = countriesList;
 
-            Client client = _context.Client.Find(model.Client.IdClient);
-            client.IdType = model.Client.IdType;
-            client.IdentificationNumber = model.Client.IdentificationNumber;
-            client.Name = model.Client.Name;
-            client.LastName = model.Client.LastName;
-            client.Email = model.Client.Email;
-            client.Country = model.Client.Country;
-            client.Status = model.Client.Status;
-            client.AdmissionDate = model.Client.AdmissionDate;
+            Client clientInDB = _context.Client.Find(model.Client.IdClient);
+            clientInDB.IdType = model.Client.IdType;
+            clientInDB.IdentificationNumber = model.Client.IdentificationNumber;
+            clientInDB.Name = model.Client.Name;
+            clientInDB.LastName = model.Client.LastName;
+            clientInDB.Email = model.Client.Email;
+            clientInDB.Country = model.Client.Country;
+            clientInDB.Status = model.Client.Status;
+            clientInDB.AdmissionDate = model.Client.AdmissionDate;
 
 
-            if (client.IdType == 1)
+            if (model.Client.IdType == 1)
             {
-              client.IdentificationNumber = model.IdentificationNumberCedFisica;
+                clientInDB.IdentificationNumber = model.IdentificationNumberCedFisica;
             }
             else if (model.Client.IdType == 2)
             {
-               client.IdentificationNumber = model.IdentificationNumberCedJuridica ;
+                clientInDB.IdentificationNumber = model.IdentificationNumberCedJuridica ;
             }
             else if (model.Client.IdType == 3)
             {
-                client.IdentificationNumber = model.IdentificationNumberNITE;
+                clientInDB.IdentificationNumber = model.IdentificationNumberNITE;
             }
             else
             {
-                client.IdentificationNumber = model.IdentificationNumberDIMEX;
-            
+                clientInDB.IdentificationNumber = model.IdentificationNumberDIMEX;
             }
-            TelephoneContact telephoneContact = new TelephoneContact();
-            telephoneContact.IdOwner = client.IdentificationNumber;
-            telephoneContact.CountryCode = model.TelephoneContact.CountryCode;
-            telephoneContact.TelephoneNumber = model.TelephoneContact.TelephoneNumber;
-            telephoneContact.Type = model.TelephoneContact.Type;
-            telephoneContact.Description = model.TelephoneContact.Description;
-            telephoneContact.Extension = model.TelephoneContact.Extension;
 
-            _context.Update(telephoneContact);
-            _context.Update(client);
+            TelephoneContact telephoneContactInDB = new TelephoneContact();
+            telephoneContactInDB.IdOwner = clientInDB.IdentificationNumber;
+            telephoneContactInDB.CountryCode = model.TelephoneContact.CountryCode;
+            telephoneContactInDB.TelephoneNumber = model.TelephoneContact.TelephoneNumber;
+            telephoneContactInDB.Type = model.TelephoneContact.Type;
+            telephoneContactInDB.Description = model.TelephoneContact.Description;
+            telephoneContactInDB.Extension = model.TelephoneContact.Extension;
+
+            _context.Update(telephoneContactInDB);
+            _context.Update(clientInDB);
             _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
-        }
-        
-        
+        }        
 
         // GET: Clients/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -217,17 +217,20 @@ namespace FactuCR.Controllers
             {
                 return NotFound();
             }
+            ClientManagement model = new ClientManagement();
+
             var client = await _context.Client
                 .Include(c => c.IdTypeNavigation)
                 .FirstOrDefaultAsync(m => m.IdClient == id);
-
-            ClientManagement model = new ClientManagement();
-            model.Client = client;
-
-            if (model == null)
+            
+            if (client == null)
             {
                 return NotFound();
             }
+            ViewData["IdentificationType"] = _context.IdentificationType.Find(client.IdType);
+
+            model.Client = client;
+
             return View(model);
         }
 
@@ -237,8 +240,12 @@ namespace FactuCR.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var client = await _context.Client.FindAsync(id);
+            var telephone_contact = await _context.TelephoneContact.Where(tc => tc.IdOwner.Equals(client.IdentificationNumber)).FirstAsync();
+
             _context.Client.Remove(client);
+            _context.TelephoneContact.Remove(telephone_contact);
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
             
         }

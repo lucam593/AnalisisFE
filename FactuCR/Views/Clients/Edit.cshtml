@@ -21,8 +21,8 @@
         </div>
     </div>
     <div class="form-group">
-        <label id="idnum-label" asp-for="IdentificationNumberCedJuridica" class="control-label col-md-4 col-sm-4 col-xs-12"></label>
-        <div class="col-md-4 col-sm-4 col-xs-12">
+        <label id="idnum-label" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <input id="cedfisica-input" asp-for="IdentificationNumberCedFisica" class="form-control" data-inputmask="'mask': '9-9999-9999'" />
             <span asp-validation-for="IdentificationNumberCedFisica" class="text-danger"></span>
 
@@ -68,13 +68,16 @@
                 </div>
                 <label asp-for="TelephoneContact.TelephoneNumber" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;">N&uacute;mero telef&oacute;nico</label>
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <input asp-for="TelephoneContact.TelephoneNumber" class="form-control" />
+                    <input asp-for="TelephoneContact.TelephoneNumber" class="form-control" data-inputmask="'mask': '99999999'" />
                     <span asp-validation-for="TelephoneContact.TelephoneNumber" class="text-danger"></span>
                 </div>
                 <label asp-for="TelephoneContact.Type" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;">Tipo de tel&eacute;fono</label>
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <input asp-for="TelephoneContact.Type" class="form-control" />
-                    <span asp-validation-for="TelephoneContact.Type" class="text-danger"></span>
+                    <select asp-for="TelephoneContact.Type" class="form-control">
+                        <option selected disabled>- seleccione el tipo de tel&eacute;fono -</option>
+                        <option value="Personal">Personal</option>
+                        <option value="Oficina">Oficina</option>
+                    </select>
                 </div>
                 <label asp-for="TelephoneContact.Description" class="control-label col-md-12 col-sm-12 col-xs-12" style="text-align: left;">Descripci&oacute;n del tel&eacute;fono</label>
                 <div class="col-md-12 col-sm-12 col-xs-12">
@@ -97,7 +100,14 @@
     <div class="form-group">
         <label asp-for="Client.Country" class="control-label col-md-3 col-sm-3 col-xs-12">Pais</label>
         <div class="col-md-6 col-sm-6 col-xs-12">
-            <input asp-for="Client.Country" class="form-control" />
+            <select asp-for="Client.Country" asp-items="ViewBag.IdCountry" class="form-control">
+                <option selected disabled>- Seleccione el pa&iacute;s</option>
+
+                @foreach (var country in ViewBag.CountriesList)
+                {
+                    <option value="@country.CountryName">@country.CountryName</option>
+                }
+            </select>
             <span asp-validation-for="Client.Country" class="text-danger"></span>
         </div>
     </div>
@@ -119,8 +129,7 @@
     <div class="form-group">
         <label asp-for="Client.AdmissionDate" class="control-label col-md-3 col-sm-3 col-xs-12">Fecha de ingreso</label>
         <div class="col-md-6 col-sm-6 col-xs-12">
-
-            <input asp-for="Client.AdmissionDate" class="form-control" />
+            <input asp-for="Client.AdmissionDate" class="form-control" readonly />
             <span asp-validation-for="Client.AdmissionDate" class="text-danger"></span>
         </div>
     </div>
@@ -131,8 +140,6 @@
         </div>
 </form>
 
-
-
 <script>
     $(document).ready(function () {
         $('#idnum-label').hide();
@@ -141,7 +148,24 @@
         $('#nite-input').hide();
         $('#dimex-input').hide();
 
-        $('select').change(function () {
+        if ($('#idtype-select option:selected').val() === "1") {
+            $('#idnum-label').show("slow");
+            $('#cedfisica-input').show("slow");
+        }
+        else if ($('#idtype-select option:selected').val() === "2") {
+            $('#idnum-label').show("slow");
+            $('#cedjuridica-input').show("slow");
+        }
+        else if ($('#idtype-select option:selected').val() === "3") {
+            $('#idnum-label').show("slow");
+            $('#nite-input').show("slow");
+        }
+        else {
+            $('#idnum-label').show("slow");
+            $('#dimex-input').show("slow");
+        }
+
+        $('#idtype-select').change(function () {
             $('#idnum-label').hide();
             $('#cedfisica-input').hide();
             $('#cedjuridica-input').hide();
@@ -152,18 +176,15 @@
                 $('#idnum-label').show("slow");
                 $('#cedfisica-input').show("slow");
             }
-
-            if ($(this).val() === "2") {
+            else if ($(this).val() === "2") {
                 $('#idnum-label').show("slow");
                 $('#cedjuridica-input').show("slow");
             }
-
-            if ($(this).val() === "3") {
+            else if ($(this).val() === "3") {
                 $('#idnum-label').show("slow");
                 $('#nite-input').show("slow");
             }
-
-            if ($(this).val() === "4") {
+            else {
                 $('#idnum-label').show("slow");
                 $('#dimex-input').show("slow");
             }

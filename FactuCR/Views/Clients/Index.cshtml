@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-<table id="datatable" class="table table-bordered">
+<table id="datatable" class="table table-striped table-bordered">
     <thead>
         <tr>
             <th>
@@ -54,20 +54,29 @@
                     @Html.DisplayFor(modelItem => item.Country)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Status)
+                    @{
+                        if (item.Status == 0)
+                        {
+                            <text>Inactivo</text>
+                        }
+                        else
+                        {
+                            <text>Activo</text>
+                        }
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.AdmissionDate)
                 </td>
 
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.IdClient" class="label label-success"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a>
-                    <a asp-action="Details" asp-route-id="@item.IdClient" class="label label-info"><i class="fa fa-list-alt" aria-hidden="true"></i> Detalles</a>
-                    <a asp-action="Delete" asp-route-id="@item.IdClient" class="label label-danger"><i class="fa fa-trash-o"></i> Eliminar</a>
+                    <a asp-action="Edit" asp-route-id="@item.IdClient" class="label label-success">Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.IdClient" class="label label-default">Detalles</a>
+                    <a asp-action="Delete" asp-route-id="@item.IdClient" class="label label-danger">Eliminar</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
 <div class="ln_solid"></div>
-<a asp-action="Create" class="btn btn-success"><i class="fa fa-plus-square" aria-hidden="true"></i> Ingresar Cliente</a>
+<a asp-action="Create" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Agregar Cliente</a>

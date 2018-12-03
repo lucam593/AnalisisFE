@@ -7,103 +7,113 @@
 }
 
 
+<h4><strong>Detalles generales</strong></h4>
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.CodeProduct)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.CodeProduct)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.NameProduct)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.NameProduct)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.Description)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Description)
+    </dd>
+    <dt>
+        Estado
+    </dt>
+    <dd>
+        @{
+            if (Model.Status == 0)
+            {
+                <text>Inactivo</text>
+            }
+            else
+            {
+                <text>Activo</text>
+            }
+        }
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.Quantity)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Quantity)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.Barcode)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Barcode)
+    </dd>
+    <dt>
+        Categor&iacute;a
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.IdCategoryNavigation.Name)
+    </dd>
+    <dt>
+        Proveedor
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.IdProviderNavigation.Name)
+    </dd>
+    <dt>
+        Tipo de unidad
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.IdUnitNavigation.Name)
+    </dd>
+    <hr align="left" width="300px"/>
+    <h4><strong>Detalles de venta</strong></h4>
+    <dt>
+        Moneda
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.IdCurrencyNavigation.Name)
+    </dd>
+    <dt>
+        Impuesto
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.IdTaxNavigation.Percentage)%
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.CostPrice)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.CostPrice)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.ProfitPercentage)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.ProfitPercentage)
+    </dd>
+    <dt>
+        Descuento
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.IdDiscountNavigation.Percentage)%
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.SalePrice)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.SalePrice)
+    </dd>
+</dl>
+
+<div class="ln_solid"></div>
 <div>
-    <h4>Product</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.CodeProduct)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CodeProduct)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.NameProduct)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.NameProduct)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.SalePrice)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.SalePrice)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CostPrice)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CostPrice)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ProfitPercentage)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ProfitPercentage)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Quantity)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Quantity)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Barcode)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Barcode)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.IdCategoryNavigation)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IdCategoryNavigation.Description)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.IdCurrencyNavigation)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IdCurrencyNavigation.Code)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.IdDiscountNavigation)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IdDiscountNavigation.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.IdProviderNavigation)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IdProviderNavigation.Email)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.IdTaxNavigation)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IdTaxNavigation.Code)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.IdUnitNavigation)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IdUnitNavigation.Name)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.IdProduct">Edit</a> |
-    <a asp-action="Index">Regresar a la lista</a>
+    <a asp-action="Edit" asp-route-id="@Model.IdProduct" class="btn btn-success"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar Producto</a>
+    <a asp-action="Index" class="btn btn-default"><i class="fa fa-caret-square-o-left"></i> Regresar a la lista</a>
 </div>
