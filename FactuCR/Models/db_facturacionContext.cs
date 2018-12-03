@@ -115,7 +115,7 @@ namespace FactuCR.Models
 
                 entity.Property(e => e.OfficeNumber)
                     .HasColumnName("Office_Number")
-                    .HasColumnType("int(4)");
+                    .HasColumnType("varchar(4)");
             });
 
             modelBuilder.Entity<Category>(entity =>
@@ -1465,7 +1465,7 @@ namespace FactuCR.Models
 
                 entity.Property(e => e.TerminalNumber)
                     .HasColumnName("Terminal_Number")
-                    .HasColumnType("int(4)");
+                    .HasColumnType("varchar(5)");
 
                 entity.HasOne(d => d.IdOfficeNavigation)
                     .WithMany(p => p.Terminal)

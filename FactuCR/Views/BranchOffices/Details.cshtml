@@ -4,20 +4,18 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
+<h4>Detalles</h4>
 
 <div>
-    <h4>BranchOffice</h4>
-    <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            Nombre sucursal: 
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.OfficeNumber)
+           Número de Sucursal
         </dt>
         <dd>
             @Html.DisplayFor(model => model.OfficeNumber)
@@ -25,6 +23,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.IdOffice">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.IdOffice">Modificar</a> |
+    <a asp-action="Index">Regresar a lista</a>
 </div>

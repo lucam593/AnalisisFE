@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace FactuCR.Controllers
 {
-    [Authorize]
+  //  [Authorize]
     public class ProductsController : Controller
     {
         private readonly db_facturacionContext _context;

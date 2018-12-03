@@ -1,0 +1,49 @@
+﻿@model IEnumerable<FactuCR.Models.Terminal>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h2>Lista de Terminales</h2>
+
+<p>
+    <a asp-action="Create">Crear Nueva Terminal</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Nombre Terminal
+            </th>
+            <th>
+                Número Terminal
+            </th>
+            <th>
+                Sucursal
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TerminalNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdOfficeNavigation.Name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdTerminal">Modificar</a> |
+                    <a asp-action="Details" asp-route-id="@item.IdTerminal">Detalles</a> |
+                    <a asp-action="Delete" asp-route-id="@item.IdTerminal">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

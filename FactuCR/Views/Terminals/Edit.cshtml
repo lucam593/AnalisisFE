@@ -1,0 +1,42 @@
+﻿@model FactuCR.Models.Terminal
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h2>modificar Terminal</h2>
+<form asp-action="Edit" class="form-horizontal">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="IdTerminal" />
+    <div class="form-group">
+
+        <div class="form-group">
+            <label asp-for="IdOffice" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+            <div class="control-label col-md-3 col-sm-3 col-xs-12">
+                <select asp-for="IdOffice" class="form-control" asp-items="ViewBag.IdOffice"></select>
+            </div>
+        </div>
+        <label asp-for="Name" class="control-label col-md-3 col-sm-3 col-xs-12">Nombre Terminal</label>
+        <div class="control-label col-md-3 col-sm-3 col-xs-12">
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+    </div>
+    <div class="form-group">
+        <label asp-for="TerminalNumber" class="control-label col-md-3 col-sm-3 col-xs-12"> Numero Terminal</label>
+        <div class="control-label col-md-3 col-sm-3 col-xs-12">
+            <input asp-for="TerminalNumber" class="form-control" data-inputmask="'mask':'99999'" />
+            <span asp-validation-for="TerminalNumber" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Guardar Cambios" class="btn btn-default" />
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Regresar a lista</a>
+</div>
+
