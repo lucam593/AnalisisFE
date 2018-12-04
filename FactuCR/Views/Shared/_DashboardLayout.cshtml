@@ -177,7 +177,15 @@
                                 <ul class="dropdown-menu dropdown-usermenu pull-right">
                                     <li><a asp-area="" asp-controller="Users" asp-action="Index"> Perfil de Usuario</a></li>
                                     <li><a asp-controller="Home" asp-action="Manual">Manual de Usuario</a></li>
-                                    <li><a asp-controller="ConfigCompanies" asp-action="Index">Configuraci&oacute;n</a></li>
+
+                                    <li class="dropdown-submenu">
+                                        <a class="test" tabindex="-1" href="#">Configuraci&oacute;n<span class="caret"></span></a>
+                                        <ul class="dropdown-menu-left ">
+                                            <li><a asp-controller="ConfigCompanies" asp-action="Index">Compañia</a></li>
+                                            <li><a asp-controller="files" asp-action="Create">Llave Criptográfica</a></li>
+                                        </ul>
+                                    </li>
+                                    <li></li>
                                     <li><a asp-area="" asp-controller="Users" asp-action="Logout"><i class="fa fa-sign-out pull-right"></i> Cerrar Sesi&oacute;n</a></li>
                                 </ul>
                             </li>
@@ -210,8 +218,6 @@
                                 <!-- Finish Panel Title -->
                                 <!-- Init Panel Content -->
                                 <div class="x_content">
-                                    <span class="go-up fa fa-chevron-up"></span>
-
                                     @RenderBody()
                                 </div>
                                 <!-- Finish Panel Content -->
@@ -232,6 +238,15 @@
         </div>
     </div>
 
+    <script>
+        $(document).ready(function () {
+            $('.dropdown-submenu a.test').on("click", function (e) {
+                $(this).next('ul').toggle();
+                e.stopPropagation();
+                e.preventDefault();
+            });
+        });
+    </script>
     <!-- general -->
     <script src="~/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="~/vendor/fastclick/lib/fastclick.js"></script>

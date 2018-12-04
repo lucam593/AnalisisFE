@@ -8,13 +8,19 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Authentication;
 using System.Threading;
-using System.Net.Mail;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FactuCR.Controllers
 {
+   
     public class LoginController : Controller
     {
+        private readonly db_facturacionContext _context;
+
+        public LoginController(db_facturacionContext context)
+        {
+            _context = context;
+        }
         public ActionResult Index()
         {
             if (User.Identity.IsAuthenticated)
@@ -74,7 +80,14 @@ namespace FactuCR.Controllers
         {
             return View();
         }
-
+        /*La creacion de Usuario
+         * POST CREATE
+         * ENVIA LA SOLICITUD AL API
+         * SI EL MODELO ES CORRECTO Y EL API TIENE ESTADO SATISFACTORIO
+         * CREA UN NUEVO USUARIO, CONTRASEÑA ENCRIPTADA
+         * EL NUEVO USUARIO ESTARA LOGUEADO
+         * VALIDA QUE NO SEA LA PRIMERA VEZ
+         * REDIRECCIONA A HOME*/
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async System.Threading.Tasks.Task<IActionResult> Create([Bind("FullName,UserName,Email,,Pwd,ConfirmPassword")] Users users)
@@ -84,6 +97,13 @@ namespace FactuCR.Controllers
 
                 try
                 {
+                    int count = 0;
+                    if (_context.Users.Find(1) == null)
+                    {
+                        count++;
+                    }
+                    
+                    
                     var values = new Dictionary<string, string>
                 {
                    { "fullName", users.FullName },
@@ -101,6 +121,11 @@ namespace FactuCR.Controllers
                     await genClaimsAsync(user, sessionKey, idUser);
                     ModelState.Clear();
                     TempData["Success"] = "Registro Exitoso";
+
+                    if (count == 0)
+                    {
+                        return RedirectToAction("Create", "ConfigCompanies");
+                    }
                     return RedirectToAction("Index", "Home");
                 }
                 catch (Exception e)

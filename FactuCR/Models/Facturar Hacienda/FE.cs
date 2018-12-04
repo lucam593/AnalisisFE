@@ -143,7 +143,7 @@ namespace FactuCR.Models.Facturar_Hacienda
             ApiConnect api = new ApiConnect();
 
             
-            JToken jObjet = api.PostApi(values, "genXML", "gen_xml_"+ mc.VoucherType.ToLower()); //revisar aca
+            JToken jObjet = api.PostApi(values, "genXML", "gen_xml_"+ mc.VoucherType.ToLower());
             var clave = (string)jObjet["clave"];
             var xml = (string)jObjet["xml"];
 

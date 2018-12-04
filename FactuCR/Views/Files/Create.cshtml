@@ -22,18 +22,37 @@
             </div>
 
             <div class="form-group">
-                <input type="submit" value="Subir" class="btn btn-success" />
+                <input type="button" value="Subir" data-target="#myModal" data-toggle="modal" class="btn btn-success" />|
+                <a asp-action="Index" asp-controller="Home" class="btn btn-default"><i class="fa fa-caret-square-o-left"></i> Regresar</a>
             </div>
         </form>
+        <!-- Trigger the modal with a button -->
+    
 
+        <!-- Modal -->
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Falla de subida</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>La implementación de la carga de archivo no esta completa, proximamente en nuevas actualizaciones</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
     <div class="col-md-6">
         <h2>Enlace con información de Hacienda    <i class="fa fa-question-circle-o " data-toggle="tooltip" title="Se redirección a la página de hacienda. " data-placement="right" aria-hidden="true"></i></h2>
         <h3><a class="badge" style="color:white" target="_blank" rel="noopener noreferrer" href="https://www.hacienda.go.cr/docs/5a6f9e6abe4c4_Generacion%20de%20Llave%20CriptogrAFICA%20ENE%2018.pdf">Llave Criptográfica   </a></h3>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Cancelar</a>
 </div>
 

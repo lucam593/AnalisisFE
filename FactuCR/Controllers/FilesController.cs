@@ -26,13 +26,13 @@ namespace FactuCR.Controllers
         }
 
         // GET: Files
-        public async Task<IActionResult> Index()
+        private async Task<IActionResult> Index()
         {
             return View(await _context.Files.ToListAsync());
         }
 
         // GET: Files/Details/5
-        public async Task<IActionResult> Details(uint? id)
+        private async Task<IActionResult> Details(uint? id)
         {
             if (id == null)
             {
@@ -62,37 +62,41 @@ namespace FactuCR.Controllers
         public IActionResult Create(IFormFile file)
         {
         
+            //No esta llegando nada a file
+            //se debe borrar los registros de bd antes de agregar uno nuevo ya que solo existe una compañia
+            //la carga se hace debe ahcer por medio del API crlibre
+
             try
             {
-                if (file != null && file.Length > 0)
-                {
-
-                    using (var client = new HttpClient())
-                    {
+                //if (file != null && file.Length > 0)
+                //{
+                //    Ok();
+                //    using (var client = new HttpClient())
+                //    {
                        
                         
-                            client.BaseAddress = new Uri("http://localhost/apiCRLibre/www/api.php");
+                //            client.BaseAddress = new Uri("http://localhost/apiCRLibre/www/api.php");
 
-                            byte[] data;
-                            using (var br = new BinaryReader(file.OpenReadStream()))
-                                data = br.ReadBytes((int)file.OpenReadStream().Length);
+                //            byte[] data;
+                //            using (var br = new BinaryReader(file.OpenReadStream()))
+                //                data = br.ReadBytes((int)file.OpenReadStream().Length);
                                 
-                            ByteArrayContent bytes = new ByteArrayContent(data);
+                //            ByteArrayContent bytes = new ByteArrayContent(data);
 
 
-                            MultipartFormDataContent multiContent = new MultipartFormDataContent();
+                //            MultipartFormDataContent multiContent = new MultipartFormDataContent();
 
-                            multiContent.Add(bytes, "file", file.FileName);
-                            //multiContent.Add(,,);
+                //            multiContent.Add(bytes, "file", file.FileName);
+                //            //multiContent.Add(,,);
 
-                            var result = client.PostAsync("api/Values", multiContent).Result;
+                //            var result = client.PostAsync("api/Values", multiContent).Result;
 
 
-                            return StatusCode((int)result.StatusCode); //201 Created the request has been fulfilled, resulting in the creation of a new resource.
+                //            return StatusCode((int)result.StatusCode); //201 Created the request has been fulfilled, resulting in the creation of a new resource.
 
                         
-                    }
-                }
+                //    }
+                //}
                 return Ok();
             }
             catch(Exception)
@@ -103,7 +107,7 @@ namespace FactuCR.Controllers
         }
 
         // GET: Files/Edit/5
-        public async Task<IActionResult> Edit(uint? id)
+        private async Task<IActionResult> Edit(uint? id)
         {
             if (id == null)
             {
@@ -123,7 +127,7 @@ namespace FactuCR.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(uint id, [Bind("IdFile,Md5,Name,Timestamp,Size,IdUser,DownloadCode,FileType,Type")] Files files)
+        private async Task<IActionResult> Edit(uint id, [Bind("IdFile,Md5,Name,Timestamp,Size,IdUser,DownloadCode,FileType,Type")] Files files)
         {
             if (id != files.IdFile)
             {
@@ -154,7 +158,7 @@ namespace FactuCR.Controllers
         }
 
         // GET: Files/Delete/5
-        public async Task<IActionResult> Delete(uint? id)
+        private async Task<IActionResult> Delete(uint? id)
         {
             if (id == null)
             {
@@ -174,7 +178,7 @@ namespace FactuCR.Controllers
         // POST: Files/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(uint id)
+        private async Task<IActionResult> DeleteConfirmed(uint id)
         {
             var files = await _context.Files.FindAsync(id);
             _context.Files.Remove(files);
