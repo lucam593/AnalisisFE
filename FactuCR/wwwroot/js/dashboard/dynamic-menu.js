@@ -10,7 +10,9 @@
         checkStringInURL("Families") ||
         checkStringInURL("Providers") ||
         checkStringInURL("Clients") ||
-        checkStringInURL("Discounts")) {
+        checkStringInURL("Discounts") ||
+        checkStringInURL("BranchOffices") ||
+        checkStringInURL("Terminals")) {
         $('#mantenimiento-menu-container').show("slow");
     } else {
         $('#mantenimiento-menu-container').hide();

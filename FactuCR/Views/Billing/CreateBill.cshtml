@@ -588,24 +588,27 @@
 
                     setTimeout(function () {
                         var data = doc.output('datauristring');
-                        var billPDF = {
-                            base64PDF: data,
-                            clientEmail: clientEmail
-                        };
 
-                        $.ajax({
+                        if ($('#voucherType-select').val() == 1) {
+                            var billPDF = {
+                                base64PDF: data,
+                                clientEmail: clientEmail
+                            };
+
+                            $.ajax({
                             contentType: 'application/json; charset=utf-8',
                             dataType: 'json',
-                            url: '@Url.Action("SendMailToClient", "Billing")',
+                            url: '@Url.Action("SendPDFToClient", "Billing")',
                                 type: 'POST',
                                 data: JSON.stringify(billPDF)
-                        })
-                        .done(function (data) {
-                            console.log("Factura Enviada");
-                        })
-                        .fail(function () {
-                            console.log("Factura No Enviada");
-                        })
+                            })
+                            .done(function (data) {
+                                console.log("Factura Enviada");
+                            })
+                            .fail(function () {
+                                console.log("Factura No Enviada");
+                            })
+                        }                        
 
                         $('#embeddedPDF').attr('src', data);
                     }, 10)

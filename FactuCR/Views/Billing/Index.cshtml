@@ -33,7 +33,7 @@
                 Nombre del cliente
             </th>
             <th>
-                Pa&iacute;s
+                Consecutivo
             </th>
             <th>
                 M&eacute;todo de pago
@@ -92,7 +92,7 @@
                 }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdKeyNavigation.Country)
+                @Html.DisplayFor(modelItem => item.IdKeyNavigation.IdConsecutiveNavigation.NumberConsecutive)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IdPaymentNavigation.Name)
@@ -116,4 +116,4 @@
     </tbody>
 </table>
 <div class="ln_solid"></div>
-<a asp-action="Create" class="btn btn-success"><i class="fa fa-plus"></i> Ingresar nuevo documento</a>
+<a asp-action="Create" class="btn btn-success"><i class="fa fa-plus"></i> Emitir nueva Factura</a>

@@ -173,7 +173,7 @@ namespace FactuCR.Models.Facturar_Hacienda
             var xmlDecode = Encoding.UTF8.GetString(Convert.FromBase64String(xmlFirmado));
 
             //GENERAR XML FIRMADO PARA ENVIAR A CORREO, CORREGIR PATH
-            System.IO.File.WriteAllText(@"C:\Users\LucamPC\Desktop\" + vals[0] + ".xml", xmlDecode);
+            //System.IO.File.WriteAllText(@"C:\Users\LucamPC\Desktop\" + vals[0] + ".xml", xmlDecode);
 
             string[] vales = {xmlFirmado, vals[0] };
             return vales;

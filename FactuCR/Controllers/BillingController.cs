@@ -16,7 +16,7 @@ using System.Text;
 
 namespace FactuCR.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class BillingController : Controller
     {
         private readonly db_facturacionContext _context;
@@ -218,6 +218,8 @@ namespace FactuCR.Controllers
             //------------ - CLIENT RECEIVER RECORD --------------
 
             string[] cliID = new string[2];
+            string clientEmail = "";
+
             if (voucherType == 1)
             {
                 int clientId = dynamicAllBill.clientId;
@@ -230,6 +232,7 @@ namespace FactuCR.Controllers
                 mr.IdentificationNumber = client.IdentificationNumber;
                 mr.IdentificationType = _context.IdentificationType.Find(client.IdType).Symbology;
                 mr.Email = client.Email;
+                clientEmail = client.Email;
                 mr.Telephone = _context.TelephoneContact.Where(tc => tc.IdOwner.Equals(client.IdentificationNumber)).First().TelephoneNumber;
                 mr.CountryCode = "506";
 
@@ -266,10 +269,11 @@ namespace FactuCR.Controllers
             string[] token = hacienda.Token();
 
             hacienda.SendHacienda(token, vales[0], vales[1], voucherTypeSymbology, cliID);
- 
 
-        
-
+            if (voucherType == 1)
+            {
+                SendSignedXMLToClient(clientEmail, vales[0]);
+            }
 
             //sendMailToClient();
 
@@ -310,7 +314,55 @@ namespace FactuCR.Controllers
             return mdList;
         }
 
-        public string getNumber(int lastNumber, string type)
+        private void SendSignedXMLToClient(string clientEmail, string signedXML)
+        {
+            byte[] decodedXML = Convert.FromBase64String(signedXML);
+
+            Email email = new Email(clientEmail, decodedXML, "XMLFirmado.xml");
+
+            if (email.sendEmail())
+            {
+                Debug.WriteLine("---------------------------EMAIL SEND");
+            }
+            else
+            {
+                Debug.WriteLine("--------------------------- EMAIL SEND FAILED: " + email.error);
+            }
+        }
+
+        [HttpPost]
+        public JsonResult SendPDFToClient([FromBody] JObject billPDF)
+        {
+            dynamic dynamicBillPDF = billPDF;
+
+            string clientEmail = dynamicBillPDF.clientEmail;
+            string base64PDF = dynamicBillPDF.base64PDF;
+            int size = base64PDF.Length - 1;
+
+            Debug.WriteLine(base64PDF);
+            Debug.WriteLine(size);
+
+            string onlyBase64 = base64PDF.Substring(28);
+
+            Debug.WriteLine(onlyBase64);
+
+            byte[] decodedPDF = Convert.FromBase64String(onlyBase64);
+
+            Email email = new Email(clientEmail, decodedPDF, "Factura.pdf");
+
+            if (email.sendEmail())
+            {
+                Debug.WriteLine("---------------------------EMAIL SEND");
+            }
+            else
+            {
+                Debug.WriteLine("--------------------------- EMAIL SEND FAILED: " + email.error);
+            }
+
+            return Json(new { state = 0, message = string.Empty });
+        }
+
+        private string getNumber(int lastNumber, string type)
         {
             string strNumber = (lastNumber + 1).ToString();
             string strNewNumber = "";
@@ -385,39 +437,6 @@ namespace FactuCR.Controllers
             }
 
             return strNewNumber;
-        }
-
-
-        [HttpPost]
-        public JsonResult SendMailToClient([FromBody] JObject billPDF)
-        {
-            dynamic dynamicBillPDF = billPDF;
-
-            string clientEmail = dynamicBillPDF.clientEmail;
-            string base64PDF = dynamicBillPDF.base64PDF;
-            int size = base64PDF.Length - 1;
-
-            Debug.WriteLine(base64PDF);
-            Debug.WriteLine(size);
-
-            string onlyBase64 = base64PDF.Substring(28);
-
-            Debug.WriteLine(onlyBase64);
-
-            byte[] decodedPDF = Convert.FromBase64String(onlyBase64);
-
-            Email email = new Email(clientEmail, decodedPDF);
-
-            if (email.sendEmail())
-            {
-                Debug.WriteLine("---------------------------EMAIL SEND");
-            }
-            else
-            {
-                Debug.WriteLine("--------------------------- EMAIL SEND FAILED: " + email.error);
-            }
-
-            return Json(new { state = 0, message = string.Empty });
         }
 
     }

@@ -17,16 +17,18 @@ namespace FactuCR.Models.Email
         List<string> Archivo = new List<string>(); //lista de archivos a enviar
         string DE = "sandy.valdez@ucr.ac.cr"; //smtp user
         string PASS = "mD2oJHTfX3"; //smtp password
-        byte[] decodedPDF;
+        byte[] decodedFile;
+        string fileName;
 
         MailMessage email;
 
         public string error = "";
         
-        public Email(string _To, byte[] _decodedPDF)
+        public Email(string _To, byte[] _decodedFile, string _fileName)
         {
             To = _To;
-            decodedPDF = _decodedPDF;
+            decodedFile = _decodedFile;
+            fileName = _fileName;
         }
         
         // metodo que envia el mail
@@ -52,7 +54,7 @@ namespace FactuCR.Models.Email
                 email.IsBodyHtml = false; //definimos si el contenido sera html
                 email.Priority = MailPriority.Normal;
 
-                Attachment attachPDF = new Attachment(new MemoryStream(decodedPDF), "Factura.pdf");
+                Attachment attachPDF = new Attachment(new MemoryStream(decodedFile), fileName);
 
                 email.Attachments.Add(attachPDF);
 

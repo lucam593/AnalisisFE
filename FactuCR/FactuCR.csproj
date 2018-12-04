@@ -9,12 +9,16 @@
   <ItemGroup>
     <Compile Remove="Styles\**" />
     <Compile Remove="wwwroot\apiCRLibre\**" />
+    <Compile Remove="wwwroot\NewFolder\**" />
     <Content Remove="Styles\**" />
     <Content Remove="wwwroot\apiCRLibre\**" />
+    <Content Remove="wwwroot\NewFolder\**" />
     <EmbeddedResource Remove="Styles\**" />
     <EmbeddedResource Remove="wwwroot\apiCRLibre\**" />
+    <EmbeddedResource Remove="wwwroot\NewFolder\**" />
     <None Remove="Styles\**" />
     <None Remove="wwwroot\apiCRLibre\**" />
+    <None Remove="wwwroot\NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,6 +38,10 @@
     <Content Update="appsettings.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\pdfs\" />
   </ItemGroup>
 
 </Project>
