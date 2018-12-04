@@ -97,11 +97,8 @@ namespace FactuCR.Controllers
 
                 try
                 {
-                    int count = 0;
-                    if (_context.Users.Find(1) == null)
-                    {
-                        count++;
-                    }
+                    //int count = _context.Users.Local.Count;
+                    
                     
                     
                     var values = new Dictionary<string, string>
@@ -122,10 +119,10 @@ namespace FactuCR.Controllers
                     ModelState.Clear();
                     TempData["Success"] = "Registro Exitoso";
 
-                    if (count == 0)
-                    {
-                        return RedirectToAction("Create", "ConfigCompanies");
-                    }
+                    //if (count == 0)
+                    //{
+                    //    return RedirectToAction("Create", "ConfigCompanies");
+                    //}
                     return RedirectToAction("Index", "Home");
                 }
                 catch (Exception e)

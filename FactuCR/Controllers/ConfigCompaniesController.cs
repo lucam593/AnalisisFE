@@ -96,8 +96,8 @@ namespace FactuCR.Controllers
         configCompannyInBD.Country = model.configCompany.Country;
         configCompannyInBD.Currency = model.configCompany.Currency;
         configCompannyInBD.CurrencyValue = model.configCompany.CurrencyValue;
-        configCompannyInBD.neighborhood = "01";
-        configCompannyInBD.pin = "1234";
+        configCompannyInBD.neighborhood = model.configCompany.neighborhood;
+        configCompannyInBD.pin = model.configCompany.pin;
 
         List<ConfigCompany> list = _context.ConfigCompany.Where(x => x.Status == "Activa").ToList();
 
@@ -130,9 +130,9 @@ namespace FactuCR.Controllers
             int count = _context.ConfigCompany.Count();
             if (count == 0)
             {
-                return NotFound();
+                return RedirectToAction("Create", "ConfigCompanies");
 
-            }
+                }
             else
             {
 
