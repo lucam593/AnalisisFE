@@ -15,7 +15,7 @@ using System.IO;
 
 namespace FactuCR.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class FilesController : Controller
     {
         private readonly db_facturacionContext _context;

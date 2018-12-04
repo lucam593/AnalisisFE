@@ -63,7 +63,7 @@ namespace FactuCR.Controllers
             catch (Exception e)
             {
 
-                TempData["UserLoginFailed"] = "Error al entrar. Por favor ingresa usuario o contraseña validos";
+                TempData["UserLoginFailed"] = "La conexión falló. Verifica que ingresaste los datos correctos.";
                 return View();
             }
             return View();
